@@ -287,3 +287,31 @@ def test_api_flow():
     s = c.post("/api/check/stream", json={"text": a["text"], "posted_at": a["posted_at"]})
     assert s.text.count("event: step") >= 10 and "event: result" in s.text
     assert c.get("/api/proof").json()["lifeline"]["accuracy"] > 0
+
+
+# ---------------- Explanation wording (neutral checker, never the charity)
+@pytest.mark.parametrize("bad", ["Thank you for supporting our relief efforts in Boone. Your donation goes to 3 charities.",
+                                 "Boone is flooded and we will deliver aid. Your donation goes to 3 charities."])
+def test_explanation_rejects_charity_voice(monkeypatch, bad):
+    monkeypatch.setattr(agents.llm, "complete", lambda p, timeout=None: (bad, {}))
+    t = agents.explain("VERIFIED", [], "Boone", 3)
+    assert t == "Boone is inside the satellite-observed flood area. Your donation goes to 3 registered local charities, never to the person who posted."
+
+
+def test_explanation_accepts_neutral_rephrase(monkeypatch):
+    good = "Boone is inside the satellite-observed flood area. Your donation goes to 3 registered local charities."
+    monkeypatch.setattr(agents.llm, "complete", lambda p, timeout=None: (good, {}))
+    assert agents.explain("VERIFIED", [], "Boone", 3) == good
+
+
+def test_explanation_non_verified_says_not_charged(monkeypatch):
+    monkeypatch.setattr(agents.llm, "complete", lambda p, timeout=None: (None, {}))
+    t = agents.explain("NOT VERIFIED", ["The place is not inside the satellite-observed flood area."], "Raleigh", 0)
+    assert t.startswith("Raleigh could not be verified") and "not charged" in t
+
+
+def test_recorded_explanations_are_neutral():
+    for a in APPEALS.values():
+        r = pipeline.run_check(a["text"], a["posted_at"], explain=True)
+        assert not agents.BANNED_EXPLAIN.search(r["explanation"]), r["explanation"]
+        assert "Your donation" in r["explanation"]

@@ -17,6 +17,25 @@ REASON_TEXT = {
 }
 
 
+FLAG_TEXT = {
+    "LOOKALIKE_CHARITY": "The charity named in the appeal looks like a registered charity but is not one, so a human should check before money moves.",
+    "TINY_FLOOD_OVERLAP": "Only a very small observed flood area touches this place, so a human should check before money moves.",
+    "NAMED_CHARITY_NOT_ELIGIBLE": "The charity named in the appeal is not currently eligible in the IRS register, so a human should check before money moves.",
+}
+
+
+def specific_reason(code, flags, trace):
+    if code == "NEEDS_HUMAN":
+        for f in flags:
+            if f in FLAG_TEXT:
+                return FLAG_TEXT[f]
+        if any(r["rule"] in ("NO_PLACE", "PLACE_NOT_FOUND", "PLACE_NOT_IN_STATE") for r in trace):
+            return "The place in the appeal could not be found in US Census data, so a human should check before money moves."
+        if any(r["rule"] == "DATE_UNKNOWN" for r in trace):
+            return "The appeal has no date, so a human should check before money moves."
+    return REASON_TEXT[code]
+
+
 def canon(obj):
     return json.dumps(obj, sort_keys=True, separators=(",", ":"), ensure_ascii=False, default=str)
 
@@ -89,7 +108,7 @@ def run_check(text, posted_at=None, emit=None, appeal_id=None, explain=True, rec
                 "flags": flags, "injection": injection}
     result = {
         "check_id": check_id, "verdict": verdict, "label": VERDICT_TEXT[verdict], "reasons": reasons,
-        "reason_text": [REASON_TEXT[r] for r in reasons], "extracted": extracted, "location": loc, "flood": flood,
+        "reason_text": [specific_reason(r, flags, trace) for r in reasons], "extracted": extracted, "location": loc, "flood": flood,
         "charities": charities, "redirect": redirect, "rules": trace, "injection": injection,
         "reader": {k: v for k, v in rmeta.items() if k != "raw"},
         "elapsed_s": round(time.time() - t0, 2),
@@ -99,8 +118,7 @@ def run_check(text, posted_at=None, emit=None, appeal_id=None, explain=True, rec
     result["verdict_sha256"] = sha({"inputs": inputs, "evidence": evidence, "verdict": verdict, "reasons": reasons})
     result["_hash_inputs"] = {"inputs": inputs, "evidence": evidence}
     if explain:
-        result["explanation"] = agents.explain(VERDICT_TEXT[verdict], [REASON_TEXT[r] for r in reasons], loc.get("place"), len(charities)) or \
-            " ".join(result["reason_text"]) or "Every check passed: flooded place, eligible local charities."
+        result["explanation"] = agents.explain(VERDICT_TEXT[verdict], result["reason_text"], loc.get("place"), len(charities))
     log_trace({"type": "check", **{k: v for k, v in result.items() if k != "charities"}})
     return result
 

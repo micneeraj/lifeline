@@ -35,6 +35,9 @@ No rule or threshold was changed after seeing the results. Changes made after v1
 | Faster geometry projection (affine scale) and cached OFAC fuzzy match | 38/40 | 38/40, all 40 `verdict_sha256` identical (`python verify.py`) |
 | Redirect for non-flooded places now points to a charity inside the observed flood area | not part of the verdict | unchanged |
 | Judge rule shown inside its own step; explanation prompt given facts only | not part of the verdict | unchanged |
+| Donor explanations rewritten to a neutral checker voice: code states the facts (what was verified, who receives the money), and the LLM may only rephrase. Output is rejected (falls back to the fact sentence) if it uses we/our/thank/relief-efforts language, drops the place or charity count, or lacks "Your donation…". Re-recorded with `eval/record_explanations.py` (26/40 rephrasings accepted, 14 fact template). | not part of the verdict | all 40 `verdict_sha256` identical; v1 Reader/baseline recordings untouched |
+
+Note on v1: for **out-05** (Fayetteville) both live Gemini calls failed. Lifeline's Reader used the deterministic fallback extractor (verdict still correct). The baseline returned no answer and was scored UNVERIFIABLE, which counts as a correct "not paid" and an incorrect verdict. Sample mode replays this failure exactly.
 
 Before v1 (during development, on hand-written test strings rather than the eval set): the Gemini model was switched from the retired `gemini-2.5-flash` to `gemini-3.5-flash-lite`. Place narrowing ("Biltmore Village, Asheville" → Asheville), normalised charity-name matching and lookalike partial matching were added at that stage.
 

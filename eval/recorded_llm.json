@@ -64,6 +64,11 @@
   "provider": "gemini",
   "text": "```json\n{\n  \"place\": \"Raleigh\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"please help my family\",\n  \"named_charity\": null\n}\n```"
  },
+ "3b63ce8307bfc47a9be8c46b59681c7a7fb4c630e11ccd3fafb80a230d297435": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "Your generous donation has been fully verified and is safely on its way to support relief efforts in Asheville. Thank you for your vital help during this time."
+ },
  "3fef1be8ebe621e254f8feff5e62030076577172ea663b6f4003880388bd0417": {
   "model": "gemini-3.5-flash-lite",
   "provider": "gemini",

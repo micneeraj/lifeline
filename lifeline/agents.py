@@ -473,21 +473,38 @@ def skeptic(ext, loc, flood, trace):
     return flags
 
 
-SKEPTIC_PROMPT = """Write two short, calm sentences for a donor about this relief-appeal check. Use ONLY these facts; do not add any.
-Never use the words fraud or scam. If the verdict is not VERIFIED, say "not verified" or "could not be verified" and why.
-Lifeline never pays the person who posted; it pays registered local charities only when VERIFIED.
-Verdict: {verdict}
-Place: {place}
-Reasons: {reasons}
-Verified local charities found: {n}"""
+SKEPTIC_PROMPT = """You are the voice of a neutral appeal checker. You are NOT a charity and NOT the person who posted.
+Rephrase the FACTS below as at most two short, plain sentences for a donor. Keep every fact, add nothing.
+Sentence 1: what was checked about the place, starting with the place name. Sentence 2: starts with "Your donation" and says where the money goes.
+Do not use: we, our, us, thank, grateful, generous, relief efforts, fraud, scam.
+Example facts: Boone is inside the satellite-observed flood area. Your donation goes to 3 registered local charities, never to the person who posted.
+Example answer: Boone is inside the satellite-observed flood area. Your donation goes to 3 registered local charities, never to the person who posted.
+FACTS:
+{facts}"""
+
+BANNED_EXPLAIN = re.compile(r"\b(we|our|us|ours|thank\w*|grateful|generous|relief efforts?|fraud|scam\w*)\b", re.I)
+
+
+def explain_facts(verdict, reasons, place, n=0):
+    """Deterministic explanation; also the facts the LLM may only rephrase."""
+    place = place or "The place in this appeal"
+    if verdict == "VERIFIED":
+        return (f"{place} is inside the satellite-observed flood area. "
+                f"Your donation goes to {n} registered local {'charity' if n == 1 else 'charities'}, never to the person who posted.")
+    why = " ".join(reasons) or "A check could not be completed."
+    end = "Your donation is held and then voided, so you are not charged."
+    return f"{place} could not be verified. {why} {end}"
 
 
 def explain(verdict, reasons, place, n=0):
-    text, meta = llm.complete(SKEPTIC_PROMPT.format(verdict=verdict, reasons=" ".join(reasons) or "every check passed",
-                                                    place=place or "unknown", n=n), timeout=8)
-    if not text or re.search(r"\b(fraud|scam)", text, re.I):
-        return None
-    return text.strip()
+    facts = explain_facts(verdict, reasons, place, n)
+    text, meta = llm.complete(SKEPTIC_PROMPT.format(facts=facts), timeout=8)
+    t = (text or "").strip()
+    ok = (t and not BANNED_EXPLAIN.search(t) and len(re.findall(r"[.!?](\s|$)", t)) <= 3
+          and (not place or t.lower().startswith(place.lower())) and "Your donation" in t
+          and (verdict != "VERIFIED" or str(n) in t or ("one" in t.lower() and n == 1))
+          and (verdict == "VERIFIED" or re.search(r"not (be )?verified|could not|cannot be verified", t, re.I)))
+    return t if ok else facts
 
 
 # ---------------------------------------------------------------- 6. Judge
