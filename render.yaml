@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: lifeline
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: LLM_PROVIDER
+        value: gemini
+      - key: LLM_API_KEY
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_RECEIVER_EMAIL
+        sync: false
+      - key: LIFELINE_REVIEWER_TOKEN
+        generateValue: true

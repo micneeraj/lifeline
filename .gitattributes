@@ -1,0 +1,5 @@
+eval/answer_key.json -text
+*.py text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.html text eol=lf

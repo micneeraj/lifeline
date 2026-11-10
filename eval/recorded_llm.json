@@ -1,0 +1,437 @@
+{
+ "05ba5ba38436315d710be63b59fbca9e11bbc04796f54b59ffc397d538d1a522": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Burnsville\",\n  \"state\": null,\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"generators and gas\",\n  \"named_charity\": null\n}\n```"
+ },
+ "0c62661c2423769914a4646cd8ff3d59490d1d800f7d10a599ccff99798bb7ed": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Spruce Pine\",\n  \"state\": \"North Carolina\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"generators and food\",\n  \"named_charity\": null\n}\n```"
+ },
+ "0c8dce9b04e55af715dfdedd9c2ca2d3f460aae603eb40cf1cd7a870a94ceebf": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Hendersonville\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"tarps and baby formula\",\n  \"named_charity\": null\n}\n```"
+ },
+ "0e149cba7a0f8f66ae1815bb45b498252652d01f162dcfde30dcfd6e81858168": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"New Bern\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"gas cards and food\",\n  \"named_charity\": null\n}\n```"
+ },
+ "19b6e5d17b49150cc02c6fe0322090012dcc4141a22d7aedaa03b42ab44f0b61": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Marion\",\n  \"state\": null,\n  \"date\": \"29 Sep 2024\",\n  \"need\": \"generators\",\n  \"named_charity\": null\n}\n```"
+ },
+ "1b846911136904dd4916a0ece3642c6365d8f9a72e59580e49e6716163f5a3a5": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "1c42a497304ba2beb4ca41a5443e67be1f0b5b3f60129c977504d3f917ea6d6d": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Elkin\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"food boxes for seniors\",\n  \"named_charity\": null\n}\n```"
+ },
+ "23ec3024d36c0054e141fb76e5805b8d020711cae81e51e9c026a2a1da506776": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "2688211ff707d90a843e2f39d82417c226cea21af4aa7108572dfdf1bd4d9b47": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "27a3afd3cf0d4d5434e701c23572c19f04bc02273da4e8d3afc04b3cc488f909": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Asheville\",\n  \"state\": \"NC\",\n  \"date\": \"14 Jun 2023\",\n  \"need\": \"food and repairs\",\n  \"named_charity\": null\n}"
+ },
+ "2f28b1c56a43e9aab0566aab94b2bb31ad47d18e0744f5166f6ef0cf7b60c381": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "3641088d0a8f9df53c7446eb48b608bc7af59ed21c9d772e17fff81a82d14e39": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "3a6fa648cdd70c79d52784e957499251c01c654ab2f2ed7e22e6a295e445f1ba": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Raleigh\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"please help my family\",\n  \"named_charity\": null\n}\n```"
+ },
+ "3fef1be8ebe621e254f8feff5e62030076577172ea663b6f4003880388bd0417": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "40a8265d9e6fb229d78e061c7f844d19abbaaa6e5e29e988ae292fbea46180c1": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Raleigh\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"money\",\n  \"named_charity\": null\n}"
+ },
+ "41d8b0f2251231a3ed007c4e4ac3ae62a0290908e17b7af3b5bce8f37b2e6518": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "41e92d91c510ba4f8e21775024ce0f84e04a5a87dba4acc5c1280e078df99e84": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "435456dc33fd6ae183252e5f5994959dc606baf0b2039d0d31f5ce767507f626": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Marshall\",\n  \"state\": \"North Carolina\",\n  \"date\": \"Sept 28, 2024\",\n  \"need\": \"money for diapers\",\n  \"named_charity\": null\n}\n```"
+ },
+ "45233dc4c624aedb5b8c2547a142b17a5922235cc889513821fbb61d06ea57f7": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "464e25e789398307784ad2501c2a173910b5cac0f0fb9d4008f7dc7bfbf55a0f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "NOT VERIFIED"
+ },
+ "46ef551fbb3593058c280b714225d2a83780a001990708e5ae15a32dbdb81db6": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Morganton\",\n  \"state\": \"NC\",\n  \"date\": \"15 May 2025\",\n  \"need\": \"cleanup supplies\",\n  \"named_charity\": null\n}\n```"
+ },
+ "474695e326e61aef81efc7c22c107d77acf7698b673c1c62988d90b11b4e05d1": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Waynesville\",\n  \"state\": \"NC\",\n  \"date\": \"9 Jan 2021\",\n  \"need\": \"what you can\",\n  \"named_charity\": null\n}\n```"
+ },
+ "476c51780312c1b946aaae97e1dfd95f85bdb4c8ddf034a2524029a26ac30719": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Boone\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"blankets\",\n  \"named_charity\": null\n}\n```"
+ },
+ "51e8a904185ca3d5c7d822edae3a037b15f77513d0ba777b3c03c92ba0f52280": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "Your check for the relief appeal in Asheville was not verified due to system safety protocols. We appreciate your patience and generosity as we ensure all contributions are safely processed."
+ },
+ "525d55ba45fd72a2357fde04cb0d26f2b8cc722632840ba76903dbb8301ce96d": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Bryson City\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"water and food\",\n  \"named_charity\": null\n}\n```"
+ },
+ "54cc0715cf268e86a07e0d7f44c4fa55bc9ed47fe936da49c00926572cba8fe9": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Goldsboro\",\n  \"state\": \"North Carolina\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"clothes and food\",\n  \"named_charity\": null\n}\n```"
+ },
+ "5c2f383b8f796d20d69e6e7c6e8079a036b51a0195d072f90a0eb30e4628bf2c": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "VERIFIED"
+ },
+ "5cf441a6a055e4a2a5bc878dc694741bed8aa5c9a92abb54a226b15d4a05e533": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Boone\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"blankets, food and gas money\",\n  \"named_charity\": null\n}"
+ },
+ "5fa0c7a667d001425eadb6e495f953269601b91f4a9704de5d4bc9b26a9b925f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Marshall\",\n  \"state\": \"North Carolina\",\n  \"date\": \"3 Mar 2026\",\n  \"need\": \"generators\",\n  \"named_charity\": null\n}"
+ },
+ "60f6861a9fdd81aa759cae4e90cb55c18a0fa2d4d4370ceaeec873ece187f8be": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "626f5cc134a975ce353ec71e6c211247a9a5da7d804f48935a9b4f4f8d22e39f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Bakersville\",\n  \"state\": \"NC\",\n  \"date\": \"20 Sep 2024\",\n  \"need\": \"help now\",\n  \"named_charity\": null\n}\n```"
+ },
+ "62cb47e2b654e6fcb5b0330efbb799d0b26eee2eeaee616a0cbb21f79769372f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "VERIFIED\n\n*(Context: Hurricane Helene caused catastrophic flooding in Western North Carolina, including Waynesville and Hazelwood, around September 27, 2024. MANNA FoodBank is a legitimate, long-standing regional disaster relief and food distribution organization actively involved in the Helene recovery efforts.)*"
+ },
+ "653f7c132bfd7bf22b0a253c063670c61247defeeac6fe24c8b3ad78fa67e950": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "NOT VERIFIED"
+ },
+ "657b83fbe3a986746f7ba640ee358211a93ddc3029a8a98b13f19007e951c1f6": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Wilmington\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"food and rent\",\n  \"named_charity\": null\n}\n```"
+ },
+ "68b5f89e871b9e32f13734ea78291d969ec4c414fe26b8005a7e9748d02561ea": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "6d875c0e112311c5f5973e4972e0d1cfd206531e34524af9b857890bcd99c081": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Marion\",\n  \"state\": null,\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"food and water\",\n  \"named_charity\": null\n}\n```"
+ },
+ "6f3524f46c36caa4c9b2c756275574a7101369dc1f76bb199461ef5c3107e1fd": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Asheville\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"food\",\n  \"named_charity\": null\n}\n```"
+ },
+ "74bc8c9a302e9f40ffd0059c6364fae21a23836075795fc83c10e3c39511018e": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "We are pleased to confirm that the relief-appeal check for Lake Lure has been successfully verified. Thank you for your generous support, which is safely reaching those in need."
+ },
+ "7817111d5197b1b16c1885a04259519e75b22393402f5e29d0bde3ddc91ffb63": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Hendersonville\",\n  \"state\": null,\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"water and tarps\",\n  \"named_charity\": null\n}\n```"
+ },
+ "7b0172baadbac1c895e7ded289639cc8de73a715ac76f49bfc10b9be4ab30f4d": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Marion\",\n  \"state\": \"NC\",\n  \"date\": \"Sep 27 2024\",\n  \"need\": \"insulin and water\",\n  \"named_charity\": null\n}\n```"
+ },
+ "824560b83642bc63e8747b1ce65535216934034fc71df6179ccc837641822bfc": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Marshall\",\n  \"state\": \"North Carolina\",\n  \"date\": \"Sept 27, 2024\",\n  \"need\": \"diapers, generators and fuel\",\n  \"named_charity\": null\n}"
+ },
+ "833081ed204cafeb10148b67a92a311d4aa34e6ec084adf75d98cba42091adc7": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "89eada43497048f9b41a0b05995dafb941f6a2d849afccfcb14cd6e9904b171d": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Morganton\",\n  \"state\": \"NC\",\n  \"date\": \"27 September 2024\",\n  \"need\": \"cleaning supplies\",\n  \"named_charity\": null\n}\n```"
+ },
+ "8a53335d2c084ef742b2e4c9f8d483064768fbc8d33b4fb3e4c6cef4c80545fc": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "92710dfef2ddb99f2f73078372fde5bbf262380441113ee7b567b82d63ebd07e": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "93408df2a6ae7dd5beb7a116bb85954940b77910c7a7a283be43bb0dc918cdfd": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Rocky Mount\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"help a single mom with rent\",\n  \"named_charity\": null\n}"
+ },
+ "950e2e3a071585bf5a5080287d09df41921c14dfca761afe4caf9abe1b20fa44": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "**UNVERIFIABLE**\n\n*Reasoning:* While Burnsville, NC (and surrounding areas) experienced catastrophic flooding due to Hurricane Helene around September 27, 2024, the provided text lacks specific contact information, organization names, verifiable links, or official channels. Without a way to confirm the identity of the poster or where supplies are actually being directed, the appeal cannot be independently verified as legitimate or a scam."
+ },
+ "9ad856a4c61fa44a479c78550dab1e731aa3f3a434b534f91c6c541342a32cc4": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Charlotte\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"help us rebuild\",\n  \"named_charity\": null\n}\n```"
+ },
+ "9bed8ba0986103e2f94cbfab43c8ffd92c5fcc9ff2a9e7f36188a918f6fe9fd3": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Waynesville\",\n  \"state\": null,\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"cleaning kits\",\n  \"named_charity\": null\n}\n```"
+ },
+ "9cfa15a30372e5543957238d4716bcbc9e47d2c6b28cf6d97c78334201ca7937": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "**UNVERIFIABLE**\n\n*Reasoning:* The appeal refers to real events (Hurricane Helene caused severe flooding in Sylva, NC, along Scott Creek around September 27, 2024), but the provided text lacks specific contact information, organization names, or donation links. Therefore, the authenticity of this specific post cannot be verified without further details."
+ },
+ "9fab7b63de3b82ad15315b9b39c8d91a6617165cff5c42f6090164db6b191566": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "a4f4bfb132d16df5976432d976c17d33fd625ca0c7e6a9f631c1ed6fbd77fe85": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Hazelwood\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"cleaning kits and work gloves\",\n  \"named_charity\": \"MANNA FoodBank\"\n}\n```"
+ },
+ "aa37527643bb5b19100ffdd6c66de9c0bf3fd5949f6601f57034a2274c9f1c1e": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "ab06ba6e7b88dcedabce58a2afd098d52ef9e38835f3802dbc3d0c8f2687a6b9": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "acd4aa50f79c516614f7d369da03039c291aeb2dd44c9c0dd7d6a6db8f310810": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Boone\",\n  \"state\": \"NC\",\n  \"date\": \"20 Aug 2022\",\n  \"need\": \"money to reopen\",\n  \"named_charity\": null\n}\n```"
+ },
+ "b32c06e8453acafbdc08db1926487b00ea3229de5af1cb1caebc6f5dd0980592": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "NOT VERIFIED"
+ },
+ "b3650acfea3cdde9909c79b93f18c9a409b50c819bd152a0f750673819239353": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Boone\",\n  \"state\": null,\n  \"date\": \"27 September 2024\",\n  \"need\": \"food money\",\n  \"named_charity\": null\n}\n```"
+ },
+ "b6c19464768fc8e4eea958dbc0699bae05a644ff99357ad9969a7629dc7d22a7": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Burnsville\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"hay for animals and food for kids\",\n  \"named_charity\": null\n}\n```"
+ },
+ "b7e6ce79373d76062c2ab15d99e4cf3b5718a6d2949b6d6fd8e69e83636efa4b": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "bb3f118284081fb8bef8827605a826dee01e86fd42c3c7ce2715b9e5daabd91e": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Biltmore Village\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"food and clean water\",\n  \"named_charity\": null\n}\n```"
+ },
+ "bec49ecb7a450ab5a53c1df197b8ede2b5aaaec81ab5a14b8c77dfd89f4fbfa9": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Wilkesboro\",\n  \"state\": \"North Carolina\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"groceries and gas\",\n  \"named_charity\": null\n}\n```"
+ },
+ "c051fe53dcdb95f6fa4d7dca7fed82f8544a2340cc9f32c0b6a2936a37110652": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "c1c05457a109baabcbdabb32c36b84255def6503820072ac6bce933604493ca6": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "c1fcad5fa8777afdbb477993c07d5c53f9330dcebab174b76853c4cd9bc8e9bc": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Asheville\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"Food Bank Relief\",\n  \"named_charity\": \"Mana Food Bank Relief\"\n}"
+ },
+ "cac5631cf243218bf53997fb50aee81ebe74d7e930567fe71c59d27a2f2b1812": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "ce4aeb090f0da2d9747efe22ba3ad85fa9ab6a5cbffb81f7737d0a2ad4e584ec": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "NOT VERIFIED"
+ },
+ "d3611fedd545eae54a2affdcf93c35b09719e2b0e29195c413cde9c346e3a73f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Sylva\",\n  \"state\": \"NC\",\n  \"date\": \"27 September 2024\",\n  \"need\": \"food and pumps\",\n  \"named_charity\": null\n}\n```"
+ },
+ "d4868b47a4b0ea47ca98b1459ad5ea2e4fcbb479add3a584ec1c23a048bccef0": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Swannanoa\",\n  \"state\": \"North Carolina\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": null,\n  \"named_charity\": \"Grass Roots Aid Partnerships Fund\"\n}"
+ },
+ "d63ccbf98643c558805061ff5e5bec4a4bf89db67c351bf162fb2ede3f1ec273": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Biltmore Village\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"food and water\",\n  \"named_charity\": \"MANNA FoodBank\"\n}\n```"
+ },
+ "d96f06d15053836230dd7077173b3362dd56c839d2c0d75d5a2656f51d66d421": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Durham\",\n  \"state\": \"North Carolina\",\n  \"date\": \"Sept 28, 2024\",\n  \"need\": \"cash for a hotel\",\n  \"named_charity\": null\n}\n```"
+ },
+ "de529f576782e15084c7303d8c506c8e137a775bee60272adf88a9a264b777b1": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "Your relief-appeal check for Marshall was fully verified and requires no further action. Thank you for your generous support and continued trust."
+ },
+ "e1b3c5cd73e60ec88f81cdf94d80930274b16dc524c6fa3dc3ffb36786a51239": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Bakersville\",\n  \"state\": \"North Carolina\",\n  \"date\": \"Sept 27, 2024\",\n  \"need\": \"water, food and propane\",\n  \"named_charity\": null\n}"
+ },
+ "e3fb0e763183d28f438933a359d2e22ba8312cbf477fecda137d2b3f7c3e7429": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "e7395c6f4895c41e8365c9316a675f10210a27291166561a98a07c3a5d671908": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "e777594a56205884e2695654f9a9c7159b411957b2c806c6f0380f92918157c5": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "e7eeb28a0a3fb61be26843e85c973eee3cbcab0f2e631009b5d85eefd7ecf591": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "e99bb916c134d5880d74e830358719a9bf144d9dc0d4b0b405c65277df745a3c": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "e9e531c19905675cb57301055c2c2597f2e8cef2b67c49a8cd71ab6d4f2ddb96": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "{\n  \"place\": \"Asheville\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"food bank partner\",\n  \"named_charity\": \"Mana Food Bank Relief\"\n}"
+ },
+ "eb3f36955dc1c82c5c888755d58201fd0c74eb4ca20e358a4b0505211a8c659f": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "Your generous gift has been successfully verified for our relief efforts in Boone. Thank you for your vital support in helping us reach those in need."
+ },
+ "edbed0f13f67e353f36bd40bd2b7818b74161f38a457b43526f761f6bf9ede47": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "ef74e2ce54a725feed5a883cfbd7c3167917dadb7f29e210a1cf64bbd5139e37": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "f04c25b81b424a2f87ad72ff5f7ff1f210a8f6fa1f00fa01000c30485dd005ff": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Chapel Hill\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"money for repairs\",\n  \"named_charity\": null\n}\n```"
+ },
+ "f1874a7d0ca346d02cae9c7ee08e6e36b0a9bcc3ccba61ff2fcbc3e3805822f8": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Greensboro\",\n  \"state\": \"NC\",\n  \"date\": \"28 Sep 2024\",\n  \"need\": \"groceries\",\n  \"named_charity\": null\n}\n```"
+ },
+ "f3a936db10935e04dd8ba21b1870cee3af6595a04e940bb0b2737e692922fde1": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "```json\n{\n  \"place\": \"Lake Lure\",\n  \"state\": \"NC\",\n  \"date\": \"27 Sep 2024\",\n  \"need\": \"volunteers and money for rebuilding supplies\",\n  \"named_charity\": null\n}\n```"
+ },
+ "f859e46bc656ad3ad4461d82f882c5700a2bda1e4432185ceafefb8f0ef2e861": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "f89a4150dcf81d3e3c65f6b81810fb485b3f4b82111e9bafa8f26c07912b53ff": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "UNVERIFIABLE"
+ },
+ "ffda5812a32e0d5c9884a56bcddd8ab7e90dbe31821800eb6ca682b05c095ef2": {
+  "model": "gemini-3.5-flash-lite",
+  "provider": "gemini",
+  "text": "NOT VERIFIED"
+ }
+}

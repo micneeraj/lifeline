@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lifeline — Every dollar finds the flood</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --bg:#f7f3ec; --card:#fffdf9; --ink:#22313a; --muted:#5f6b70; --line:#e6ddd0;
+  --river:#2f6f8f; --river-soft:#dcebf2; --green:#2e7d4f; --green-soft:#e2f2e8;
+  --red:#b4442f; --red-soft:#f8e3dd; --yellow:#b07d12; --yellow-soft:#fbf0d4; --accent:#d9824b;
+  --shadow:0 1px 2px rgba(34,49,58,.06),0 6px 24px rgba(34,49,58,.06); --r:16px;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#141c21; --card:#1c262c; --ink:#ece6dc; --muted:#a3adb1; --line:#2c3a42;
+  --river:#7fb8d4; --river-soft:#1d3440; --green:#6cc391; --green-soft:#183326; --red:#e98b76; --red-soft:#3a2019;
+  --yellow:#e5b851; --yellow-soft:#382c12; --shadow:none;}}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0 0 .4em;line-height:1.2}
+a{color:var(--river)}
+.top{position:sticky;top:0;z-index:1000;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
+.brand b{font-family:Fraunces,serif;font-size:24px;color:var(--river)}
+.brand span{color:var(--muted);font-style:italic;font-size:14px}
+nav a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px}
+nav a.on{background:var(--river-soft);color:var(--river)}
+.badge-sample{background:var(--yellow-soft);color:var(--yellow);font-weight:600;font-size:12px;padding:4px 10px;border-radius:999px;display:none}
+main{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
+.screen{display:none}.screen.on{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
+.hero{display:grid;gap:14px;margin-bottom:18px}
+.hero p{color:var(--muted);max-width:720px;margin:0}
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.post .who{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.avatar{width:38px;height:38px;border-radius:50%;background:var(--river-soft);color:var(--river);display:grid;place-items:center;font-weight:700}
+.post .handle{font-weight:600}.post .meta{color:var(--muted);font-size:13px}
+.post p{margin:6px 0 12px}
+.btn{appearance:none;border:0;border-radius:999px;padding:10px 18px;font:600 15px Inter,sans-serif;cursor:pointer;background:var(--river);color:#fff}
+.btn.ghost{background:transparent;color:var(--river);border:1.5px solid var(--river)}
+.btn:disabled{opacity:.5;cursor:default}
+textarea,input{width:100%;font:inherit;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px}
+@media (max-width:860px){.grid2{grid-template-columns:1fr}}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.step{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);opacity:.45;transition:.3s}
+.step.running{opacity:1;border-color:var(--river)} .step.done{opacity:1}
+.step h4{margin:0;font-size:15px;display:flex;justify-content:space-between}
+.step .r{font-size:13px;color:var(--muted);margin-top:4px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--muted)}
+.dot.pass{background:var(--green)}.dot.fail{background:var(--red)}.dot.doubt{background:var(--yellow)}.dot.drop{background:var(--accent)}
+#map{height:420px;border-radius:var(--r);border:1px solid var(--line)}
+.verdict{border-radius:var(--r);padding:22px;margin:16px 0;border:2px solid}
+.verdict.GREEN{background:var(--green-soft);border-color:var(--green)} .verdict.GREEN h2{color:var(--green)}
+.verdict.RED{background:var(--red-soft);border-color:var(--red)} .verdict.RED h2{color:var(--red)}
+.verdict.YELLOW{background:var(--yellow-soft);border-color:var(--yellow)} .verdict.YELLOW h2{color:var(--yellow)}
+.verdict h2{font-size:34px;margin:0}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.chip{font:600 12px Inter;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+.charities{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.mono{font:12px/1.5 ui-monospace,Consolas,monospace;word-break:break-all;color:var(--muted)}
+details{margin-top:10px} summary{cursor:pointer;font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.big{font-family:Fraunces,serif;font-size:44px;line-height:1}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0}
+.muted{color:var(--muted)} .small{font-size:13px}
+.v{font-weight:700}.v.GREEN{color:var(--green)}.v.RED{color:var(--red)}.v.YELLOW{color:var(--yellow)}
+.amounts button{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
+.amounts button.on{border-color:var(--river);color:var(--river)}
+.tablewrap{overflow-x:auto}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>Lifeline</b><span>Every dollar finds the flood.</span></div>
+  <span class="badge-sample" id="sampleBadge">SAMPLE MODE · PayPal stubbed</span>
+  <nav><a href="#feed" data-s="feed">Appeals</a><a href="#check" data-s="check">Live check</a><a href="#donate" data-s="donate">Donate</a><a href="#proof" data-s="proof">Proof</a></nav>
+</header>
+<main>
+
+<!-- 1. FEED -->
+<section class="screen" id="s-feed">
+  <div class="hero">
+    <h1>After a flood, hundreds of appeals arrive. Some are real.</h1>
+    <p>Lifeline never pays the person who posted. It checks the place against the satellite flood map for
+      Hurricane Helene (western North Carolina, Sept 2024) and pays only registered local charities there.</p>
+  </div>
+  <div class="card" style="margin-bottom:18px">
+    <h3>Paste an appeal you saw</h3>
+    <textarea id="paste" rows="3" placeholder="e.g. Marshall, North Carolina flooded on Sept 27, 2024. Families need diapers and generators…"></textarea>
+    <div class="row" style="margin-top:10px"><button class="btn" id="pasteGo">Check this appeal</button>
+      <span class="muted small">Synthetic test appeals below use real places and real flood data.</span></div>
+  </div>
+  <div class="feed" id="feed"></div>
+</section>
+
+<!-- 2. LIVE CHECK -->
+<section class="screen" id="s-check">
+  <div class="card" id="appealCard" style="margin-bottom:16px"><span class="muted">Pick an appeal from the feed, or paste one.</span></div>
+  <div class="grid2">
+    <div><ol class="steps" id="steps"></ol></div>
+    <div><div id="map"></div><div class="muted small" style="margin-top:6px">Blue: ICEYE / Sentinel satellite-observed Helene flood extent.</div></div>
+  </div>
+  <div id="verdict"></div>
+  <div id="charities"></div>
+  <div class="card" id="howPanel" style="display:none;margin-top:16px">
+    <h3>How this was decided</h3>
+    <div class="tablewrap"><table id="rulesTable"><thead><tr><th>Step</th><th>Rule</th><th>Detail</th><th>Data row</th></tr></thead><tbody></tbody></table></div>
+    <p class="mono" id="hashes"></p>
+  </div>
+</section>
+
+<!-- 3. DONATE -->
+<section class="screen" id="s-donate">
+  <div class="card">
+    <h2>Give to the flood, not the stranger</h2>
+    <p class="muted" id="donateIntro">Run a check first.</p>
+    <div class="row amounts" id="amounts" style="margin:12px 0">
+      <button class="btn" data-a="10">$10</button><button class="btn on" data-a="25">$25</button><button class="btn" data-a="50">$50</button><button class="btn" data-a="100">$100</button>
+    </div>
+    <p class="small muted">PayPal <b>holds</b> your money (authorization). It is captured only if the appeal is VERIFIED, then split
+      across the verified local charities. Otherwise the hold is voided and you are never charged.</p>
+    <div id="paypal-buttons" style="max-width:420px"></div>
+    <button class="btn" id="sampleDonate" style="display:none">Donate (SAMPLE MODE, no real money)</button>
+  </div>
+  <div id="receipt"></div>
+</section>
+
+<!-- 4. PROOF -->
+<section class="screen" id="s-proof">
+  <h1>Proof: LLM alone vs Lifeline</h1>
+  <p class="muted">40 appeals, labelled before any run (answer key SHA-256 locked in <code>eval/LOCKED_HASH.txt</code>). $100 assumed per appeal.</p>
+  <div id="proofBody">Loading…</div>
+</section>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const STEPS = ["Reader","Locator","Flood Check","Register Check","Skeptic","Judge"];
+const BLURB = {"Reader":"LLM reads place, date, need — every value must appear word for word",
+  "Locator":"US Census place + county","Flood Check":"Satellite flood extent, FEMA DR-4827, date window",
+  "Register Check":"IRS register, Pub 78, auto-revocation, OFAC SDN","Skeptic":"Tries to break every green",
+  "Judge":"Pure rules → verdict"};
+const LABEL = {GREEN:"VERIFIED",RED:"NOT VERIFIED",YELLOW:"UNVERIFIABLE"};
+let CFG = {}, current = null, map, floodLayer, pin, charityLayer, amount = 25, ppLoaded = false;
+
+function show(name){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id==="s-"+name));
+  document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.s===name));
+  if(name==="check") setTimeout(()=>map && map.invalidateSize(),50);
+  if(name==="donate") setupDonate();
+  if(name==="proof") loadProof();
+}
+window.addEventListener("hashchange",()=>show(location.hash.slice(1)||"feed"));
+
+async function init(){
+  CFG = await (await fetch("/api/config")).json();
+  if(CFG.sample_mode) $("#sampleBadge").style.display="inline-block";
+  const appeals = await (await fetch("/api/appeals")).json();
+  $("#feed").innerHTML = appeals.map(a=>`<article class="card post">
+    <div class="who"><div class="avatar">${esc(a.handle[1].toUpperCase())}</div>
+    <div><div class="handle">${esc(a.handle)}</div><div class="meta">${esc(a.platform)} · ${esc(a.posted_at)}</div></div></div>
+    <p>${esc(a.text)}</p><button class="btn ghost" data-id="${a.id}">Check before you give</button></article>`).join("");
+  $("#feed").addEventListener("click",e=>{const id=e.target.dataset.id; if(!id) return;
+    const a=appeals.find(x=>x.id===id); runCheck(a.text,a.posted_at,a.handle);});
+  $("#pasteGo").onclick=()=>{const t=$("#paste").value.trim(); if(t.length>9) runCheck(t,null,"Pasted appeal");};
+  map = L.map("map").setView([35.6,-82.4],8);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(map);
+  const fl = await (await fetch("/api/flood.geojson")).json();
+  floodLayer = L.geoJSON(fl,{style:{color:"#2f6f8f",weight:1,fillColor:"#3d8fbf",fillOpacity:.45}})
+    .bindPopup(l=>`Observed flood: ${esc(l.feature.properties.city)}<br><small>${esc(l.feature.properties.sources)}</small>`).addTo(map);
+  document.querySelectorAll("#amounts button").forEach(b=>b.onclick=()=>{amount=+b.dataset.a;
+    document.querySelectorAll("#amounts button").forEach(x=>x.classList.toggle("on",x===b));});
+  show(location.hash.slice(1)||"feed");
+  const q=new URLSearchParams(location.search).get("appeal");
+  if(q){const a=appeals.find(x=>x.id===q); if(a) runCheck(a.text,a.posted_at,a.handle);}
+}
+
+function resetSteps(){
+  $("#steps").innerHTML = STEPS.map(s=>`<li class="step" id="st-${s.replace(/ /g,"")}"><h4><span>${s}</span><span class="small muted ms"></span></h4>
+   <div class="r">${BLURB[s]}</div><div class="rules"></div></li>`).join("");
+  $("#verdict").innerHTML=""; $("#charities").innerHTML=""; $("#howPanel").style.display="none";
+  if(pin) map.removeLayer(pin); if(charityLayer) map.removeLayer(charityLayer);
+}
+
+async function runCheck(text, posted_at, who){
+  location.hash="check"; resetSteps();
+  $("#appealCard").innerHTML=`<div class="small muted">${esc(who)}${posted_at?" · "+esc(posted_at):""}</div><p style="margin:.3em 0 0;font-size:18px">${esc(text)}</p>`;
+  const res = await fetch("/api/check/stream",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,posted_at})});
+  const reader = res.body.getReader(); const dec = new TextDecoder(); let buf="";
+  while(true){
+    const {value,done} = await reader.read(); if(done) break;
+    buf += dec.decode(value,{stream:true});
+    let i; while((i=buf.indexOf("\n\n"))>=0){
+      const chunk=buf.slice(0,i); buf=buf.slice(i+2);
+      const ev=(chunk.match(/^event: (.*)$/m)||[])[1]; const data=JSON.parse((chunk.match(/^data: (.*)$/m)||[])[1]||"{}");
+      if(ev==="step") onStep(data); else if(ev==="result") onResult(data);
+      else if(ev==="error") $("#verdict").innerHTML=`<div class="verdict YELLOW"><h2>UNVERIFIABLE</h2><p>The check could not finish (${esc(data.error)}). No money moves.</p></div>`;
+    }
+  }
+}
+
+function onStep(d){
+  const el = $("#st-"+d.step.replace(/ /g,"")); if(!el) return;
+  el.classList.remove("running","done"); el.classList.add(d.status==="running"?"running":"done");
+  if(d.ms!=null) el.querySelector(".ms").textContent = d.ms+" ms";
+  if(d.status==="skipped") el.querySelector(".ms").textContent="skipped";
+  if(d.rules) el.querySelector(".rules").innerHTML = d.rules.map(r=>`<div class="r"><span class="dot ${r.result}"></span>${esc(r.detail)}</div>`).join("");
+}
+
+function onResult(r){
+  current = r;
+  const L0 = r.location||{};
+  if(L0.lat!=null){
+    const col = {GREEN:"#2e7d4f",RED:"#b4442f",YELLOW:"#b07d12"}[r.verdict];
+    pin = L.circleMarker([L0.lat,L0.lon],{radius:11,color:"#fff",weight:3,fillColor:col,fillOpacity:1}).addTo(map)
+      .bindPopup(`<b>${esc(L0.place)}, ${esc(L0.state)}</b><br>${esc(LABEL[r.verdict])}`);
+    charityLayer = L.layerGroup((r.charities||[]).map(c=>L.circleMarker([c.lat,c.lon],{radius:6,color:"#2e7d4f",fillOpacity:.8}).bindPopup(esc(c.name)))).addTo(map);
+    map.flyTo([L0.lat,L0.lon],10,{duration:1.2});
+  }
+  const pay = r.verdict==="GREEN";
+  $("#verdict").innerHTML = `<div class="verdict ${r.verdict}">
+    <h2>${LABEL[r.verdict]}</h2>
+    <div class="chips">${(r.reasons||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div>
+    <p style="font-size:18px;margin:.4em 0">${esc(r.explanation||"")}</p>
+    <p class="muted">${pay?"Your gift will be split between the verified local charities below. The poster is never paid."
+      :"Lifeline will not move money for this appeal."+(r.redirect?` Instead, consider <b>${esc(r.redirect.name)}</b> (${esc(r.redirect.city)}), a verified local charity nearby.`:"")}</p>
+    <div class="row"><a class="btn" href="#donate">${pay?"Donate to verified charities":"Donate safely instead"}</a>
+    <span class="small muted">Checked in ${r.elapsed_s}s</span></div></div>`;
+  if((r.charities||[]).length){
+    $("#charities").innerHTML = `<h3>Eligible local charities (IRS register evidence)</h3><div class="charities">`+
+      r.charities.map(c=>{const raw=JSON.parse(c.raw);return `<div class="card"><b>${esc(c.name)}</b>
+       <div class="muted small">${esc(c.city)} · NTEE ${esc(c.ntee)} · ${c.distance_km} km · EIN ${esc(c.ein)}</div>
+       <details><summary>Register row</summary><div class="mono">${esc(JSON.stringify(raw))}</div></details></div>`}).join("")+"</div>";
+  }
+  $("#howPanel").style.display="block";
+  $("#rulesTable tbody").innerHTML = r.rules.map(x=>`<tr><td>${esc(x.step)}</td><td><span class="dot ${x.result}"></span>${esc(x.rule)}</td>
+    <td>${esc(x.detail)}</td><td class="mono">${x.row?esc(JSON.stringify(x.row)).slice(0,400):""}</td></tr>`).join("");
+  $("#hashes").textContent = `inputs_sha256 ${r.inputs_sha256}\nverdict_sha256 ${r.verdict_sha256}`;
+}
+
+function setupDonate(){
+  if(!current){ $("#donateIntro").textContent="Run a check first, from the Appeals feed."; return; }
+  const r=current, pl=(r.location||{}).place||"this appeal";
+  $("#donateIntro").innerHTML = r.verdict==="GREEN"
+    ? `Appeal for <b>${esc(pl)}</b> is <span class="v GREEN">VERIFIED</span>. Your gift is split across ${r.charities.length} verified local charities.`
+    : `Appeal for <b>${esc(pl)}</b> is <span class="v ${r.verdict}">${LABEL[r.verdict]}</span>. If you continue, PayPal holds the money and Lifeline voids it: you will not be charged.`;
+  if(CFG.sample_mode){ $("#sampleDonate").style.display="inline-block"; $("#sampleDonate").onclick=()=>settle("SAMPLE-ORDER"); return; }
+  if(ppLoaded) return;
+  const s=document.createElement("script");
+  s.src=`https://www.paypal.com/sdk/js?client-id=${encodeURIComponent(CFG.paypal_client_id)}&intent=authorize&currency=USD`;
+  s.onload=()=>{ ppLoaded=true; paypal.Buttons({
+    style:{shape:"pill",color:"blue",label:"donate"},
+    createOrder: async()=>{ const o=await (await fetch("/api/paypal/order",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({check_id:current.check_id,amount})})).json(); return o.id; },
+    onApprove: async(data)=>settle(data.orderID),
+    onError: e=>{$("#receipt").innerHTML=`<div class="card">PayPal error: ${esc(e)}</div>`;}
+  }).render("#paypal-buttons"); };
+  document.head.appendChild(s);
+}
+
+async function settle(orderID){
+  let oid = orderID;
+  if(CFG.sample_mode){ const o=await (await fetch("/api/paypal/order",{method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({check_id:current.check_id,amount})})).json(); oid=o.id; }
+  const res = await fetch("/api/paypal/settle",{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({check_id:current.check_id,order_id:oid,amount})});
+  const rc = await res.json();
+  if(!res.ok){ $("#receipt").innerHTML=`<div class="card">Payment step failed: <span class="mono">${esc(JSON.stringify(rc))}</span></div>`; return; }
+  const paid = rc.action.startsWith("CAPTURED");
+  $("#receipt").innerHTML = `<div class="verdict ${paid?"GREEN":"YELLOW"}"><h2>${paid?"Thank you. Your gift reached the flood.":"You were not charged."}</h2>
+   <p>${rc.sample_mode?"<b>SAMPLE MODE</b> · ":""}${esc(rc.action)} · $${esc(rc.amount)} · authorization ${esc(rc.authorization_id)}</p>
+   ${rc.note?`<p class="muted">${esc(rc.note)} (${esc(rc.payout_error||"")}: ${esc(rc.payout_error_message||"")})</p>`:""}
+   ${rc.redirect?`<p>Suggested instead: <b>${esc(rc.redirect.charity)}</b>, ${esc(rc.redirect.city)} (EIN ${esc(rc.redirect.ein)})</p>`:""}
+   ${(rc.payouts||[]).length?`<div class="tablewrap"><table><tr><th>Charity</th><th>Amount</th><th>Receiver (${esc(rc.receiver_label)})</th><th>Evidence</th></tr>`+
+     rc.payouts.map(p=>`<tr><td><b>${esc(p.charity)}</b><br><span class="small muted">EIN ${esc(p.ein)} · ${esc(p.city)} · NTEE ${esc(p.ntee)}</span></td>
+     <td>$${esc(p.amount)}</td><td class="mono">${esc(p.receiver)}</td>
+     <td><details><summary>IRS row + satellite</summary><div class="mono">${esc(JSON.stringify(p.register_row))}<br><br>${esc(JSON.stringify(p.satellite_evidence))}</div></details></td></tr>`).join("")+"</table></div>":""}
+   <p class="mono">receipt_sha256 ${esc(rc.receipt_sha256)}<br>verdict_sha256 ${esc(rc.verdict_sha256)}<br>Poster paid: ${rc.poster_paid}</p></div>`;
+}
+
+async function loadProof(){
+  const r = await fetch("/api/proof"); if(!r.ok){ $("#proofBody").textContent="No evaluation run yet."; return; }
+  const d = await r.json(), L0=d.lifeline, B=d.baseline;
+  $("#proofBody").innerHTML = `
+   <div class="card" style="margin:14px 0"><p style="font-size:20px;margin:0">LLM alone would have sent <b>$${B.paid_unverified_usd}</b> of donor money to unverified appeals
+     and funded only <b>${B.paid_genuine_count} of 15</b> genuine ones. Lifeline: <b>$${L0.paid_unverified_usd}</b>, and funded <b>${L0.paid_genuine_count} of 15</b>.</p></div>
+   <div class="score">
+    <div class="card"><div class="muted">Accuracy</div><div class="big">${(L0.accuracy*100).toFixed(0)}%</div><div class="muted">LLM alone ${(B.accuracy*100).toFixed(0)}%</div></div>
+    <div class="card"><div class="muted">Unverified appeals paid</div><div class="big">${L0.paid_unverified_count}</div><div class="muted">LLM alone ${B.paid_unverified_count}</div></div>
+    <div class="card"><div class="muted">Red-team attacks stopped</div><div class="big">${L0.red_team_stopped}/5</div><div class="muted">LLM alone ${B.red_team_stopped}/5</div></div>
+    <div class="card"><div class="muted">Avg check time</div><div class="big">${L0.avg_check_s}s</div><div class="muted">LLM alone ${B.avg_check_s}s</div></div>
+   </div>
+   <p class="small muted">Run: ${esc(d.tag)} · ${esc(d.mode)} · model ${esc(d.llm)} · key sha256 ${esc(d.key_sha256)}</p>
+   <div class="card tablewrap"><table><tr><th>Appeal</th><th>Expected</th><th>LLM alone</th><th>Lifeline</th></tr>`+
+   d.rows.map(x=>`<tr><td><span class="small muted">${esc(x.id)}</span><br>${esc(x.text)}</td><td class="v ${x.expect.expect}">${LABEL[x.expect.expect]}<br><span class="small muted">${esc(x.expect.reason||"")}</span></td>
+     <td class="v ${x.baseline.verdict}">${LABEL[x.baseline.verdict]}</td>
+     <td class="v ${x.lifeline.verdict}">${LABEL[x.lifeline.verdict]}${x.lifeline.verdict!==x.expect.expect?" ✗":""}<br><span class="small muted">${esc(x.lifeline.reasons.join(", "))}</span></td></tr>`).join("")+`</table></div>`;
+}
+init();
+</script>
+</body>
+</html>
