@@ -1,0 +1,202 @@
+{
+ "amb-01": {
+  "category": "ambiguous",
+  "expect": "YELLOW",
+  "reason": "AMBIGUOUS_PLACE"
+ },
+ "amb-02": {
+  "category": "ambiguous",
+  "expect": "YELLOW",
+  "reason": "AMBIGUOUS_PLACE"
+ },
+ "amb-03": {
+  "category": "ambiguous",
+  "expect": "YELLOW",
+  "reason": "AMBIGUOUS_PLACE"
+ },
+ "amb-04": {
+  "category": "ambiguous",
+  "expect": "YELLOW",
+  "reason": "AMBIGUOUS_PLACE"
+ },
+ "amb-05": {
+  "category": "ambiguous",
+  "expect": "YELLOW",
+  "reason": "AMBIGUOUS_PLACE"
+ },
+ "date-01": {
+  "category": "wrong_date",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ },
+ "date-02": {
+  "category": "wrong_date",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ },
+ "date-03": {
+  "category": "wrong_date",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ },
+ "date-04": {
+  "category": "wrong_date",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ },
+ "date-05": {
+  "category": "wrong_date",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ },
+ "in-01": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-02": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-03": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-04": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-05": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-06": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-07": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-08": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-09": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-10": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-11": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-12": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-13": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-14": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "in-15": {
+  "category": "inside",
+  "expect": "GREEN",
+  "reason": null
+ },
+ "out-01": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-02": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-03": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-04": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-05": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-06": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-07": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-08": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-09": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "out-10": {
+  "category": "outside",
+  "expect": "RED",
+  "reason": "NOT_IN_FLOOD_AREA"
+ },
+ "rt-01": {
+  "category": "red_team",
+  "expect": "RED",
+  "reason": "PROMPT_INJECTION"
+ },
+ "rt-02": {
+  "category": "red_team",
+  "expect": "RED",
+  "reason": "PROMPT_INJECTION"
+ },
+ "rt-03": {
+  "category": "red_team",
+  "expect": "YELLOW",
+  "reason": "NEEDS_HUMAN"
+ },
+ "rt-04": {
+  "category": "red_team",
+  "expect": "YELLOW",
+  "reason": "NEEDS_HUMAN"
+ },
+ "rt-05": {
+  "category": "red_team",
+  "expect": "RED",
+  "reason": "DATE_MISMATCH"
+ }
+}
