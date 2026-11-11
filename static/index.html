@@ -4,78 +4,229 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lifeline — Every dollar finds the flood</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Ccircle cx=%2716%27 cy=%2716%27 r=%2714%27 fill=%27%232f6f8f%27/%3E%3Cpath d=%27M6 19c4-4 6 2 10-2s6 2 10-2%27 stroke=%27%234fb3e8%27 stroke-width=%273%27 fill=%27none%27/%3E%3C/svg%3E">
+<link rel="preload" as="image" href="/static/hero.webp" fetchpriority="high">
+<meta name="description" content="Lifeline checks flood relief appeals against satellite flood maps and pays only registered local charities.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f7f3ec; --card:#fffdf9; --ink:#22313a; --muted:#5f6b70; --line:#e6ddd0;
-  --river:#2f6f8f; --river-soft:#dcebf2; --green:#2e7d4f; --green-soft:#e2f2e8;
-  --red:#b4442f; --red-soft:#f8e3dd; --yellow:#b07d12; --yellow-soft:#fbf0d4; --accent:#d9824b;
-  --shadow:0 1px 2px rgba(34,49,58,.06),0 6px 24px rgba(34,49,58,.06); --r:16px;
+  --bg:#f7f3ec; --bg2:#efe8dc; --card:#fffdf9; --glass:rgba(255,253,249,.72); --ink:#22313a; --muted:#5f6b70; --line:#e6ddd0;
+  --river:#2f6f8f; --river-soft:#dcebf2; --glow:#4fb3e8; --green:#2e7d4f; --green-soft:#e2f2e8;
+  --red:#b4442f; --red-soft:#f8e3dd; --yellow:#b07d12; --yellow-soft:#fbf0d4; --accent:#d9824b; --gold:#e0a84a;
+  --shadow:0 1px 1px rgba(34,49,58,.04),0 2px 6px rgba(34,49,58,.05),0 18px 48px -18px rgba(34,49,58,.22);
+  --shadow-sm:0 1px 2px rgba(34,49,58,.05),0 6px 18px -8px rgba(34,49,58,.14);
+  --r:20px; --ease:cubic-bezier(.2,.7,.2,1);
 }
 @media (prefers-color-scheme: dark){:root{
-  --bg:#141c21; --card:#1c262c; --ink:#ece6dc; --muted:#a3adb1; --line:#2c3a42;
-  --river:#7fb8d4; --river-soft:#1d3440; --green:#6cc391; --green-soft:#183326; --red:#e98b76; --red-soft:#3a2019;
-  --yellow:#e5b851; --yellow-soft:#382c12; --shadow:none;}}
+  --bg:#11181d; --bg2:#0d1317; --card:#1a242a; --glass:rgba(26,36,42,.72); --ink:#ece6dc; --muted:#a3adb1; --line:#2c3a42;
+  --river:#7fb8d4; --river-soft:#1d3440; --glow:#5cc1f2; --green:#6cc391; --green-soft:#183326; --red:#e98b76; --red-soft:#3a2019;
+  --yellow:#e5b851; --yellow-soft:#382c12; --shadow:0 18px 48px -18px rgba(0,0,0,.6); --shadow-sm:0 6px 18px -8px rgba(0,0,0,.5);}}
 *{box-sizing:border-box} html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,sans-serif}
-h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0 0 .4em;line-height:1.2}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 600px at 85% -10%,var(--river-soft),transparent 60%),var(--bg);background-attachment:fixed;
+  color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:2000;opacity:.05;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0 0 .4em;line-height:1.12;letter-spacing:-.015em}
+h1{font-size:clamp(30px,4.4vw,54px)} h2{font-size:clamp(24px,2.6vw,32px)} h3{font-size:20px}
 a{color:var(--river)}
-.top{position:sticky;top:0;z-index:1000;background:var(--card);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto}
-.brand b{font-family:Fraunces,serif;font-size:24px;color:var(--river)}
+code{font:13px ui-monospace,Consolas,monospace}
+
+/* header */
+.top{position:sticky;top:0;z-index:1000;background:var(--glass);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);
+  border-bottom:1px solid color-mix(in srgb,var(--line) 70%,transparent);padding:12px max(16px,calc((100vw - 1180px)/2));display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px;margin-right:auto;min-width:0}
+.brand b{font-family:Fraunces,serif;font-size:25px;color:var(--river);letter-spacing:-.02em}
 .brand span{color:var(--muted);font-style:italic;font-size:14px}
-nav a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px}
-nav a.on{background:var(--river-soft);color:var(--river)}
+nav{display:flex;gap:2px;background:color-mix(in srgb,var(--bg2) 70%,transparent);padding:4px;border-radius:999px;border:1px solid var(--line)}
+nav a{padding:6px 14px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px;transition:background .25s,color .25s}
+nav a.on{background:var(--card);color:var(--river);box-shadow:var(--shadow-sm)}
 .badge-sample{background:var(--yellow-soft);color:var(--yellow);font-weight:600;font-size:12px;padding:4px 10px;border-radius:999px;display:none}
-main{max-width:1180px;margin:0 auto;padding:20px 16px 60px}
-.screen{display:none}.screen.on{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px}
-.hero{display:grid;gap:14px;margin-bottom:18px}
-.hero p{color:var(--muted);max-width:720px;margin:0}
-.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+main{max-width:1180px;margin:0 auto;padding:28px 16px 80px}
+
+/* screens */
+.screen{display:none}.screen.on{display:block;animation:enter .55s var(--ease) both}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+.card{background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid color-mix(in srgb,var(--line) 85%,transparent);
+  border-radius:var(--r);box-shadow:var(--shadow);padding:22px}
+.eyebrow{font:600 12px Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--river)}
+
+/* hero */
+.hero{position:relative;border-radius:28px;overflow:hidden;min-height:480px;margin-bottom:22px;box-shadow:var(--shadow);
+  background:linear-gradient(160deg,#20475b,#14303e 60%,#0f2430);isolation:isolate}
+.hero{background:#14303e url(/static/hero.webp) center/cover no-repeat}
+#heroMap{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity 1.2s var(--ease)}
+#heroMap.live{opacity:1}
+.hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(12,28,38,.86) 0%,rgba(12,28,38,.62) 38%,rgba(12,28,38,.12) 68%,rgba(12,28,38,0) 100%),
+             linear-gradient(180deg,rgba(12,28,38,.25) 0%,rgba(12,28,38,0) 40%,rgba(12,28,38,.45) 100%)}
+@media (max-width:700px){.hero::after{background:linear-gradient(180deg,rgba(12,28,38,.85) 0%,rgba(12,28,38,.6) 55%,rgba(12,28,38,.35) 100%)}}
+.hero-copy{position:relative;z-index:2;padding:44px 44px 0;max-width:780px;color:#f7f3ec}
+.hero-copy .eyebrow{color:#9fd3ee}
+.hero-copy h1{color:#fffaf1;text-shadow:0 2px 24px rgba(0,0,0,.35);margin-top:10px}
+.hero-copy p{color:rgba(247,243,236,.88);max-width:640px;margin:0;font-size:17px}
+.hero-legend{position:absolute;z-index:2;left:44px;bottom:24px;display:flex;gap:10px;align-items:center;color:rgba(247,243,236,.85);font-size:13px}
+.hero-legend i{width:26px;height:8px;border-radius:4px;background:var(--glow);box-shadow:0 0 12px var(--glow)}
+@media (max-width:700px){.hero{min-height:440px;border-radius:22px}.hero-copy{padding:28px 22px 0}.hero-legend{left:22px;bottom:44px}}
+
+/* pipeline strip */
+.pipe{display:flex;align-items:center;gap:0;overflow-x:auto;padding:16px 18px;margin-bottom:22px;scrollbar-width:none}
+.pipe::-webkit-scrollbar{display:none}
+.pipe .lbl{font:600 12px Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:16px;white-space:nowrap}
+.pnode{flex:0 0 auto;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap;
+  animation:pulse 7s var(--ease) infinite;animation-delay:calc(var(--i) * 1s)}
+.pnode.pay{background:var(--river);color:#fff;border-color:var(--river)}
+.plink{flex:1 0 22px;min-width:22px;height:2px;background:var(--line);position:relative;overflow:hidden}
+.plink::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,var(--glow),transparent);
+  animation:flow 7s linear infinite;animation-delay:calc(var(--i) * 1s);transform:translateX(-100%)}
+@keyframes flow{0%{transform:translateX(-100%)}14%{transform:translateX(260%)}100%{transform:translateX(260%)}}
+@keyframes pulse{0%,100%{box-shadow:none;border-color:var(--line)}5%{box-shadow:0 0 0 4px color-mix(in srgb,var(--glow) 25%,transparent);border-color:var(--glow)}14%{box-shadow:none}}
+
+/* feed */
+.feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.post{display:flex;flex-direction:column;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
+.post:hover{transform:translateY(-3px)}
 .post .who{display:flex;gap:10px;align-items:center;margin-bottom:8px}
-.avatar{width:38px;height:38px;border-radius:50%;background:var(--river-soft);color:var(--river);display:grid;place-items:center;font-weight:700}
+.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(140deg,var(--river-soft),var(--card));color:var(--river);display:grid;place-items:center;font-weight:700;border:1px solid var(--line)}
 .post .handle{font-weight:600}.post .meta{color:var(--muted);font-size:13px}
-.post p{margin:6px 0 12px}
-.btn{appearance:none;border:0;border-radius:999px;padding:10px 18px;font:600 15px Inter,sans-serif;cursor:pointer;background:var(--river);color:#fff}
-.btn.ghost{background:transparent;color:var(--river);border:1.5px solid var(--river)}
+.post p{margin:6px 0 16px;flex:1}
+.post .btn{align-self:flex-start}
+
+/* controls */
+.btn{appearance:none;border:0;border-radius:999px;padding:11px 20px;font:600 15px Inter,sans-serif;cursor:pointer;background:var(--river);color:#fff;
+  text-decoration:none;display:inline-block;transition:transform .2s var(--ease),box-shadow .25s,background .25s;box-shadow:0 6px 16px -8px var(--river)}
+.btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px -10px var(--river)}
+.btn.ghost{background:transparent;color:var(--river);border:1.5px solid color-mix(in srgb,var(--river) 60%,transparent);box-shadow:none}
+.btn.ghost:hover{background:var(--river-soft)}
 .btn:disabled{opacity:.5;cursor:default}
-textarea,input{width:100%;font:inherit;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea,input{width:100%;font:inherit;padding:14px;border-radius:14px;border:1px solid var(--line);background:color-mix(in srgb,var(--bg) 80%,transparent);color:var(--ink);transition:border-color .2s,box-shadow .2s}
+textarea:focus,input:focus{outline:none;border-color:var(--river);box-shadow:0 0 0 4px color-mix(in srgb,var(--river) 15%,transparent)}
+:focus-visible{outline:2px solid var(--river);outline-offset:2px}
 .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:16px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
 @media (max-width:860px){.grid2{grid-template-columns:1fr}}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.step{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);opacity:.45;transition:.3s}
-.step.running{opacity:1;border-color:var(--river)} .step.done{opacity:1}
-.step h4{margin:0;font-size:15px;display:flex;justify-content:space-between}
+
+/* agent steps */
+.steps{list-style:none;margin:0;padding:0 0 0 30px;display:grid;gap:10px;position:relative}
+.steps::before{content:"";position:absolute;left:10px;top:18px;bottom:18px;width:2px;background:var(--line);border-radius:2px}
+.steps .prog{position:absolute;left:10px;top:18px;width:2px;height:0;border-radius:2px;background:linear-gradient(var(--river),var(--glow));box-shadow:0 0 10px var(--glow)}
+.step{position:relative;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--glass);opacity:.5;transition:opacity .4s,border-color .4s,box-shadow .4s,transform .4s var(--ease)}
+.step::before{content:"";position:absolute;left:-26px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--line);transition:.4s}
+.step.running{opacity:1;border-color:var(--river);box-shadow:0 0 0 4px color-mix(in srgb,var(--river) 12%,transparent);transform:translateX(2px)}
+.step.running::before{border-color:var(--glow);background:var(--glow);box-shadow:0 0 0 5px color-mix(in srgb,var(--glow) 25%,transparent);animation:beat 1s ease-in-out infinite}
+.step.done{opacity:1}.step.done::before{background:var(--river);border-color:var(--river)}
+@keyframes beat{50%{box-shadow:0 0 0 9px color-mix(in srgb,var(--glow) 0%,transparent)}}
+.step h4{margin:0;font-size:15px;display:flex;justify-content:space-between;gap:8px}
+.step .ms{font-variant-numeric:tabular-nums}
 .step .r{font-size:13px;color:var(--muted);margin-top:4px}
 .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--muted)}
 .dot.pass{background:var(--green)}.dot.fail{background:var(--red)}.dot.doubt{background:var(--yellow)}.dot.drop{background:var(--accent)}
-#map{height:420px;border-radius:var(--r);border:1px solid var(--line)}
-.verdict{border-radius:var(--r);padding:22px;margin:16px 0;border:2px solid}
-.verdict.GREEN{background:var(--green-soft);border-color:var(--green)} .verdict.GREEN h2{color:var(--green)}
-.verdict.RED{background:var(--red-soft);border-color:var(--red)} .verdict.RED h2{color:var(--red)}
-.verdict.YELLOW{background:var(--yellow-soft);border-color:var(--yellow)} .verdict.YELLOW h2{color:var(--yellow)}
-.verdict h2{font-size:34px;margin:0}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.chip{font:600 12px Inter;padding:3px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
-.charities{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+
+/* maps */
+.mapwrap{position:sticky;top:84px}
+#map{height:460px;border-radius:var(--r);border:1px solid var(--line);overflow:hidden;box-shadow:var(--shadow);background:var(--bg2)}
+@media (max-width:860px){.mapwrap{position:static}#map{height:340px}}
+.maplibregl-ctrl-attrib{font-size:10px}
+.pin{width:22px;height:22px;border-radius:50%;border:3px solid #fff;background:var(--river);box-shadow:0 4px 14px rgba(0,0,0,.35);
+  transition:background .6s,box-shadow .6s;animation:drop .7s cubic-bezier(.3,1.6,.5,1) both;cursor:pointer}
+.pin.GREEN{background:#2e7d4f;box-shadow:0 0 0 6px rgba(46,125,79,.25),0 0 24px rgba(46,125,79,.8)}
+.pin.RED{background:#b4442f;box-shadow:0 0 0 6px rgba(180,68,47,.25),0 0 24px rgba(180,68,47,.8)}
+.pin.YELLOW{background:#b07d12;box-shadow:0 0 0 6px rgba(176,125,18,.25),0 0 24px rgba(176,125,18,.8)}
+.cpin{width:13px;height:13px;border-radius:50%;background:#2e7d4f;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.3);animation:pop .5s cubic-bezier(.3,1.6,.5,1) both;cursor:pointer}
+@keyframes drop{from{transform:translateY(-60px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+.maplibregl-popup-content{border-radius:12px;font:13px Inter,sans-serif;color:#22313a}
+
+/* verdict */
+.verdict{position:relative;border-radius:24px;padding:28px;margin:20px 0;border:1.5px solid;overflow:hidden}
+.verdict.GREEN{background:var(--green-soft);border-color:var(--green);--vc:var(--green)} .verdict.GREEN h2{color:var(--green)}
+.verdict.RED{background:var(--red-soft);border-color:var(--red);--vc:var(--red)} .verdict.RED h2{color:var(--red)}
+.verdict.YELLOW{background:var(--yellow-soft);border-color:var(--yellow);--vc:var(--yellow)} .verdict.YELLOW h2{color:var(--yellow)}
+.verdict.reveal{animation:glow 2.4s var(--ease) both}
+@keyframes glow{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--vc) 50%,transparent)}35%{box-shadow:0 0 0 10px color-mix(in srgb,var(--vc) 14%,transparent),0 0 60px color-mix(in srgb,var(--vc) 35%,transparent)}100%{box-shadow:0 0 0 0 transparent,0 20px 50px -24px color-mix(in srgb,var(--vc) 60%,transparent)}}
+.verdict h2{font-size:clamp(32px,4vw,44px);margin:0}
+.vhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.badge-poster{font:600 12px Inter;padding:6px 12px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--ink);white-space:nowrap}
+.badge-poster b{color:var(--vc)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.chip{font:600 12px Inter;letter-spacing:.03em;padding:4px 11px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
+.charities{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .mono{font:12px/1.5 ui-monospace,Consolas,monospace;word-break:break-all;color:var(--muted)}
 details{margin-top:10px} summary{cursor:pointer;font-weight:600}
 table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
-.big{font-family:Fraunces,serif;font-size:44px;line-height:1}
-.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.tablewrap{overflow-x:auto}
 .muted{color:var(--muted)} .small{font-size:13px}
 .v{font-weight:700}.v.GREEN{color:var(--green)}.v.RED{color:var(--red)}.v.YELLOW{color:var(--yellow)}
-.amounts button{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
-.amounts button.on{border-color:var(--river);color:var(--river)}
-.tablewrap{overflow-x:auto}
+
+/* donate */
+.donate-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:18px;align-items:stretch}
+@media (max-width:860px){.donate-grid{grid-template-columns:1fr}}
+.amounts button{background:var(--card);color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.amounts button.on{border-color:var(--river);color:var(--river);background:var(--river-soft)}
+.stage{position:relative;min-height:340px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;
+  background:radial-gradient(420px 220px at 50% 30%,color-mix(in srgb,var(--gold) 16%,transparent),transparent 70%),var(--glass)}
+.stage .state{font:600 12px Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-align:center}
+.coinbox{height:150px;display:grid;place-items:center;perspective:700px;position:relative}
+.coin{width:96px;height:96px;border-radius:50%;position:relative;transform-style:preserve-3d;
+  background:radial-gradient(circle at 34% 30%,#fff3cf,#f1c66a 38%,#c98c25 75%,#a46d14);
+  box-shadow:inset 0 -6px 12px rgba(120,70,0,.35),inset 0 4px 10px rgba(255,255,255,.6),0 0 0 6px color-mix(in srgb,var(--gold) 20%,transparent),0 0 46px color-mix(in srgb,var(--gold) 70%,transparent);
+  display:grid;place-items:center;font:700 22px Fraunces,serif;color:#6b4508;animation:spin 6s linear infinite}
+.coin.held{box-shadow:inset 0 -6px 12px rgba(120,70,0,.35),inset 0 4px 10px rgba(255,255,255,.6),0 0 0 10px color-mix(in srgb,var(--glow) 25%,transparent),0 0 60px var(--glow)}
+.coin.voided{filter:grayscale(1) opacity(.45);animation:none}
+@keyframes spin{0%{transform:rotateY(0)}50%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
+.coin.mini{position:absolute;width:40px;height:40px;font-size:11px;animation:none;left:calc(50% - 20px);top:calc(50% - 20px);z-index:3}
+.delivered{position:absolute;inset:0;display:grid;place-content:center;text-align:center;font:500 16px Inter}
+.delivered b{font:600 30px Fraunces,serif;color:var(--green)}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.slot{border:1px solid var(--line);border-radius:14px;padding:10px;background:var(--card);font-size:12px;min-height:74px;transition:border-color .5s,box-shadow .5s}
+.slot b{display:block;font-size:12px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.slot .amt{font:600 18px Fraunces,serif;color:var(--green);margin-top:4px;opacity:0;transition:opacity .5s}
+.slot.hit{border-color:var(--green);box-shadow:0 0 0 4px color-mix(in srgb,var(--green) 15%,transparent),0 0 30px -6px var(--green)}
+.slot.hit .amt{opacity:1}
+
+/* proof */
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:16px 0}
+.big{font-family:Fraunces,serif;font-size:52px;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.bars{display:grid;gap:22px}
+.bar-row h4{margin:0 0 8px;font-size:15px}
+.bar{display:grid;grid-template-columns:110px minmax(0,1fr) 92px;gap:12px;align-items:center;font-size:13.5px;margin:6px 0}
+.bar .track{height:14px;border-radius:999px;background:color-mix(in srgb,var(--line) 70%,transparent);overflow:hidden}
+.bar .fill{height:100%;width:0;border-radius:999px;transition:width 1.6s var(--ease)}
+.bar.base .fill{background:linear-gradient(90deg,#b9b0a3,#8f877c)} .bar.life .fill{background:linear-gradient(90deg,var(--river),var(--glow));box-shadow:0 0 14px color-mix(in srgb,var(--glow) 60%,transparent)}
+.bar .val{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.bar{grid-template-columns:78px minmax(0,1fr) 70px}}
+
+/* boot loader */
+#boot{position:fixed;inset:0;z-index:3000;display:grid;place-items:center;background:var(--bg);transition:opacity .6s var(--ease),visibility .6s;opacity:0;visibility:hidden}
+#boot.show{opacity:1;visibility:visible}
+.sat{width:120px;height:120px;position:relative;margin:0 auto 22px}
+.sat .earth{position:absolute;inset:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#bfe1f0,#4f93b5 55%,#24546b);box-shadow:0 0 40px rgba(79,179,232,.45)}
+.sat .orbit{position:absolute;inset:0;border-radius:50%;border:1.5px dashed color-mix(in srgb,var(--river) 45%,transparent);animation:orbit 3.2s linear infinite}
+.sat .orbit::after{content:"";position:absolute;top:-6px;left:calc(50% - 6px);width:12px;height:12px;border-radius:3px;background:var(--gold);box-shadow:0 0 14px var(--gold)}
+@keyframes orbit{to{transform:rotate(360deg)}}
+#boot p{text-align:center;margin:0;color:var(--muted)} #boot .boot-t{font:600 22px Fraunces,serif;color:var(--ink);margin-bottom:6px}
+
+@media (max-width:560px){
+  .top{gap:10px}.brand span{display:none} nav{width:100%;justify-content:space-between} nav a{padding:6px 10px;font-size:13.5px}
+  .card{padding:18px} .big{font-size:42px}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
 </style>
 </head>
 <body>
+<div id="boot" role="status" aria-live="polite">
+  <div><div class="sat"><div class="orbit"></div><div class="earth"></div></div>
+  <p class="boot-t">Waking up the satellite…</p><p id="bootNote">Loading the flood map and appeals.</p></div>
+</div>
 <header class="top">
   <div class="brand"><b>Lifeline</b><span>Every dollar finds the flood.</span></div>
   <span class="badge-sample" id="sampleBadge">SAMPLE MODE · PayPal stubbed</span>
@@ -86,14 +237,29 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-a
 <!-- 1. FEED -->
 <section class="screen" id="s-feed">
   <div class="hero">
-    <h1>After a flood, hundreds of appeals arrive. Some are real.</h1>
-    <p>Lifeline never pays the person who posted. It checks the place against the satellite flood map for
-      Hurricane Helene (western North Carolina, Sept 2024) and pays only registered local charities there.</p>
+    <div id="heroMap"></div>
+    <div class="hero-copy">
+      <div class="eyebrow">Hurricane Helene · western North Carolina · Sept 2024</div>
+      <h1>After a flood, hundreds of appeals arrive. Some are real.</h1>
+      <p>Lifeline never pays the person who posted. It checks the place against the satellite flood map for
+        Hurricane Helene (western North Carolina, Sept 2024) and pays only registered local charities there.</p>
+    </div>
+    <div class="hero-legend"><i></i>ICEYE / Sentinel satellite-observed flood extent</div>
   </div>
-  <div class="card" style="margin-bottom:18px">
-    <h3>Paste an appeal you saw</h3>
+  <div class="card pipe" aria-label="How it works">
+    <span class="lbl">How it works</span>
+    <span class="pnode" style="--i:0">Reader</span><span class="plink" style="--i:0"></span>
+    <span class="pnode" style="--i:1">Locator</span><span class="plink" style="--i:1"></span>
+    <span class="pnode" style="--i:2">Flood Check</span><span class="plink" style="--i:2"></span>
+    <span class="pnode" style="--i:3">Register Check</span><span class="plink" style="--i:3"></span>
+    <span class="pnode" style="--i:4">Skeptic</span><span class="plink" style="--i:4"></span>
+    <span class="pnode" style="--i:5">Judge</span><span class="plink" style="--i:5"></span>
+    <span class="pnode pay" style="--i:6">PayPal</span>
+  </div>
+  <div class="card" style="margin-bottom:22px">
+    <h2 style="font-size:20px">Paste an appeal you saw</h2>
     <textarea id="paste" rows="3" placeholder="e.g. Marshall, North Carolina flooded on Sept 27, 2024. Families need diapers and generators…"></textarea>
-    <div class="row" style="margin-top:10px"><button class="btn" id="pasteGo">Check this appeal</button>
+    <div class="row" style="margin-top:12px"><button class="btn" id="pasteGo">Check this appeal</button>
       <span class="muted small">Synthetic test appeals below use real places and real flood data.</span></div>
   </div>
   <div class="feed" id="feed"></div>
@@ -101,14 +267,14 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-a
 
 <!-- 2. LIVE CHECK -->
 <section class="screen" id="s-check">
-  <div class="card" id="appealCard" style="margin-bottom:16px"><span class="muted">Pick an appeal from the feed, or paste one.</span></div>
+  <div class="card" id="appealCard" style="margin-bottom:18px"><span class="muted">Pick an appeal from the feed, or paste one.</span></div>
   <div class="grid2">
     <div><ol class="steps" id="steps"></ol></div>
-    <div><div id="map"></div><div class="muted small" style="margin-top:6px">Blue: ICEYE / Sentinel satellite-observed Helene flood extent.</div></div>
+    <div class="mapwrap"><div id="map"></div><div class="muted small" style="margin-top:8px">Blue: ICEYE / Sentinel satellite-observed Helene flood extent.</div></div>
   </div>
   <div id="verdict"></div>
   <div id="charities"></div>
-  <div class="card" id="howPanel" style="display:none;margin-top:16px">
+  <div class="card" id="howPanel" style="display:none;margin-top:18px">
     <h3>How this was decided</h3>
     <div class="tablewrap"><table id="rulesTable"><thead><tr><th>Step</th><th>Rule</th><th>Detail</th><th>Data row</th></tr></thead><tbody></tbody></table></div>
     <p class="mono" id="hashes"></p>
@@ -117,53 +283,178 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-a
 
 <!-- 3. DONATE -->
 <section class="screen" id="s-donate">
-  <div class="card">
-    <h2>Give to the flood, not the stranger</h2>
-    <p class="muted" id="donateIntro">Run a check first.</p>
-    <div class="row amounts" id="amounts" style="margin:12px 0">
-      <button class="btn" data-a="10">$10</button><button class="btn on" data-a="25">$25</button><button class="btn" data-a="50">$50</button><button class="btn" data-a="100">$100</button>
+  <div class="donate-grid">
+    <div class="card">
+      <h2>Give to the flood, not the stranger</h2>
+      <p class="muted" id="donateIntro">Run a check first.</p>
+      <div class="row amounts" id="amounts" style="margin:14px 0">
+        <button class="btn" data-a="10">$10</button><button class="btn on" data-a="25">$25</button><button class="btn" data-a="50">$50</button><button class="btn" data-a="100">$100</button>
+      </div>
+      <p class="small muted">PayPal <b>holds</b> your money (authorization). It is captured only if the appeal is VERIFIED, then split
+        across the verified local charities. Otherwise the hold is voided and you are never charged.</p>
+      <div id="paypal-buttons" style="max-width:420px"></div>
+      <button class="btn" id="sampleDonate" style="display:none">Donate (SAMPLE MODE, no real money)</button>
     </div>
-    <p class="small muted">PayPal <b>holds</b> your money (authorization). It is captured only if the appeal is VERIFIED, then split
-      across the verified local charities. Otherwise the hold is voided and you are never charged.</p>
-    <div id="paypal-buttons" style="max-width:420px"></div>
-    <button class="btn" id="sampleDonate" style="display:none">Donate (SAMPLE MODE, no real money)</button>
+    <div class="card stage" id="stage" aria-hidden="true">
+      <div class="state" id="stageState">Your gift</div>
+      <div class="coinbox" id="coinbox"><div class="coin" id="coin">$25</div></div>
+      <div class="slots" id="slots"></div>
+    </div>
   </div>
   <div id="receipt"></div>
 </section>
 
 <!-- 4. PROOF -->
 <section class="screen" id="s-proof">
+  <div class="eyebrow">Evaluation</div>
   <h1>Proof: LLM alone vs Lifeline</h1>
   <p class="muted">40 appeals, labelled before any run (answer key SHA-256 locked in <code>eval/LOCKED_HASH.txt</code>). $100 assumed per appeal.</p>
   <div id="proofBody">Loading…</div>
 </section>
 </main>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script>
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const G = () => (!REDUCE && window.gsap) ? window.gsap : null;
 const STEPS = ["Reader","Locator","Flood Check","Register Check","Skeptic","Judge"];
 const BLURB = {"Reader":"LLM reads place, date, need — every value must appear word for word",
   "Locator":"US Census place + county","Flood Check":"Satellite flood extent, FEMA DR-4827, date window",
   "Register Check":"IRS register, Pub 78, auto-revocation, OFAC SDN","Skeptic":"Tries to break every green",
   "Judge":"Pure rules → verdict"};
 const LABEL = {GREEN:"VERIFIED",RED:"NOT VERIFIED",YELLOW:"UNVERIFIABLE"};
-let CFG = {}, current = null, map, floodLayer, pin, charityLayer, amount = 25, ppLoaded = false;
+const VCOL = {GREEN:"#2e7d4f",RED:"#b4442f",YELLOW:"#b07d12"};
+const REGION = {center:[-82.45,35.62], zoom:8.4};
+let CFG = {}, current = null, amount = 25, ppLoaded = false, FLOOD = null, checkMap = null, heroMap = null;
 
+/* ---------- libraries, loaded lazily so the first paint is fast ---------- */
+const ML_JS="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js", ML_CSS="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css";
+const LF_JS="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js", LF_CSS="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+const _loads={};
+function loadCSS(h){ if(document.querySelector(`link[href="${h}"]`)) return; const l=document.createElement("link"); l.rel="stylesheet"; l.href=h; document.head.appendChild(l); }
+function loadJS(src){ return _loads[src] ||= new Promise((ok,no)=>{const s=document.createElement("script"); s.src=src; s.onload=ok; s.onerror=no; document.head.appendChild(s);}); }
+function webgl(){ try{const c=document.createElement("canvas"); return !!(c.getContext("webgl2")||c.getContext("webgl"));}catch(e){return false;} }
+let _engine;
+function mapEngine(){ return _engine ||= (async()=>{
+  if(webgl()){ try{ loadCSS(ML_CSS); await loadJS(ML_JS); return "ml"; }catch(e){} }
+  loadCSS(LF_CSS); await loadJS(LF_JS); return "lf"; })(); }
+function floodData(){ return FLOOD ||= fetch("/api/flood.geojson").then(r=>r.json()); }
+
+function baseStyle(){ return "https://tiles.openfreemap.org/styles/positron"; }
+function addTerrainAndFlood(m, fl, {glow=1}={}){
+  m.getContainer().querySelectorAll(".maplibregl-compact-show").forEach(e=>e.classList.remove("maplibregl-compact-show"));
+  m.addSource("dem",{type:"raster-dem",tiles:["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],encoding:"terrarium",tileSize:256,maxzoom:13,
+    attribution:"Terrain: Mapzen / AWS Terrain Tiles"});
+  m.addSource("demh",{type:"raster-dem",tiles:["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],encoding:"terrarium",tileSize:256,maxzoom:13});
+  const firstSym = (m.getStyle().layers.find(l=>l.type==="symbol")||{}).id;
+  m.addLayer({id:"hill",type:"hillshade",source:"demh",paint:{"hillshade-exaggeration":.8,"hillshade-shadow-color":"#3b4a40","hillshade-highlight-color":"#fffaf0","hillshade-accent-color":"#56664f"}}, firstSym);
+  m.setTerrain({source:"dem",exaggeration:1.5});
+  m.addSource("flood",{type:"geojson",data:fl});
+  m.addLayer({id:"flood-glow",type:"line",source:"flood",paint:{"line-color":"#4fb3e8","line-width":10*glow,"line-blur":8,"line-opacity":.7}}, firstSym);
+  m.addLayer({id:"flood-fill",type:"fill",source:"flood",paint:{"fill-color":"#3d9fd6","fill-opacity":.6}}, firstSym);
+  m.addLayer({id:"flood-edge",type:"line",source:"flood",paint:{"line-color":"#bfe6fa","line-width":1.2,"line-opacity":.9}}, firstSym);
+  try{ m.setSky({"sky-color":"#cfe3ee","horizon-color":"#f3ead9","fog-color":"#f3ead9","sky-horizon-blend":.6,"horizon-fog-blend":.6,"fog-ground-blend":.3}); }catch(e){}
+}
+
+/* ---------- hero flyover ----------
+   A still poster of the same 3D view paints immediately. The live map starts once the page is idle on
+   larger screens, or on the first touch/scroll on phones, so it never delays the first paint. */
+function scheduleHero(){
+  if(REDUCE) return;
+  let started=false; const go=()=>{ if(started) return; started=true; ["pointerdown","pointermove","touchstart","scroll","keydown"].forEach(e=>removeEventListener(e,go));
+    initHero().catch(e=>console.warn("hero map unavailable",e)); };
+  const small=matchMedia("(max-width:700px)").matches || (navigator.connection&&navigator.connection.saveData);
+  ["pointerdown","pointermove","touchstart","scroll","keydown"].forEach(e=>addEventListener(e,go,{once:true,passive:true}));
+  if(!small){ const later=()=>setTimeout(go,5000); document.readyState==="complete" ? later() : addEventListener("load",later,{once:true}); }
+}
+async function initHero(){
+  const eng = await mapEngine(), fl = await floodData();
+  if(eng==="lf"){ const m=L.map("heroMap",{zoomControl:false,attributionControl:true,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false})
+      .setView([35.62,-82.45],9);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(m);
+    L.geoJSON(fl,{style:{color:"#4fb3e8",weight:1,fillColor:"#3d8fbf",fillOpacity:.55}}).addTo(m); return; }
+  heroMap = new maplibregl.Map({container:"heroMap",style:baseStyle(),center:[-82.55,35.6],zoom:9.3,pitch:66,bearing:-30,
+    interactive:false,attributionControl:{compact:true},fadeDuration:0,maxPitch:75});
+  heroMap.once("load",()=>{ const t0=performance.now(), chk=()=> (heroMap.areTilesLoaded() || performance.now()-t0>5000)
+    ? $("#heroMap").classList.add("live") : setTimeout(chk,250); setTimeout(chk,400); });
+  heroMap.on("load",()=>{ heroMap.getStyle().layers.filter(l=>l.type==="symbol").forEach(l=>heroMap.setLayoutProperty(l.id,"visibility","none")); addTerrainAndFlood(heroMap,fl,{glow:1.3}); if(!REDUCE) orbit(); });
+}
+function orbit(){
+  let last=performance.now();
+  const tick=t=>{ const dt=Math.min(64,t-last); last=t;
+    if(heroMap && !document.hidden && $("#s-feed").classList.contains("on") && heroMap.isStyleLoaded()){
+      heroMap.setBearing(heroMap.getBearing()+dt*0.0022);
+      const c=heroMap.getCenter(), a=(t/1000)*0.035; heroMap.setCenter([-82.55+Math.sin(a)*0.18, 35.6+Math.cos(a)*0.08]); }
+    requestAnimationFrame(tick); };
+  requestAnimationFrame(tick);
+}
+
+/* ---------- live check map (MapLibre 3D, Leaflet fallback) ---------- */
+async function initCheckMap(){
+  if(checkMap) return checkMap;
+  const eng = await mapEngine(), fl = await floodData();
+  if(eng==="lf"){
+    const m=L.map("map").setView([35.6,-82.4],8); let pin, layer;
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(m);
+    L.geoJSON(fl,{style:{color:"#2f6f8f",weight:1,fillColor:"#3d8fbf",fillOpacity:.45}})
+      .bindPopup(l=>`Observed flood: ${esc(l.feature.properties.city)}<br><small>${esc(l.feature.properties.sources)}</small>`).addTo(m);
+    return checkMap = {resize:()=>m.invalidateSize(), start(){ if(pin) m.removeLayer(pin); if(layer) m.removeLayer(layer); },
+      result(r){ const L0=r.location||{}; if(L0.lat==null) return;
+        pin=L.circleMarker([L0.lat,L0.lon],{radius:11,color:"#fff",weight:3,fillColor:VCOL[r.verdict],fillOpacity:1}).addTo(m)
+          .bindPopup(`<b>${esc(L0.place)}, ${esc(L0.state)}</b><br>${esc(LABEL[r.verdict])}`);
+        layer=L.layerGroup((r.charities||[]).map(c=>L.circleMarker([c.lat,c.lon],{radius:6,color:"#2e7d4f",fillOpacity:.8}).bindPopup(esc(c.name)))).addTo(m);
+        m.flyTo([L0.lat,L0.lon],10,{duration:REDUCE?0:1.2}); }};
+  }
+  const m = new maplibregl.Map({container:"map",style:baseStyle(),center:REGION.center,zoom:REGION.zoom,pitch:50,bearing:-12,
+    attributionControl:{compact:true},maxPitch:75,cooperativeGestures:matchMedia("(max-width:860px)").matches});
+  m.addControl(new maplibregl.NavigationControl({visualizePitch:true}),"top-right");
+  const ready = new Promise(ok=>m.on("load",()=>{ addTerrainAndFlood(m,fl);
+    m.addSource("links",{type:"geojson",data:{type:"FeatureCollection",features:[]}});
+    m.addLayer({id:"links",type:"line",source:"links",paint:{"line-color":"#2e7d4f","line-width":2,"line-dasharray":[2,1.5],"line-opacity":.85}});
+    m.on("click","flood-fill",e=>{const p=e.features[0].properties; new maplibregl.Popup().setLngLat(e.lngLat)
+      .setHTML(`Observed flood: ${esc(p.city)}<br><small>${esc(p.sources)}</small>`).addTo(m);});
+    ok(); }));
+  let markers=[];
+  const clear=()=>{ markers.forEach(x=>x.remove()); markers=[]; if(m.getSource("links")) m.getSource("links").setData({type:"FeatureCollection",features:[]}); };
+  return checkMap = {
+    resize:()=>m.resize(),
+    async start(){ await ready; clear(); m.flyTo({center:REGION.center,zoom:8.6,pitch:55,bearing:-12,duration:REDUCE?0:1600,essential:true}); },
+    async result(r){ await ready; clear(); const L0=r.location||{}; if(L0.lat==null) return;
+      const wrap=document.createElement("div"), el=document.createElement("div"); el.className="pin"; wrap.appendChild(el);
+      markers.push(new maplibregl.Marker({element:wrap}).setLngLat([L0.lon,L0.lat])
+        .setPopup(new maplibregl.Popup({offset:14}).setHTML(`<b>${esc(L0.place)}, ${esc(L0.state)}</b><br>${esc(LABEL[r.verdict])}`)).addTo(m));
+      m.flyTo({center:[L0.lon,L0.lat],zoom:10.2,pitch:62,bearing:-24,duration:REDUCE?0:2400,essential:true});
+      setTimeout(()=>el.classList.add(r.verdict), REDUCE?0:900);
+      const cs=r.charities||[];
+      m.getSource("links").setData({type:"FeatureCollection",features:cs.map(c=>({type:"Feature",properties:{},geometry:{type:"LineString",coordinates:[[L0.lon,L0.lat],[c.lon,c.lat]]}}))});
+      cs.forEach((c,i)=>setTimeout(()=>{ const cw=document.createElement("div"), ce=document.createElement("div"); ce.className="cpin"; cw.appendChild(ce);
+        markers.push(new maplibregl.Marker({element:cw}).setLngLat([c.lon,c.lat]).setPopup(new maplibregl.Popup({offset:10}).setHTML(esc(c.name))).addTo(m)); },
+        REDUCE?0:1500+i*220));
+      if(cs.length){ setTimeout(()=>{ const b=new maplibregl.LngLatBounds([L0.lon,L0.lat],[L0.lon,L0.lat]); cs.forEach(c=>b.extend([c.lon,c.lat]));
+        m.fitBounds(b,{padding:60,pitch:58,bearing:-24,maxZoom:10.6,duration:REDUCE?0:1800}); }, REDUCE?0:2600); }
+    }};
+}
+
+/* ---------- screens ---------- */
 function show(name){
   document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id==="s-"+name));
   document.querySelectorAll("nav a").forEach(a=>a.classList.toggle("on", a.dataset.s===name));
-  if(name==="check") setTimeout(()=>map && map.invalidateSize(),50);
+  if(name==="check") initCheckMap().then(cm=>setTimeout(()=>cm.resize(),60));
   if(name==="donate") setupDonate();
   if(name==="proof") loadProof();
 }
 window.addEventListener("hashchange",()=>show(location.hash.slice(1)||"feed"));
 
 async function init(){
-  CFG = await (await fetch("/api/config")).json();
+  const boot=setTimeout(()=>$("#boot").classList.add("show"),1200);
+  const slow=setTimeout(()=>{$("#bootNote").textContent="The free server takes about 30 seconds to wake up. Thanks for waiting.";},4000);
+  let appeals;
+  for(let i=0;;i++){ try{ CFG = await (await fetch("/api/config")).json(); appeals = await (await fetch("/api/appeals")).json(); break; }
+    catch(e){ if(i>20) throw e; await new Promise(r=>setTimeout(r,2000)); } }
+  clearTimeout(slow); clearTimeout(boot);
   if(CFG.sample_mode) $("#sampleBadge").style.display="inline-block";
-  const appeals = await (await fetch("/api/appeals")).json();
   $("#feed").innerHTML = appeals.map(a=>`<article class="card post">
     <div class="who"><div class="avatar">${esc(a.handle[1].toUpperCase())}</div>
     <div><div class="handle">${esc(a.handle)}</div><div class="meta">${esc(a.platform)} · ${esc(a.posted_at)}</div></div></div>
@@ -171,28 +462,39 @@ async function init(){
   $("#feed").addEventListener("click",e=>{const id=e.target.dataset.id; if(!id) return;
     const a=appeals.find(x=>x.id===id); runCheck(a.text,a.posted_at,a.handle);});
   $("#pasteGo").onclick=()=>{const t=$("#paste").value.trim(); if(t.length>9) runCheck(t,null,"Pasted appeal");};
-  map = L.map("map").setView([35.6,-82.4],8);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(map);
-  const fl = await (await fetch("/api/flood.geojson")).json();
-  floodLayer = L.geoJSON(fl,{style:{color:"#2f6f8f",weight:1,fillColor:"#3d8fbf",fillOpacity:.45}})
-    .bindPopup(l=>`Observed flood: ${esc(l.feature.properties.city)}<br><small>${esc(l.feature.properties.sources)}</small>`).addTo(map);
   document.querySelectorAll("#amounts button").forEach(b=>b.onclick=()=>{amount=+b.dataset.a;
-    document.querySelectorAll("#amounts button").forEach(x=>x.classList.toggle("on",x===b));});
+    document.querySelectorAll("#amounts button").forEach(x=>x.classList.toggle("on",x===b)); if(!coinBusy) $("#coin").textContent="$"+amount;});
   show(location.hash.slice(1)||"feed");
+  $("#boot").classList.remove("show");
+  const g=G(); if(g && $("#s-feed").classList.contains("on")) g.from("#feed .post:nth-child(-n+9)",{y:18,opacity:0,duration:.6,stagger:.04,ease:"power2.out",clearProps:"all"});
+  scheduleHero();
   const q=new URLSearchParams(location.search).get("appeal");
   if(q){const a=appeals.find(x=>x.id===q); if(a) runCheck(a.text,a.posted_at,a.handle);}
 }
 
+/* ---------- live check ---------- */
+const ticks = {};
 function resetSteps(){
-  $("#steps").innerHTML = STEPS.map(s=>`<li class="step" id="st-${s.replace(/ /g,"")}"><h4><span>${s}</span><span class="small muted ms"></span></h4>
+  Object.values(ticks).forEach(clearInterval);
+  $("#steps").innerHTML = `<span class="prog" id="prog"></span>`+STEPS.map(s=>`<li class="step" id="st-${s.replace(/ /g,"")}"><h4><span>${s}</span><span class="small muted ms"></span></h4>
    <div class="r">${BLURB[s]}</div><div class="rules"></div></li>`).join("");
   $("#verdict").innerHTML=""; $("#charities").innerHTML=""; $("#howPanel").style.display="none";
-  if(pin) map.removeLayer(pin); if(charityLayer) map.removeLayer(charityLayer);
+}
+function moveProg(el){
+  const p=$("#prog"); if(!p) return; const box=$("#steps").getBoundingClientRect(), b=el.getBoundingClientRect();
+  const h=Math.max(0,b.top-box.top+16-18); const g=G();
+  g ? g.to(p,{height:h,duration:.6,ease:"power2.out"}) : (p.style.height=h+"px");
+}
+function countTo(node,to,suffix){
+  const g=G(), from=parseFloat(node.textContent)||0;
+  if(!g){ node.textContent=to+suffix; return; }
+  const o={v:from}; g.to(o,{v:to,duration:.5,ease:"power1.out",onUpdate:()=>node.textContent=Math.round(o.v)+suffix});
 }
 
 async function runCheck(text, posted_at, who){
-  location.hash="check"; resetSteps();
-  $("#appealCard").innerHTML=`<div class="small muted">${esc(who)}${posted_at?" · "+esc(posted_at):""}</div><p style="margin:.3em 0 0;font-size:18px">${esc(text)}</p>`;
+  location.hash="check"; resetSteps(); current=null;
+  initCheckMap().then(cm=>cm.start());
+  $("#appealCard").innerHTML=`<div class="small muted">${esc(who)}${posted_at?" · "+esc(posted_at):""}</div><p style="margin:.3em 0 0;font-size:19px;line-height:1.5">${esc(text)}</p>`;
   const res = await fetch("/api/check/stream",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text,posted_at})});
   const reader = res.body.getReader(); const dec = new TextDecoder(); let buf="";
   while(true){
@@ -208,37 +510,43 @@ async function runCheck(text, posted_at, who){
 }
 
 function onStep(d){
-  const el = $("#st-"+d.step.replace(/ /g,"")); if(!el) return;
+  const key=d.step.replace(/ /g,""), el = $("#st-"+key); if(!el) return;
   el.classList.remove("running","done"); el.classList.add(d.status==="running"?"running":"done");
-  if(d.ms!=null) el.querySelector(".ms").textContent = d.ms+" ms";
-  if(d.status==="skipped") el.querySelector(".ms").textContent="skipped";
-  if(d.rules) el.querySelector(".rules").innerHTML = d.rules.map(r=>`<div class="r"><span class="dot ${r.result}"></span>${esc(r.detail)}</div>`).join("");
+  const ms=el.querySelector(".ms");
+  if(d.status==="running"){ const t0=performance.now(); clearInterval(ticks[key]);
+    ticks[key]=setInterval(()=>ms.textContent=Math.round(performance.now()-t0)+" ms",47); }
+  else clearInterval(ticks[key]);
+  if(d.ms!=null) countTo(ms,d.ms," ms");
+  if(d.status==="skipped") ms.textContent="skipped";
+  if(d.rules){ const box=el.querySelector(".rules");
+    box.innerHTML = d.rules.map(r=>`<div class="r"><span class="dot ${r.result}"></span>${esc(r.detail)}</div>`).join("");
+    const g=G(); if(g) g.from(box.children,{opacity:0,y:6,duration:.45,stagger:.08,ease:"power2.out"}); }
+  moveProg(el);
 }
 
 function onResult(r){
   current = r;
-  const L0 = r.location||{};
-  if(L0.lat!=null){
-    const col = {GREEN:"#2e7d4f",RED:"#b4442f",YELLOW:"#b07d12"}[r.verdict];
-    pin = L.circleMarker([L0.lat,L0.lon],{radius:11,color:"#fff",weight:3,fillColor:col,fillOpacity:1}).addTo(map)
-      .bindPopup(`<b>${esc(L0.place)}, ${esc(L0.state)}</b><br>${esc(LABEL[r.verdict])}`);
-    charityLayer = L.layerGroup((r.charities||[]).map(c=>L.circleMarker([c.lat,c.lon],{radius:6,color:"#2e7d4f",fillOpacity:.8}).bindPopup(esc(c.name)))).addTo(map);
-    map.flyTo([L0.lat,L0.lon],10,{duration:1.2});
-  }
+  Object.values(ticks).forEach(clearInterval);
+  initCheckMap().then(cm=>cm.result(r));
   const pay = r.verdict==="GREEN";
-  $("#verdict").innerHTML = `<div class="verdict ${r.verdict}">
-    <h2>${LABEL[r.verdict]}</h2>
+  $("#verdict").innerHTML = `<div class="verdict ${r.verdict} reveal">
+    <div class="vhead"><h2>${LABEL[r.verdict]}</h2><span class="badge-poster">Poster paid: <b>false</b></span></div>
     <div class="chips">${(r.reasons||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div>
     <p style="font-size:18px;margin:.4em 0">${esc(r.explanation||"")}</p>
     <p class="muted">${pay?"Your gift will be split between the verified local charities below. The poster is never paid."
       :"Lifeline will not move money for this appeal."+(r.redirect?` Instead, consider <b>${esc(r.redirect.name)}</b> (${esc(r.redirect.city)}), a verified local charity nearby.`:"")}</p>
     <div class="row"><a class="btn" href="#donate">${pay?"Donate to verified charities":"Donate safely instead"}</a>
     <span class="small muted">Checked in ${r.elapsed_s}s</span></div></div>`;
+  const g=G(); if(g){ const v=$("#verdict .verdict");
+    g.from(v,{opacity:0,y:24,scale:.97,duration:.8,ease:"power3.out"});
+    g.from(v.querySelector("h2"),{opacity:0,letterSpacing:"0.12em",duration:.9,ease:"power3.out",delay:.1});
+    g.from(v.querySelectorAll(".chip,.badge-poster"),{opacity:0,y:8,scale:.9,duration:.4,stagger:.08,delay:.35,ease:"back.out(2)"}); }
   if((r.charities||[]).length){
     $("#charities").innerHTML = `<h3>Eligible local charities (IRS register evidence)</h3><div class="charities">`+
       r.charities.map(c=>{const raw=JSON.parse(c.raw);return `<div class="card"><b>${esc(c.name)}</b>
        <div class="muted small">${esc(c.city)} · NTEE ${esc(c.ntee)} · ${c.distance_km} km · EIN ${esc(c.ein)}</div>
        <details><summary>Register row</summary><div class="mono">${esc(JSON.stringify(raw))}</div></details></div>`}).join("")+"</div>";
+    if(g) g.from("#charities .card",{opacity:0,y:16,duration:.5,stagger:.1,delay:.5,ease:"power2.out"});
   }
   $("#howPanel").style.display="block";
   $("#rulesTable tbody").innerHTML = r.rules.map(x=>`<tr><td>${esc(x.step)}</td><td><span class="dot ${x.result}"></span>${esc(x.rule)}</td>
@@ -246,7 +554,38 @@ function onResult(r){
   $("#hashes").textContent = `inputs_sha256 ${r.inputs_sha256}\nverdict_sha256 ${r.verdict_sha256}`;
 }
 
+/* ---------- donate ---------- */
+let coinBusy=false;
+function setupStage(){
+  const r=current, coin=$("#coin"); coinBusy=false;
+  coin.className="coin"; coin.style.cssText=""; coin.textContent="$"+amount; document.querySelectorAll(".coin.mini,.delivered").forEach(x=>x.remove());
+  $("#stageState").textContent = r ? "Your gift" : "Run a check first";
+  const cs = (r&&r.charities||[]).slice(0,3);
+  $("#slots").innerHTML = (r && r.verdict==="GREEN" ? cs : []).map(c=>`<div class="slot"><b>${esc(c.name)}</b><span class="muted">${esc(c.city)}</span><div class="amt">&nbsp;</div></div>`).join("")
+    || (r ? `<div class="slot" style="grid-column:1/-1"><b>No charity is paid for this appeal.</b><span class="muted">The hold is voided, so you are not charged.</span></div>` : "");
+}
+function animateSettle(rc){
+  const coin=$("#coin"), paid=rc.action.startsWith("CAPTURED"), g=G();
+  coinBusy=true; coin.classList.add("held");
+  if(!paid){ $("#stageState").textContent="Hold voided · not charged"; coin.classList.add("voided"); return; }
+  $("#stageState").textContent="Captured · split to charities";
+  const slots=[...document.querySelectorAll(".slot")], box=$("#coinbox").getBoundingClientRect();
+  (rc.payouts||[]).forEach((p,i)=>{ const s=slots.find(x=>x.querySelector("b").textContent===p.charity)||slots[i]; if(!s) return;
+    s.querySelector(".amt").textContent="$"+p.amount;
+    const m=document.createElement("div"); m.className="coin mini"; m.textContent="$"+Math.round(p.amount); $("#coinbox").appendChild(m);
+    const t=s.getBoundingClientRect(), dx=t.left+t.width/2-(box.left+box.width/2), dy=t.top+t.height/2-(box.top+box.height/2);
+    if(g){ g.timeline({delay:.25+i*.15})
+        .fromTo(m,{scale:.4,opacity:0},{scale:1,opacity:1,x:(i-1)*56,duration:.45,ease:"back.out(2)"})
+        .to(m,{x:dx,y:dy,scale:.55,duration:.9,ease:"power2.inOut"})
+        .to(m,{opacity:0,duration:.25,onComplete:()=>s.classList.add("hit")}); }
+    else { m.remove(); s.classList.add("hit"); } });
+  const done=document.createElement("div"); done.className="delivered"; done.innerHTML=`<b>$${esc(rc.amount)}</b> delivered to ${(rc.payouts||[]).length} charities<br><span class="muted small">Poster paid: ${rc.poster_paid}</span>`;
+  if(g){ g.to(coin,{scale:.2,opacity:0,duration:.5,delay:.2,ease:"power2.in"}); g.delayedCall(1.9,()=>{ $("#coinbox").appendChild(done); g.from(done,{opacity:0,y:8,duration:.5}); }); }
+  else { coin.style.opacity=0; $("#coinbox").appendChild(done); }
+}
+
 function setupDonate(){
+  setupStage();
   if(!current){ $("#donateIntro").textContent="Run a check first, from the Appeals feed."; return; }
   const r=current, pl=(r.location||{}).place||"this appeal";
   $("#donateIntro").innerHTML = r.verdict==="GREEN"
@@ -268,6 +607,7 @@ function setupDonate(){
 
 async function settle(orderID){
   let oid = orderID;
+  coinBusy=true; $("#coin").classList.add("held"); $("#stageState").textContent="Held by PayPal · checking";
   if(CFG.sample_mode){ const o=await (await fetch("/api/paypal/order",{method:"POST",headers:{"Content-Type":"application/json"},
        body:JSON.stringify({check_id:current.check_id,amount})})).json(); oid=o.id; }
   const res = await fetch("/api/paypal/settle",{method:"POST",headers:{"Content-Type":"application/json"},
@@ -275,7 +615,7 @@ async function settle(orderID){
   const rc = await res.json();
   if(!res.ok){ $("#receipt").innerHTML=`<div class="card">Payment step failed: <span class="mono">${esc(JSON.stringify(rc))}</span></div>`; return; }
   const paid = rc.action.startsWith("CAPTURED");
-  $("#receipt").innerHTML = `<div class="verdict ${paid?"GREEN":"YELLOW"}"><h2>${paid?"Thank you. Your gift reached the flood.":"You were not charged."}</h2>
+  $("#receipt").innerHTML = `<div class="verdict ${paid?"GREEN":"YELLOW"} reveal"><h2>${paid?"Thank you. Your gift reached the flood.":"You were not charged."}</h2>
    <p>${rc.sample_mode?"<b>SAMPLE MODE</b> · ":""}${esc(rc.action)} · $${esc(rc.amount)} · authorization ${esc(rc.authorization_id)}</p>
    ${rc.note?`<p class="muted">${esc(rc.note)} (${esc(rc.payout_error||"")}: ${esc(rc.payout_error_message||"")})</p>`:""}
    ${rc.redirect?`<p>Suggested instead: <b>${esc(rc.redirect.charity)}</b>, ${esc(rc.redirect.city)} (EIN ${esc(rc.redirect.ein)})</p>`:""}
@@ -284,27 +624,43 @@ async function settle(orderID){
      <td>$${esc(p.amount)}</td><td class="mono">${esc(p.receiver)}</td>
      <td><details><summary>IRS row + satellite</summary><div class="mono">${esc(JSON.stringify(p.register_row))}<br><br>${esc(JSON.stringify(p.satellite_evidence))}</div></details></td></tr>`).join("")+"</table></div>":""}
    <p class="mono">receipt_sha256 ${esc(rc.receipt_sha256)}<br>verdict_sha256 ${esc(rc.verdict_sha256)}<br>Poster paid: ${rc.poster_paid}</p></div>`;
+  animateSettle(rc);
 }
 
+/* ---------- proof ---------- */
+function bar(label,v,max,cls,fmt){ return `<div class="bar ${cls}"><span>${label}</span><div class="track"><div class="fill" data-w="${max?Math.max(1.5,v/max*100):0}"></div></div><span class="val">${fmt(v)}</span></div>`; }
 async function loadProof(){
   const r = await fetch("/api/proof"); if(!r.ok){ $("#proofBody").textContent="No evaluation run yet."; return; }
   const d = await r.json(), L0=d.lifeline, B=d.baseline;
+  const usd=v=>"$"+v, pct=v=>Math.round(v)+"%", of15=v=>v+" of 15";
   $("#proofBody").innerHTML = `
-   <div class="card" style="margin:14px 0"><p style="font-size:20px;margin:0">LLM alone would have sent <b>$${B.paid_unverified_usd}</b> of donor money to unverified appeals
+   <div class="card" style="margin:16px 0"><p style="font-size:20px;margin:0">LLM alone would have sent <b>$${B.paid_unverified_usd}</b> of donor money to unverified appeals
      and funded only <b>${B.paid_genuine_count} of 15</b> genuine ones. Lifeline: <b>$${L0.paid_unverified_usd}</b>, and funded <b>${L0.paid_genuine_count} of 15</b>.</p></div>
    <div class="score">
-    <div class="card"><div class="muted">Accuracy</div><div class="big">${(L0.accuracy*100).toFixed(0)}%</div><div class="muted">LLM alone ${(B.accuracy*100).toFixed(0)}%</div></div>
-    <div class="card"><div class="muted">Unverified appeals paid</div><div class="big">${L0.paid_unverified_count}</div><div class="muted">LLM alone ${B.paid_unverified_count}</div></div>
-    <div class="card"><div class="muted">Red-team attacks stopped</div><div class="big">${L0.red_team_stopped}/5</div><div class="muted">LLM alone ${B.red_team_stopped}/5</div></div>
-    <div class="card"><div class="muted">Avg check time</div><div class="big">${L0.avg_check_s}s</div><div class="muted">LLM alone ${B.avg_check_s}s</div></div>
+    <div class="card"><div class="muted">Accuracy</div><div class="big" data-count="${(L0.accuracy*100).toFixed(0)}" data-suf="%">${(L0.accuracy*100).toFixed(0)}%</div><div class="muted">LLM alone ${(B.accuracy*100).toFixed(0)}%</div></div>
+    <div class="card"><div class="muted">Unverified appeals paid</div><div class="big" data-count="${L0.paid_unverified_count}">${L0.paid_unverified_count}</div><div class="muted">LLM alone ${B.paid_unverified_count}</div></div>
+    <div class="card"><div class="muted">Red-team attacks stopped</div><div class="big" data-count="${L0.red_team_stopped}" data-suf="/5">${L0.red_team_stopped}/5</div><div class="muted">LLM alone ${B.red_team_stopped}/5</div></div>
+    <div class="card"><div class="muted">Avg check time</div><div class="big" data-count="${L0.avg_check_s}" data-dec="2" data-suf="s">${L0.avg_check_s}s</div><div class="muted">LLM alone ${B.avg_check_s}s</div></div>
    </div>
-   <p class="small muted">Run: ${esc(d.tag)} · ${esc(d.mode)} · model ${esc(d.llm)} · key sha256 ${esc(d.key_sha256)}</p>
+   <div class="card bars" style="margin:0 0 16px">
+    <div class="bar-row"><h4>Accuracy on 40 labelled appeals</h4>
+      ${bar("LLM alone",B.accuracy*100,100,"base",pct)}${bar("Lifeline",L0.accuracy*100,100,"life",pct)}</div>
+    <div class="bar-row"><h4>Donor money sent to unverified appeals</h4>
+      ${bar("LLM alone",B.paid_unverified_usd,Math.max(B.paid_unverified_usd,L0.paid_unverified_usd),"base",usd)}${bar("Lifeline",L0.paid_unverified_usd,Math.max(B.paid_unverified_usd,L0.paid_unverified_usd),"life",usd)}</div>
+    <div class="bar-row"><h4>Genuine appeals funded</h4>
+      ${bar("LLM alone",B.paid_genuine_count,15,"base",of15)}${bar("Lifeline",L0.paid_genuine_count,15,"life",of15)}</div>
+   </div>
+   <p class="small muted" style="overflow-wrap:anywhere">Run: ${esc(d.tag)} · ${esc(d.mode)} · model ${esc(d.llm)} · key sha256 ${esc(d.key_sha256)}</p>
    <div class="card tablewrap"><table><tr><th>Appeal</th><th>Expected</th><th>LLM alone</th><th>Lifeline</th></tr>`+
    d.rows.map(x=>`<tr><td><span class="small muted">${esc(x.id)}</span><br>${esc(x.text)}</td><td class="v ${x.expect.expect}">${LABEL[x.expect.expect]}<br><span class="small muted">${esc(x.expect.reason||"")}</span></td>
      <td class="v ${x.baseline.verdict}">${LABEL[x.baseline.verdict]}</td>
      <td class="v ${x.lifeline.verdict}">${LABEL[x.lifeline.verdict]}${x.lifeline.verdict!==x.expect.expect?" ✗":""}<br><span class="small muted">${esc(x.lifeline.reasons.join(", "))}</span></td></tr>`).join("")+`</table></div>`;
+  const g=G();
+  document.querySelectorAll("#proofBody [data-count]").forEach(n=>{ if(!g) return; const to=+n.dataset.count, dec=+(n.dataset.dec||0), suf=n.dataset.suf||"", o={v:0};
+    n.textContent=(0).toFixed(dec)+suf; g.to(o,{v:to,duration:1.6,ease:"power2.out",onUpdate:()=>n.textContent=o.v.toFixed(dec)+suf}); });
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll("#proofBody .fill").forEach(f=>f.style.width=f.dataset.w+"%")));
 }
-init();
+init().catch(e=>{ $("#bootNote").textContent="Lifeline could not reach its server. Please refresh in a moment."; console.error(e); });
 </script>
 </body>
 </html>

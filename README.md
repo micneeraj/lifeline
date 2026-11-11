@@ -4,7 +4,13 @@
 
 **Lifeline** checks every appeal against real satellite flood maps. PayPal then pays **only verified, registered local charities** in the flooded area, never the stranger who posted it.
 
-![Live check](docs/screenshots/check-green.png)
+![Appeals feed with the 3D Helene flood flyover](docs/screenshots/feed.png)
+
+| Live check: Marshall, 3D terrain map | Verdict: prompt injection refused |
+|---|---|
+| ![Live check](docs/screenshots/check-green.png) | ![Not verified](docs/screenshots/check-red-verdict.png) |
+| **Donate: the PayPal hold splits to 3 verified charities** | **Proof: LLM alone vs Lifeline** |
+| ![Donate](docs/screenshots/donate.png) | ![Proof](docs/screenshots/proof.png) |
 
 ## How it works
 
@@ -68,6 +74,8 @@ Other entry points: `python run.py --eval --tag v2` (live eval) and `python scri
 Real data, cached offline (see [data/SOURCES.md](data/SOURCES.md)): **ICEYE FSD-2227 Hurricane Helene observed flood extent** (SAR + Sentinel-1/2), **FEMA OpenFEMA DR-4827-NC**, **IRS EO BMF (NC)**, **IRS Pub 78**, **IRS auto-revocation list**, **OFAC SDN**, **US Census Gazetteer + Geocoder**.
 
 **Relief NTEE codes accepted:** M20 Disaster Preparedness & Relief · M23 Search & Rescue · M24 Volunteer fire · M99 Public Safety/Disaster N.E.C. · P60 Emergency Assistance · P20 Human Service Orgs · L41 Homeless Shelters · K30 Food Programs · K31 Food Banks & Pantries · K34 Congregate Meals.
+
+**Web UI:** one static page (`static/index.html`), no build step. Open-source libraries from CDNs, pinned: **MapLibre GL JS 4.7.1** (3D terrain map), **GSAP 3.12.5** (animation), **Leaflet 1.9.4** (2D fallback when WebGL is unavailable). Basemap: **OpenFreeMap** (© OpenMapTiles, © OpenStreetMap contributors). Terrain: **Mapzen / AWS Terrain Tiles** (Terrarium). No map API keys. Honours `prefers-reduced-motion`.
 
 Charity eligibility rules: present in Pub 78, not on the auto-revocation list (or reinstated), not an OFAC SDN name (exact, or fuzzy ≥95), within 40 km, and IRS ruling date before the event. Organisations formed after the storm are skipped as payees.
 
