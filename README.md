@@ -26,15 +26,17 @@ Take one test appeal from the set, modelled on a real place: "Jess" posts from M
 
 **Lifeline** checks every appeal against real satellite flood maps. PayPal then pays **only registered, eligibility-screened local charities** in the flooded area, never the stranger who posted it.
 
-![Appeals feed with the 3D Helene flood flyover](docs/screenshots/feed.png)
+![Appeals feed with the 3D Helene flood flyover](docs/screenshots/01-appeals.png)
 
 | Live check: Marshall, 3D terrain map | Verdict: Marshall VERIFIED |
 |---|---|
-| ![Live check](docs/screenshots/check-green.png) | ![Verified](docs/screenshots/check-green-verdict.png) |
-| **Live check: Asheville appeal with a hidden "system note"** | **Verdict: prompt injection refused** |
-| ![Live check, injection](docs/screenshots/check-red.png) | ![Not verified](docs/screenshots/check-red-verdict.png) |
-| **Donate: the PayPal authorization splits to 3 screened local charities** | **Proof: 38 of 40 test appeals correct** |
-| ![Donate](docs/screenshots/donate.png) | ![Proof](docs/screenshots/proof.png) |
+| ![Marshall check](docs/screenshots/03-marshall-check.png) | ![Marshall verified](docs/screenshots/04-marshall-verified.png) |
+| **Raleigh: not in the declaration or the flood area** | **Asheville appeal with a hidden "system note"** |
+| ![Raleigh not verified](docs/screenshots/05-raleigh-not-verified.png) | ![Asheville check](docs/screenshots/06-asheville-injection-check.png) |
+| **Verdict: prompt injection refused** | **Donate with a request for charity follow-up** |
+| ![Asheville not verified](docs/screenshots/07-asheville-not-verified.png) | ![Donate](docs/screenshots/08-donate-followup.png) |
+| **Receipt: split by Payouts, paid to the person who posted: $0** | **Proof: 38 of 40 test appeals correct** |
+| ![Receipt](docs/screenshots/09-donate-receipt.png) | ![Proof](docs/screenshots/02-proof.png) |
 
 ## What Lifeline verifies, and what it doesn't
 
@@ -135,7 +137,7 @@ Every verdict and receipt carries a SHA-256 of its inputs and evidence. `python 
 
 **The LLM alone would have sent $100 of donor money to unverified appeals. Lifeline: $0.** The LLM approved the lookalike-charity attack, and it funded only 1 of 15 real appeals. Lifeline had two honest misses, both of which held money rather than losing it. Full details, misses and the before/after table: [eval/RESULTS.md](eval/RESULTS.md).
 
-![Proof](docs/screenshots/proof.png)
+![Proof](docs/screenshots/02-proof.png)
 
 ## Run it
 
