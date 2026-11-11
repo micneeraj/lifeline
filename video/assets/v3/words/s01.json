@@ -1,0 +1,86 @@
+[
+  {
+    "id": "w0",
+    "text": "When",
+    "start": 0,
+    "end": 0.16
+  },
+  {
+    "id": "w1",
+    "text": "Hurricane",
+    "start": 0.16,
+    "end": 0.56
+  },
+  {
+    "id": "w2",
+    "text": "Helene",
+    "start": 0.56,
+    "end": 1.04
+  },
+  {
+    "id": "w3",
+    "text": "hit",
+    "start": 1.2,
+    "end": 1.44
+  },
+  {
+    "id": "w4",
+    "text": "North",
+    "start": 1.44,
+    "end": 1.68
+  },
+  {
+    "id": "w5",
+    "text": "Carolina,",
+    "start": 1.68,
+    "end": 2.4
+  },
+  {
+    "id": "w6",
+    "text": "the",
+    "start": 2.4,
+    "end": 2.56
+  },
+  {
+    "id": "w7",
+    "text": "water",
+    "start": 2.56,
+    "end": 2.88
+  },
+  {
+    "id": "w8",
+    "text": "came",
+    "start": 2.88,
+    "end": 3.2
+  },
+  {
+    "id": "w9",
+    "text": "fast,",
+    "start": 3.2,
+    "end": 3.84
+  },
+  {
+    "id": "w10",
+    "text": "the",
+    "start": 3.84,
+    "end": 4
+  },
+  {
+    "id": "w11",
+    "text": "appeals",
+    "start": 4,
+    "end": 4.56
+  },
+  {
+    "id": "w12",
+    "text": "came",
+    "start": 4.56,
+    "end": 4.8
+  },
+  {
+    "id": "w13",
+    "text": "faster.",
+    "start": 4.8,
+    "end": 5.28
+  }
+]

@@ -1,0 +1,36 @@
+<template>
+<style>
+@font-face{font-family:'Fraunces';src:url('assets/fonts/Fraunces.woff2') format('woff2');font-weight:100 900;font-style:normal;}
+#root{position:absolute;inset:0;overflow:hidden;background:#0f2430;font-family:Inter,sans-serif;color:#22313a;}
+#root .wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;}
+#root .wrap video{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;}
+#root .page{position:absolute;left:0;top:0;width:1920px;transform-origin:0 0;}
+#root .page img{display:block;width:1920px;}
+.rclip{position:absolute;left:0;top:0;width:1920px;height:907px;overflow:hidden;}
+.rshift{position:absolute;left:0;top:-86px;width:1920px;height:1080px;}
+.mlab.stem:before{content:"";position:absolute;left:50%;top:100%;width:4px;margin-left:-2px;height:70px;background:#fffdf9;box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.ring{position:absolute;border-radius:14px;border:4px solid #4fb3e8;box-shadow:0 0 0 6px rgba(79,179,232,.22),0 0 28px rgba(79,179,232,.55);opacity:0;}
+.mlab{position:absolute;left:0;top:0;margin-top:-26px;padding:10px 20px;border-radius:999px;background:#fffdf9;color:#22313a;font:700 34px Inter;white-space:nowrap;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translate(-50%,-100%);}
+.mlab:after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:#fffdf9;}
+#sc-bg{position:absolute;inset:0;background:radial-gradient(1200px 700px at 50% 40%,#1d4357,#0f2430 72%);}
+#sc-stack{position:absolute;inset:0;transform-origin:50% 45%;}
+.sc-card{position:absolute;width:1180px;padding:28px 40px 24px;background:#fbf8f1;border-radius:6px;border-top:6px solid #22313a;box-shadow:0 30px 70px -26px rgba(0,0,0,.65);}
+.sc-k{font:700 28px Inter;letter-spacing:.18em;text-transform:uppercase;color:#b4442f;}
+.sc-h{font:600 48px/1.12 Fraunces,serif;color:#22313a;margin:10px 0 12px;letter-spacing:-.01em;}
+.sc-src{font:500 28px Inter;color:#5f6b70;border-top:1px solid #e6ddd0;padding-top:10px;}
+#sc-lab{position:absolute;right:120px;top:44px;font:600 28px Inter;color:#9fd3ee;letter-spacing:.06em;}
+</style>
+<div id="root" data-composition-id="scams" data-width="1920" data-height="1080">
+<div id="sc-bg"></div><div id="sc-lab">Real public warnings, paraphrased.</div><div id="sc-stack"><div class="sc-card" id="sc-c0" style="left:300px;top:110px"><div class="sc-k">Public warning</div>
+<div class="sc-h">North Carolina&rsquo;s Attorney General warns of charity scams after Helene</div><div class="sc-src">Source: NC Department of Justice &middot; Oct 2024</div></div><div class="sc-card" id="sc-c1" style="left:370px;top:360px"><div class="sc-k">Public warning</div>
+<div class="sc-h">U.S. Attorney urges western North Carolina to beware of disaster scams</div><div class="sc-src">Source: U.S. Attorney&rsquo;s Office, W.D.N.C. &middot; Oct 2024</div></div><div class="sc-card" id="sc-c2" style="left:440px;top:610px"><div class="sc-k">Public warning</div>
+<div class="sc-h">FEMA warns survivors and donors about Helene scams</div><div class="sc-src">Source: FEMA &middot; 2024</div></div></div>
+</div>
+<script>
+const tl = gsap.timeline({paused:true});
+tl.fromTo("#sc-bg",{opacity:0},{opacity:1,duration:0.3,ease:"power1.out"},0.00);tl.fromTo("#sc-lab",{opacity:0,y:-10},{opacity:1,y:0,duration:0.5},0.3);tl.fromTo("#sc-c0",{x:900,opacity:0,rotation:3},{x:0,opacity:1,rotation:-1.2,duration:0.75,ease:"power3.out"},0.4);tl.to("#sc-c0",{opacity:0.72,duration:0.5},1.7999999999999998);tl.fromTo("#sc-c1",{x:900,opacity:0,rotation:1},{x:0,opacity:1,rotation:0.8,duration:0.75,ease:"power3.out"},1.7999999999999998);tl.to("#sc-c1",{opacity:0.72,duration:0.5},3.1999999999999997);tl.fromTo("#sc-c2",{x:900,opacity:0,rotation:-1},{x:0,opacity:1,rotation:-0.4,duration:0.75,ease:"power3.out"},3.1999999999999997);tl.to("#sc-stack",{scale:1.03,duration:7.1,ease:"none"},0.5);
+tl.set({},{},7.59);
+window.__timelines["scams"] = tl;
+</script>
+</template>

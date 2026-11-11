@@ -1,0 +1,39 @@
+<template>
+<style>
+@font-face{font-family:'Fraunces';src:url('assets/fonts/Fraunces.woff2') format('woff2');font-weight:100 900;font-style:normal;}
+#root{position:absolute;inset:0;overflow:hidden;background:#0f2430;font-family:Inter,sans-serif;color:#22313a;}
+#root .wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;}
+#root .wrap video{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;}
+#root .page{position:absolute;left:0;top:0;width:1920px;transform-origin:0 0;}
+#root .page img{display:block;width:1920px;}
+.rclip{position:absolute;left:0;top:0;width:1920px;height:907px;overflow:hidden;}
+.rshift{position:absolute;left:0;top:-86px;width:1920px;height:1080px;}
+.mlab.stem:before{content:"";position:absolute;left:50%;top:100%;width:4px;margin-left:-2px;height:70px;background:#fffdf9;box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.ring{position:absolute;border-radius:14px;border:4px solid #4fb3e8;box-shadow:0 0 0 6px rgba(79,179,232,.22),0 0 28px rgba(79,179,232,.55);opacity:0;}
+.mlab{position:absolute;left:0;top:0;margin-top:-26px;padding:10px 20px;border-radius:999px;background:#fffdf9;color:#22313a;font:700 34px Inter;white-space:nowrap;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translate(-50%,-100%);}
+.mlab:after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:#fffdf9;}
+#ps-bg{position:absolute;inset:0;background:radial-gradient(1200px 720px at 50% 42%,#1d4357,#0f2430 72%);}
+#ps-box{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:50% 42%;}
+#ps-plate{position:absolute;left:750px;top:90px;width:420px;height:150px;border-radius:24px;background:#fff;display:grid;place-items:center;box-shadow:0 24px 60px -24px rgba(0,0,0,.7)}
+#ps-plate img{width:300px;height:85px}
+#ps-h{position:absolute;left:0;width:1920px;top:300px;text-align:center;font:700 96px Fraunces,serif;color:#fffaf1;letter-spacing:-.01em}
+#ps-row{position:absolute;left:0;width:1920px;top:480px;display:flex;justify-content:center;align-items:center;gap:26px}
+.ps-st{padding:26px 40px;border-radius:22px;background:#fffdf9;color:#22313a;font:700 54px Inter;box-shadow:0 20px 50px -20px rgba(0,0,0,.7)}
+.ps-st.cap{background:#2e7d4f;color:#fff}
+.ps-ar{color:#9fd3ee;font:700 60px Inter}
+#ps-or{position:absolute;left:580px;width:760px;top:680px;text-align:center;padding:22px 0;border-radius:22px;border:3px solid #f0a08e;color:#ffd9cf;font:700 50px Inter}
+</style>
+<div id="root" data-composition-id="ppslide" data-width="1920" data-height="1080">
+<div id="ps-bg"></div><div id="ps-box"><div id="ps-plate"><img src="assets/brand/paypal-color.svg" alt="PayPal"></div>
+<div id="ps-h">Only possible with PayPal</div>
+<div id="ps-row"><span class="ps-st" id="ps-a">Authorize</span><span class="ps-ar" id="ps-r1">&rarr;</span><span class="ps-st" id="ps-v">Verify</span><span class="ps-ar" id="ps-r2">&rarr;</span><span class="ps-st cap" id="ps-c">Capture &amp; split</span></div>
+<div id="ps-or">or Void: never charged</div></div>
+</div>
+<script>
+const tl = gsap.timeline({paused:true});
+tl.fromTo("#ps-bg",{opacity:0},{opacity:1,duration:0.3,ease:"power1.out"},0.00);tl.fromTo("#ps-plate",{opacity:0,y:-16},{opacity:1,y:0,duration:0.6,ease:"power2.out"},0.15);tl.fromTo("#ps-h",{opacity:0,y:20},{opacity:1,y:0,duration:0.7,ease:"power3.out"},0.35);tl.fromTo("#ps-a",{opacity:0,y:24},{opacity:1,y:0,duration:0.45,ease:"power3.out"},2.72);tl.fromTo(["#ps-r1","#ps-v"],{opacity:0,y:24},{opacity:1,y:0,duration:0.45,stagger:0.1,ease:"power3.out"},4.14);tl.fromTo(["#ps-r2","#ps-c"],{opacity:0,y:24},{opacity:1,y:0,duration:0.45,stagger:0.1,ease:"power3.out"},4.64);tl.fromTo("#ps-or",{opacity:0,scale:1.15},{opacity:1,scale:1,duration:0.45,ease:"back.out(2)"},8.80);tl.fromTo("#ps-box",{scale:1},{scale:1.06,duration:11.89,ease:"none"},0);
+tl.set({},{},11.88);
+window.__timelines["ppslide"] = tl;
+</script>
+</template>

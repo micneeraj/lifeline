@@ -1,0 +1,164 @@
+[
+  {
+    "id": "w0",
+    "text": "This",
+    "start": 0,
+    "end": 0.24
+  },
+  {
+    "id": "w1",
+    "text": "is",
+    "start": 0.24,
+    "end": 0.4
+  },
+  {
+    "id": "w2",
+    "text": "only",
+    "start": 0.4,
+    "end": 0.64
+  },
+  {
+    "id": "w3",
+    "text": "possible",
+    "start": 0.64,
+    "end": 0.96
+  },
+  {
+    "id": "w4",
+    "text": "with",
+    "start": 0.96,
+    "end": 1.2
+  },
+  {
+    "id": "w5",
+    "text": "PayPal.",
+    "start": 1.2,
+    "end": 2.32
+  },
+  {
+    "id": "w6",
+    "text": "Authorize",
+    "start": 2.32,
+    "end": 3.12
+  },
+  {
+    "id": "w7",
+    "text": "without",
+    "start": 3.12,
+    "end": 3.44
+  },
+  {
+    "id": "w8",
+    "text": "charging,",
+    "start": 3.44,
+    "end": 4.24
+  },
+  {
+    "id": "w9",
+    "text": "capture",
+    "start": 4.24,
+    "end": 4.8
+  },
+  {
+    "id": "w10",
+    "text": "only",
+    "start": 4.8,
+    "end": 5.04
+  },
+  {
+    "id": "w11",
+    "text": "when",
+    "start": 5.04,
+    "end": 5.28
+  },
+  {
+    "id": "w12",
+    "text": "the",
+    "start": 5.28,
+    "end": 5.36
+  },
+  {
+    "id": "w13",
+    "text": "evidence",
+    "start": 5.36,
+    "end": 5.84
+  },
+  {
+    "id": "w14",
+    "text": "passes,",
+    "start": 5.84,
+    "end": 6.56
+  },
+  {
+    "id": "w15",
+    "text": "split",
+    "start": 6.56,
+    "end": 7.04
+  },
+  {
+    "id": "w16",
+    "text": "to",
+    "start": 7.04,
+    "end": 7.2
+  },
+  {
+    "id": "w17",
+    "text": "local",
+    "start": 7.2,
+    "end": 7.52
+  },
+  {
+    "id": "w18",
+    "text": "charities,",
+    "start": 7.52,
+    "end": 8.16
+  },
+  {
+    "id": "w19",
+    "text": "or",
+    "start": 8.16,
+    "end": 8.4
+  },
+  {
+    "id": "w20",
+    "text": "void,",
+    "start": 8.4,
+    "end": 8.96
+  },
+  {
+    "id": "w21",
+    "text": "and",
+    "start": 8.96,
+    "end": 9.2
+  },
+  {
+    "id": "w22",
+    "text": "the",
+    "start": 9.2,
+    "end": 9.28
+  },
+  {
+    "id": "w23",
+    "text": "donor",
+    "start": 9.28,
+    "end": 9.76
+  },
+  {
+    "id": "w24",
+    "text": "is",
+    "start": 9.76,
+    "end": 9.92
+  },
+  {
+    "id": "w25",
+    "text": "never",
+    "start": 9.92,
+    "end": 10.16
+  },
+  {
+    "id": "w26",
+    "text": "charged.",
+    "start": 10.16,
+    "end": 10.72
+  }
+]

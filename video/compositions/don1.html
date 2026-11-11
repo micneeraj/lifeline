@@ -1,0 +1,27 @@
+<template>
+<style>
+@font-face{font-family:'Fraunces';src:url('assets/fonts/Fraunces.woff2') format('woff2');font-weight:100 900;font-style:normal;}
+#root{position:absolute;inset:0;overflow:hidden;background:#f7f3ec;font-family:Inter,sans-serif;color:#22313a;}
+#root .wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;}
+#root .wrap video{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;}
+#root .page{position:absolute;left:0;top:0;width:1920px;transform-origin:0 0;}
+#root .page img{display:block;width:1920px;}
+.rclip{position:absolute;left:0;top:0;width:1920px;height:907px;overflow:hidden;}
+.rshift{position:absolute;left:0;top:-86px;width:1920px;height:1080px;}
+.mlab.stem:before{content:"";position:absolute;left:50%;top:100%;width:4px;margin-left:-2px;height:70px;background:#fffdf9;box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.ring{position:absolute;border-radius:14px;border:4px solid #4fb3e8;box-shadow:0 0 0 6px rgba(79,179,232,.22),0 0 28px rgba(79,179,232,.55);opacity:0;}
+.mlab{position:absolute;left:0;top:0;margin-top:-26px;padding:10px 20px;border-radius:999px;background:#fffdf9;color:#22313a;font:700 34px Inter;white-space:nowrap;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translate(-50%,-100%);}
+.mlab:after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:#fffdf9;}
+
+</style>
+<div id="root" data-composition-id="don1" data-width="1920" data-height="1080">
+<div class="wrap" id="d1-w"><video id="don1-v0" class="clip" src="assets/rec3/donate.mp4" data-start="0" data-duration="5.49" data-media-start="2.0" muted playsinline></video><div class="ring" id="d1-r1" style="left:251px;top:334px;width:238px;height:104px"></div></div>
+</div>
+<script>
+const tl = gsap.timeline({paused:true});
+tl.to("#d1-w",{x:-258.6,y:-125.6,scale:1.28,duration:0.01,ease:"sine.inOut"},0.00);tl.to("#d1-w",{x:-258.6,y:-138.4,scale:1.28,duration:5.49,ease:"none"},0.01);tl.fromTo("#d1-r1",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.4,ease:"power2.out"},1.74);
+tl.set({},{},5.48);
+window.__timelines["don1"] = tl;
+</script>
+</template>

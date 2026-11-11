@@ -1,0 +1,32 @@
+[
+  {
+    "id": "w0",
+    "text": "Now",
+    "start": 0,
+    "end": 0.24
+  },
+  {
+    "id": "w1",
+    "text": "with",
+    "start": 0.24,
+    "end": 0.4
+  },
+  {
+    "id": "w2",
+    "text": "PayPal",
+    "start": 0.4,
+    "end": 1.12
+  },
+  {
+    "id": "w3",
+    "text": "it's",
+    "start": 1.2,
+    "end": 1.44
+  },
+  {
+    "id": "w4",
+    "text": "possible.",
+    "start": 1.44,
+    "end": 1.84
+  }
+]

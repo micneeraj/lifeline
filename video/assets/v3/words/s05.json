@@ -1,0 +1,50 @@
+[
+  {
+    "id": "w0",
+    "text": "This",
+    "start": 0,
+    "end": 0.16
+  },
+  {
+    "id": "w1",
+    "text": "is",
+    "start": 0.16,
+    "end": 0.4
+  },
+  {
+    "id": "w2",
+    "text": "lifeline,",
+    "start": 0.4,
+    "end": 1.28
+  },
+  {
+    "id": "w3",
+    "text": "every",
+    "start": 1.28,
+    "end": 1.44
+  },
+  {
+    "id": "w4",
+    "text": "dollar",
+    "start": 1.52,
+    "end": 1.68
+  },
+  {
+    "id": "w5",
+    "text": "finds",
+    "start": 1.92,
+    "end": 2.24
+  },
+  {
+    "id": "w6",
+    "text": "the",
+    "start": 2.24,
+    "end": 2.32
+  },
+  {
+    "id": "w7",
+    "text": "flood.",
+    "start": 2.32,
+    "end": 2.72
+  }
+]

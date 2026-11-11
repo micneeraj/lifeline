@@ -1,0 +1,104 @@
+[
+  {
+    "id": "w0",
+    "text": "Hundreds",
+    "start": 0,
+    "end": 0.48
+  },
+  {
+    "id": "w1",
+    "text": "of",
+    "start": 0.48,
+    "end": 0.64
+  },
+  {
+    "id": "w2",
+    "text": "people",
+    "start": 0.64,
+    "end": 0.8
+  },
+  {
+    "id": "w3",
+    "text": "asked",
+    "start": 0.8,
+    "end": 1.2
+  },
+  {
+    "id": "w4",
+    "text": "for",
+    "start": 1.2,
+    "end": 1.36
+  },
+  {
+    "id": "w5",
+    "text": "help.",
+    "start": 1.36,
+    "end": 1.92
+  },
+  {
+    "id": "w6",
+    "text": "Most",
+    "start": 1.92,
+    "end": 2.24
+  },
+  {
+    "id": "w7",
+    "text": "were",
+    "start": 2.24,
+    "end": 2.4
+  },
+  {
+    "id": "w8",
+    "text": "genuine,",
+    "start": 2.4,
+    "end": 3.36
+  },
+  {
+    "id": "w9",
+    "text": "but",
+    "start": 3.36,
+    "end": 3.52
+  },
+  {
+    "id": "w10",
+    "text": "some",
+    "start": 3.52,
+    "end": 3.76
+  },
+  {
+    "id": "w11",
+    "text": "were",
+    "start": 3.76,
+    "end": 3.92
+  },
+  {
+    "id": "w12",
+    "text": "scams",
+    "start": 3.92,
+    "end": 4.48
+  },
+  {
+    "id": "w13",
+    "text": "chasing",
+    "start": 4.64,
+    "end": 5.12
+  },
+  {
+    "id": "w14",
+    "text": "the",
+    "start": 5.12,
+    "end": 5.2
+  },
+  {
+    "id": "w15",
+    "text": "same",
+    "start": 5.2,
+    "end": 5.52
+  },
+  {
+    "id": "w16",
+    "text": "kindness.",
+    "start": 5.52,
+    "end": 6.08
+  }
+]

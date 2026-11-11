@@ -1,0 +1,42 @@
+<template>
+<style>
+@font-face{font-family:'Fraunces';src:url('assets/fonts/Fraunces.woff2') format('woff2');font-weight:100 900;font-style:normal;}
+#root{position:absolute;inset:0;overflow:hidden;background:#0f2430;font-family:Inter,sans-serif;color:#22313a;}
+#root .wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;}
+#root .wrap video{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;}
+#root .page{position:absolute;left:0;top:0;width:1920px;transform-origin:0 0;}
+#root .page img{display:block;width:1920px;}
+.rclip{position:absolute;left:0;top:0;width:1920px;height:907px;overflow:hidden;}
+.rshift{position:absolute;left:0;top:-86px;width:1920px;height:1080px;}
+.mlab.stem:before{content:"";position:absolute;left:50%;top:100%;width:4px;margin-left:-2px;height:70px;background:#fffdf9;box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.ring{position:absolute;border-radius:14px;border:4px solid #4fb3e8;box-shadow:0 0 0 6px rgba(79,179,232,.22),0 0 28px rgba(79,179,232,.55);opacity:0;}
+.mlab{position:absolute;left:0;top:0;margin-top:-26px;padding:10px 20px;border-radius:999px;background:#fffdf9;color:#22313a;font:700 34px Inter;white-space:nowrap;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translate(-50%,-100%);}
+.mlab:after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:#fffdf9;}
+#gm-bg{position:absolute;inset:0;background:radial-gradient(1300px 760px at 50% 40%,#1d4357,#0f2430 74%);}
+#gm-box{position:absolute;inset:0;transform-origin:50% 45%;}
+#gm-h{position:absolute;left:0;width:1920px;top:64px;text-align:center;font:600 60px Fraunces,serif;color:#f7f3ec}
+.gm-col{position:absolute;top:175px;width:780px;height:600px;padding:36px 40px;border-radius:28px}
+#gm-l{left:150px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14)}
+#gm-r{left:990px;background:rgba(79,179,232,.10);border:2px solid rgba(79,179,232,.55);box-shadow:0 0 60px -20px rgba(79,179,232,.6)}
+.gm-t{font:700 50px Fraunces,serif;color:#fffaf1;padding:0 8px} .gm-s{font:500 28px Inter;color:#b9c7cf;margin:8px 0 22px;padding:0 8px}
+.gm-row{display:flex;justify-content:space-between;align-items:baseline;padding:20px 8px;border-top:1px solid rgba(255,255,255,.14);border-radius:14px;font:500 32px Inter;color:#d9e3e8;opacity:.38}
+.gm-row b{font:700 64px Fraunces,serif;color:#fffaf1;font-variant-numeric:tabular-nums}
+#gm-r .gm-row b{color:#bfe6ff} #gm-r3 {color:#7fe0a5 !important}
+#gm-note{position:absolute;left:0;width:1920px;top:800px;text-align:center;font:500 30px Inter;color:#9fb3bd}
+</style>
+<div id="root" data-composition-id="gemini" data-width="1920" data-height="1080">
+<div id="gm-bg"></div><div id="gm-box"><div id="gm-h">Same 40 appeals, answers locked first</div>
+<div class="gm-col" id="gm-l"><div class="gm-t">Gemini alone</div><div class="gm-s">same appeal, no tools or rules</div>
+<div class="gm-row" id="gm-l1r"><span>Correct verdicts</span><b id="gm-l1">10 of 40</b></div><div class="gm-row" id="gm-l2r"><span>Genuine appeals funded</span><b id="gm-l2">1 of 15</b></div><div class="gm-row" id="gm-l3r"><span>Sent to unverified appeals</span><b id="gm-l3">$100</b></div></div>
+<div class="gm-col" id="gm-r"><div class="gm-t">Lifeline</div><div class="gm-s">six agents, code decides</div>
+<div class="gm-row" id="gm-r1r"><span>Correct verdicts</span><b id="gm-r1">38 of 40</b></div><div class="gm-row" id="gm-r2r"><span>Genuine appeals funded</span><b id="gm-r2">13 of 15</b></div><div class="gm-row" id="gm-r3r"><span>Sent to unverified appeals</span><b id="gm-r3">$0</b></div></div>
+<div id="gm-note">40 test appeals, answers locked before any run.</div></div>
+</div>
+<script>
+const tl = gsap.timeline({paused:true});
+tl.to("#gm-l1r",{opacity:1,duration:0.35,ease:"power1.out"},4.36);tl.fromTo("#gm-l1r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},4.36);tl.to("#gm-l1r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},5.76);tl.to("#gm-l2r",{opacity:1,duration:0.35,ease:"power1.out"},7.66);tl.fromTo("#gm-l2r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},7.66);tl.to("#gm-l2r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},9.06);tl.to("#gm-l3r",{opacity:1,duration:0.35,ease:"power1.out"},9.06);tl.fromTo("#gm-l3r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},9.06);tl.to("#gm-l3r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},10.46);tl.to("#gm-r1r",{opacity:1,duration:0.35,ease:"power1.out"},10.68);tl.fromTo("#gm-r1r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},10.68);tl.to("#gm-r1r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},12.08);tl.to("#gm-r2r",{opacity:1,duration:0.35,ease:"power1.out"},13.42);tl.fromTo("#gm-r2r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},13.42);tl.to("#gm-r2r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},14.82);tl.to("#gm-r3r",{opacity:1,duration:0.35,ease:"power1.out"},15.26);tl.fromTo("#gm-r3r",{backgroundColor:"rgba(79,179,232,0)",boxShadow:"0 0 0 0 rgba(79,179,232,0)"},{backgroundColor:"rgba(79,179,232,.22)",boxShadow:"0 0 34px 0 rgba(79,179,232,.45)",duration:0.35,ease:"power1.out"},15.26);tl.to("#gm-r3r",{backgroundColor:"rgba(79,179,232,.06)",boxShadow:"0 0 0 0 rgba(79,179,232,0)",duration:1.2,ease:"power1.inOut"},16.66);tl.fromTo("#gm-box",{scale:1},{scale:1.035,duration:18.69,ease:"none"},0);
+tl.set({},{},18.68);
+window.__timelines["gemini"] = tl;
+</script>
+</template>

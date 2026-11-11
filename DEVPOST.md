@@ -8,6 +8,8 @@ git clone https://github.com/micneeraj/lifeline.git && cd lifeline && python run
 
 **Live:** https://lifeline-3fug.onrender.com (free hosting: the first load may take ~30 s while it wakes up).
 
+**Demo video:** https://youtu.be/Bz9w2556f6I (2:43)
+
 > Lifeline doesn't ask donors to trust an AI's opinion. It uses AI to gather evidence, deterministic rules to decide, and PayPal to make sure money can only move to registered local relief charities after the evidence passes.
 
 ## Judge walkthrough (90 seconds)
@@ -56,6 +58,7 @@ Want to help one family? Add a follow-up request and a link to their post. The c
 - Optional family name, a note (max 200 characters) and a link to the original post (https on x.com, twitter.com, instagram.com, facebook.com or threads.net only; anything else is refused with a friendly message before payment).
 - Phone numbers, email addresses, street addresses and ID numbers are blocked with a friendly message. Markup and links in the note are stripped, and the same prompt-injection check runs on it (a hit drops the note).
 - It goes in each charity's PayPal Payouts item `note` and on the receipt as plain text: "Follow-up request sent to the charities (advisory, not verified by Lifeline)." It never reaches the judge, never changes a verdict and is not in `verdict_sha256`; it is covered by `receipt_sha256`.
+- The original-post link is shown as plain text, never clickable, because the post itself could be fake or harmful.
 - Lifeline never pays individuals directly.
 
 ## 38 of 40 test appeals got the expected verdict
@@ -94,7 +97,7 @@ Appeal (posted {posted_at}):
 Both errors are on the safe side: a genuine appeal was held back, no money went to an unverified one.
 
 ## How we built it
-Python + FastAPI, Shapely for flood geometry, RapidFuzz for lookalike names, SQLite precomputed from public data, plain HTML/JS + Leaflet with live streamed agent steps. One small LLM adapter (Gemini, Anthropic, OpenAI or NVIDIA) with timeouts and fallbacks. PayPal JS SDK, Orders v2, Authorizations (capture/void) and Payouts in sandbox. Deployed on Render, with a Postman collection for every endpoint.
+Python + FastAPI, Shapely for flood geometry, RapidFuzz for lookalike names, SQLite precomputed from public data, one static HTML/JS page with live streamed agent steps, a MapLibre GL 3D terrain flood map (Leaflet fallback) and GSAP animation. One small LLM adapter (Gemini, Anthropic, OpenAI or NVIDIA) with timeouts and fallbacks. PayPal JS SDK, Orders v2, Authorizations (capture/void) and Payouts in sandbox. Deployed on Render, with a Postman collection for every endpoint.
 
 ## Evaluation
 40 appeals using real places: 15 flooded, 10 not flooded, 5 wrong dates, 5 ambiguous towns, 5 red-team attacks. We **locked the answer key's hash before running anything.**
@@ -117,9 +120,11 @@ Python + FastAPI, Shapely for flood geometry, RapidFuzz for lookalike names, SQL
 An LLM is great at reading messy posts and bad at deciding truth. On its own it was either too trusting (it approved a lookalike charity) or too cautious to help anyone. Ground truth has to come from data: satellites, FEMA, the IRS register.
 
 ## What's next
-- **Other disasters (roadmap).** The event (FEMA declaration, date window) lives in `lifeline/config.py` and the flood extent, declaration and IRS register are loaded from `data/`, but the rules still hard-code North Carolina. Making the pipeline fully event-agnostic (load any FEMA declaration, its satellite flood extent and that state's IRS register) is planned, not working today.
-- **The original-post link is plain text, never clickable**, because the post itself could be fake or harmful. A family's details reach the charity only as an advisory request; Lifeline doesn't verify the family and never pays individuals.
-Street-level geocoding, more events (live Copernicus / GFM feeds), charity service areas instead of ZIP centroids, a reviewer queue for yellow appeals, and partnering with platforms to show a "check before you give" button under viral appeals.
+- **Other disasters.** The event (FEMA declaration, date window) lives in `lifeline/config.py` and the flood extent, declaration and IRS register are loaded from `data/`, but the rules still hard-code North Carolina. Making the pipeline fully event-agnostic (load any FEMA declaration, its satellite flood extent and that state's IRS register) is planned, not working today.
+- Street-level geocoding, live flood feeds (Copernicus / GFM), charity service areas instead of ZIP centroids, and a reviewer queue for UNVERIFIABLE appeals.
+- Partnering with platforms to show a "check before you give" button under viral appeals.
+
+Built with Cursor and Claude Code.
 
 ## Built with
-python · fastapi · paypal-js-sdk · paypal-orders-v2 · paypal-payouts · gemini · shapely · rapidfuzz · sqlite · leaflet · openstreetmap · render · postman · iceye · fema-openfema · irs-data · ofac · us-census · cursor · claude-code
+python · fastapi · paypal-js-sdk · paypal-orders-v2 · paypal-payouts · gemini · shapely · rapidfuzz · sqlite · maplibre-gl · gsap · leaflet · openstreetmap · render · postman · iceye · fema-openfema · irs-data · ofac · us-census · cursor · claude-code

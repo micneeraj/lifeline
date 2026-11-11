@@ -1,0 +1,260 @@
+[
+  {
+    "id": "w0",
+    "text": "We",
+    "start": 0,
+    "end": 0.16
+  },
+  {
+    "id": "w1",
+    "text": "lock",
+    "start": 0.16,
+    "end": 0.48
+  },
+  {
+    "id": "w2",
+    "text": "the",
+    "start": 0.56,
+    "end": 0.64
+  },
+  {
+    "id": "w3",
+    "text": "answers",
+    "start": 0.64,
+    "end": 1.04
+  },
+  {
+    "id": "w4",
+    "text": "before",
+    "start": 1.04,
+    "end": 1.36
+  },
+  {
+    "id": "w5",
+    "text": "running",
+    "start": 1.36,
+    "end": 1.76
+  },
+  {
+    "id": "w6",
+    "text": "anything.",
+    "start": 1.76,
+    "end": 2.48
+  },
+  {
+    "id": "w7",
+    "text": "On",
+    "start": 2.48,
+    "end": 2.72
+  },
+  {
+    "id": "w8",
+    "text": "40",
+    "start": 2.72,
+    "end": 3.2
+  },
+  {
+    "id": "w9",
+    "text": "test",
+    "start": 3.2,
+    "end": 3.36
+  },
+  {
+    "id": "w10",
+    "text": "appeals,",
+    "start": 3.52,
+    "end": 4.16
+  },
+  {
+    "id": "w11",
+    "text": "Gemini",
+    "start": 4.16,
+    "end": 4.64
+  },
+  {
+    "id": "w12",
+    "text": "alone,",
+    "start": 4.88,
+    "end": 5.52
+  },
+  {
+    "id": "w13",
+    "text": "asked",
+    "start": 5.52,
+    "end": 5.84
+  },
+  {
+    "id": "w14",
+    "text": "whether",
+    "start": 5.84,
+    "end": 6.08
+  },
+  {
+    "id": "w15",
+    "text": "to",
+    "start": 6.08,
+    "end": 6.24
+  },
+  {
+    "id": "w16",
+    "text": "release",
+    "start": 6.24,
+    "end": 6.64
+  },
+  {
+    "id": "w17",
+    "text": "the",
+    "start": 6.64,
+    "end": 6.8
+  },
+  {
+    "id": "w18",
+    "text": "money,",
+    "start": 6.8,
+    "end": 7.36
+  },
+  {
+    "id": "w19",
+    "text": "funded",
+    "start": 7.36,
+    "end": 7.84
+  },
+  {
+    "id": "w20",
+    "text": "just",
+    "start": 7.84,
+    "end": 8.08
+  },
+  {
+    "id": "w21",
+    "text": "one",
+    "start": 8.08,
+    "end": 8.32
+  },
+  {
+    "id": "w22",
+    "text": "genuine",
+    "start": 8.32,
+    "end": 8.88
+  },
+  {
+    "id": "w23",
+    "text": "appeal",
+    "start": 8.88,
+    "end": 9.28
+  },
+  {
+    "id": "w24",
+    "text": "out",
+    "start": 9.28,
+    "end": 9.44
+  },
+  {
+    "id": "w25",
+    "text": "of",
+    "start": 9.44,
+    "end": 9.6
+  },
+  {
+    "id": "w26",
+    "text": "15.",
+    "start": 9.6,
+    "end": 10.48
+  },
+  {
+    "id": "w27",
+    "text": "Lifeline",
+    "start": 10.48,
+    "end": 11.36
+  },
+  {
+    "id": "w28",
+    "text": "got",
+    "start": 11.36,
+    "end": 11.52
+  },
+  {
+    "id": "w29",
+    "text": "38",
+    "start": 11.52,
+    "end": 12
+  },
+  {
+    "id": "w30",
+    "text": "of",
+    "start": 12.08,
+    "end": 12.24
+  },
+  {
+    "id": "w31",
+    "text": "40",
+    "start": 12.24,
+    "end": 12.64
+  },
+  {
+    "id": "w32",
+    "text": "right,",
+    "start": 12.64,
+    "end": 13.12
+  },
+  {
+    "id": "w33",
+    "text": "funded",
+    "start": 13.12,
+    "end": 13.52
+  },
+  {
+    "id": "w34",
+    "text": "13",
+    "start": 13.52,
+    "end": 13.92
+  },
+  {
+    "id": "w35",
+    "text": "of",
+    "start": 13.92,
+    "end": 14.16
+  },
+  {
+    "id": "w36",
+    "text": "15,",
+    "start": 14.16,
+    "end": 14.64
+  },
+  {
+    "id": "w37",
+    "text": "and",
+    "start": 14.72,
+    "end": 14.96
+  },
+  {
+    "id": "w38",
+    "text": "sent",
+    "start": 14.96,
+    "end": 15.28
+  },
+  {
+    "id": "w39",
+    "text": "$0",
+    "start": 15.28,
+    "end": 15.68
+  },
+  {
+    "id": "w40",
+    "text": "to",
+    "start": 16.08,
+    "end": 16.32
+  },
+  {
+    "id": "w41",
+    "text": "unverified",
+    "start": 16.32,
+    "end": 17.2
+  },
+  {
+    "id": "w42",
+    "text": "appeals.",
+    "start": 17.2,
+    "end": 17.68
+  }
+]

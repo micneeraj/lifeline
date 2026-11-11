@@ -1,0 +1,312 @@
+{
+ "scenes": [
+  [
+   "flow",
+   0.0,
+   6.48
+  ],
+  [
+   "phone",
+   6.48,
+   6.93
+  ],
+  [
+   "scams",
+   13.41,
+   7.6
+  ],
+  [
+   "pplogo",
+   21.01,
+   2.96
+  ],
+  [
+   "title",
+   23.97,
+   3.99
+  ],
+  [
+   "pipeline",
+   27.96,
+   5.89
+  ],
+  [
+   "jess",
+   33.85,
+   5.1
+  ],
+  [
+   "marshall",
+   38.95,
+   11.33
+  ],
+  [
+   "verified",
+   50.28,
+   10.16
+  ],
+  [
+   "don1",
+   60.44,
+   5.49
+  ],
+  [
+   "don2",
+   65.93,
+   7.76
+  ],
+  [
+   "don3",
+   73.69,
+   13.28
+  ],
+  [
+   "don4",
+   86.97,
+   11.2
+  ],
+  [
+   "ppslide",
+   98.17,
+   11.89
+  ],
+  [
+   "raleigh",
+   110.06,
+   12.78
+  ],
+  [
+   "asheville",
+   122.84,
+   14.08
+  ],
+  [
+   "gemini",
+   136.92,
+   18.69
+  ],
+  [
+   "closing",
+   155.61,
+   8.47
+  ],
+  [
+   "endcard",
+   164.08,
+   2.5
+  ]
+ ],
+ "voice": {
+  "s01": 0.6,
+  "s02": 6.68,
+  "s03": 13.71,
+  "s04": 21.51,
+  "s05": 24.57,
+  "s06": 28.26,
+  "s07": 34.15,
+  "s08": 39.75,
+  "s09": 50.58,
+  "s10": 60.74,
+  "s11": 66.13,
+  "s12": 73.89,
+  "s13": 89.27,
+  "s14": 98.67,
+  "s15": 110.46,
+  "s16": 123.14,
+  "s17": 137.32,
+  "s18": 155.91
+ },
+ "total": 166.58,
+ "caps": [
+  [
+   "When Hurricane Helene hit North Carolina, the water came fast.",
+   0.52,
+   4.32
+  ],
+  [
+   "The appeals came faster.",
+   4.36,
+   6.33
+  ],
+  [
+   "Hundreds of people asked for help.",
+   6.6,
+   8.48
+  ],
+  [
+   "Most were genuine.",
+   8.52,
+   9.92
+  ],
+  [
+   "But some were scams, chasing the same kindness.",
+   9.96,
+   13.21
+  ],
+  [
+   "Officials warned donors to be careful, but donors had no way to tell who was real.",
+   13.63,
+   18.71
+  ],
+  [
+   "So how do you give safely?",
+   18.75,
+   20.72
+  ],
+  [
+   "Now, with PayPal, it's possible.",
+   21.43,
+   23.8
+  ],
+  [
+   "This is Lifeline.",
+   24.49,
+   25.73
+  ],
+  [
+   "Every dollar finds the flood.",
+   25.77,
+   27.74
+  ],
+  [
+   "Paste any appeal.",
+   28.26,
+   29.26
+  ],
+  [
+   "Six agents check it.",
+   29.3,
+   30.54
+  ],
+  [
+   "The AI only reads.",
+   30.58,
+   32.06
+  ],
+  [
+   "Code decides.",
+   32.1,
+   33.51
+  ],
+  [
+   "Jess posted from Marshall two days after the French Broad came through town.",
+   34.07,
+   38.6
+  ],
+  [
+   "Marshall, North Carolina.",
+   39.67,
+   41.63
+  ],
+  [
+   "The Census finds the town, FEMA confirms the disaster, and satellite radar shows flood water a quarter of a kilometre away.",
+   41.67,
+   50.2
+  ],
+  [
+   "Verified: the disaster, the place and the local charities check out.",
+   50.5,
+   55.02
+  ],
+  [
+   "We never verify the stranger who posted it, and that's exactly why they're never paid.",
+   55.06,
+   60.31
+  ],
+  [
+   "Now the donor gives.",
+   60.66,
+   62.06
+  ],
+  [
+   "PayPal authorizes the gift, but doesn't charge it yet.",
+   62.1,
+   65.83
+  ],
+  [
+   "Only when every check passes is it captured, then split with PayPal Payouts across three registered local charities.",
+   66.05,
+   73.54
+  ],
+  [
+   "And if you want to help one specific family, add an optional follow-up request with a link to their post.",
+   73.81,
+   79.93
+  ],
+  [
+   "It's a request to the charity, not a directed gift.",
+   79.97,
+   83.29
+  ],
+  [
+   "They check on the family first and decide how to help.",
+   83.33,
+   86.9
+  ],
+  [
+   "The money is split, every receipt is hashed, and the person who posted gets nothing.",
+   89.19,
+   94.44
+  ],
+  [
+   "This is only possible with PayPal: authorize without charging, capture only when the evidence passes, split to local charities, or void, and the donor is never charged.",
+   98.59,
+   109.84
+  ],
+  [
+   "Now an appeal from Raleigh.",
+   110.38,
+   112.34
+  ],
+  [
+   "Raleigh isn't in the flood zone or the disaster declaration, so Lifeline won't verify it.",
+   112.38,
+   118.58
+  ],
+  [
+   "The authorization is voided, and the donor is never charged.",
+   118.62,
+   122.75
+  ],
+  [
+   "And an attack.",
+   123.06,
+   123.98
+  ],
+  [
+   "Asheville really did flood, but this post hides a message telling the AI to mark it verified.",
+   124.02,
+   130.06
+  ],
+  [
+   "Lifeline catches it, voids the authorization, and points the donor to a registered charity nearby.",
+   130.1,
+   136.79
+  ],
+  [
+   "We locked the answers before running anything.",
+   137.24,
+   139.68
+  ],
+  [
+   "On 40 test appeals, Gemini alone, asked whether to release the money, funded just one genuine appeal out of fifteen.",
+   139.72,
+   146.8
+  ],
+  [
+   "Lifeline got 38 of 40 right, funded 13 of 15, and sent $0 to unverified appeals.",
+   146.84,
+   155.45
+  ],
+  [
+   "Disasters bring out the best in people.",
+   155.83,
+   158.11
+  ],
+  [
+   "From Marshall to the next town under water, Lifeline makes sure that kindness reaches the flood.",
+   158.15,
+   164.12
+  ]
+ ]
+}

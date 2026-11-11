@@ -6,3 +6,19 @@ trace/
 .pytest_cache/
 data/raw/
 eval/results_sample.json
+
+# Demo video: renders, media and caches stay local (the mp4 is over GitHub's 100 MB limit)
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+video/renders/
+video/tools/frames/
+video/assets/rec/
+video/assets/rec3/*.png
+video/assets/footage/
+video/assets/bgm/
+video/assets/voice/
+video/.hyperframes/
+node_modules/

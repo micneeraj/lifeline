@@ -1,0 +1,80 @@
+[
+  {
+    "id": "w0",
+    "text": "Paste",
+    "start": 0.08,
+    "end": 0.32
+  },
+  {
+    "id": "w1",
+    "text": "any",
+    "start": 0.4,
+    "end": 0.64
+  },
+  {
+    "id": "w2",
+    "text": "appeal,",
+    "start": 0.64,
+    "end": 1.12
+  },
+  {
+    "id": "w3",
+    "text": "six",
+    "start": 1.12,
+    "end": 1.44
+  },
+  {
+    "id": "w4",
+    "text": "agents",
+    "start": 1.44,
+    "end": 1.84
+  },
+  {
+    "id": "w5",
+    "text": "check",
+    "start": 1.84,
+    "end": 2.08
+  },
+  {
+    "id": "w6",
+    "text": "it,",
+    "start": 2.08,
+    "end": 2.4
+  },
+  {
+    "id": "w7",
+    "text": "the",
+    "start": 2.4,
+    "end": 2.56
+  },
+  {
+    "id": "w8",
+    "text": "AI",
+    "start": 2.56,
+    "end": 3.04
+  },
+  {
+    "id": "w9",
+    "text": "only",
+    "start": 3.04,
+    "end": 3.28
+  },
+  {
+    "id": "w10",
+    "text": "reads,",
+    "start": 3.28,
+    "end": 3.92
+  },
+  {
+    "id": "w11",
+    "text": "code",
+    "start": 3.92,
+    "end": 4.32
+  },
+  {
+    "id": "w12",
+    "text": "decides.",
+    "start": 4.32,
+    "end": 4.8
+  }
+]

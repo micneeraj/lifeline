@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html, body { margin:0; width:1920px; height:1080px; overflow:hidden; background:#0f2430; }
+#bgfill { position:absolute; inset:0; background:#0f2430; }
+</style>
+</head>
+<body>
+<div id="root" data-composition-id="main" data-start="0" data-duration="166.58" data-width="1920" data-height="1080">
+<div id="bgfill"></div>
+<div id="flow" data-composition-id="flow" data-composition-src="compositions/flow.html" data-start="0.0" data-duration="6.48" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:1"></div>
+<div id="phone" data-composition-id="phone" data-composition-src="compositions/phone.html" data-start="6.48" data-duration="6.93" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:2"></div>
+<div id="scams" data-composition-id="scams" data-composition-src="compositions/scams.html" data-start="13.41" data-duration="7.6" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:3"></div>
+<div id="pplogo" data-composition-id="pplogo" data-composition-src="compositions/pplogo.html" data-start="21.01" data-duration="2.96" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:4"></div>
+<div id="title" data-composition-id="title" data-composition-src="compositions/title.html" data-start="23.97" data-duration="3.99" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:5"></div>
+<div id="pipeline" data-composition-id="pipeline" data-composition-src="compositions/pipeline.html" data-start="27.96" data-duration="5.89" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:6"></div>
+<div id="jess" data-composition-id="jess" data-composition-src="compositions/jess.html" data-start="33.85" data-duration="5.1" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:7"></div>
+<div id="marshall" data-composition-id="marshall" data-composition-src="compositions/marshall.html" data-start="38.95" data-duration="11.33" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:8"></div>
+<div id="verified" data-composition-id="verified" data-composition-src="compositions/verified.html" data-start="50.28" data-duration="10.16" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:9"></div>
+<div id="don1" data-composition-id="don1" data-composition-src="compositions/don1.html" data-start="60.44" data-duration="5.49" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:10"></div>
+<div id="don2" data-composition-id="don2" data-composition-src="compositions/don2.html" data-start="65.93" data-duration="7.76" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:11"></div>
+<div id="don3" data-composition-id="don3" data-composition-src="compositions/don3.html" data-start="73.69" data-duration="13.28" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:12"></div>
+<div id="don4" data-composition-id="don4" data-composition-src="compositions/don4.html" data-start="86.97" data-duration="11.2" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:13"></div>
+<div id="ppslide" data-composition-id="ppslide" data-composition-src="compositions/ppslide.html" data-start="98.17" data-duration="11.89" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:14"></div>
+<div id="raleigh" data-composition-id="raleigh" data-composition-src="compositions/raleigh.html" data-start="110.06" data-duration="12.78" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:15"></div>
+<div id="asheville" data-composition-id="asheville" data-composition-src="compositions/asheville.html" data-start="122.84" data-duration="14.08" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:16"></div>
+<div id="gemini" data-composition-id="gemini" data-composition-src="compositions/gemini.html" data-start="136.92" data-duration="18.69" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:17"></div>
+<div id="closing" data-composition-id="closing" data-composition-src="compositions/closing.html" data-start="155.61" data-duration="8.47" data-track-index="2" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:18"></div>
+<div id="endcard" data-composition-id="endcard" data-composition-src="compositions/endcard.html" data-start="164.08" data-duration="2.5" data-track-index="1" data-track-kind="graphics" data-width="1920" data-height="1080" style="z-index:19"></div>
+<div id="captions" data-composition-id="captions" data-composition-src="compositions/captions.html" data-start="0" data-duration="166.58" data-track-index="10" data-track-kind="captions" data-width="1920" data-height="1080" style="z-index:50"></div>
+<audio id="vos01" class="clip" src="assets/v3/s01.wav" data-start="0.6" data-duration="5.376" data-volume="1" data-track-index="20"></audio>
+<audio id="vos02" class="clip" src="assets/v3/s02.wav" data-start="6.68" data-duration="6.229" data-volume="1" data-track-index="20"></audio>
+<audio id="vos03" class="clip" src="assets/v3/s03.wav" data-start="13.71" data-duration="6.699" data-volume="1" data-track-index="20"></audio>
+<audio id="vos04" class="clip" src="assets/v3/s04.wav" data-start="21.51" data-duration="1.963" data-volume="1" data-track-index="20"></audio>
+<audio id="vos05" class="clip" src="assets/v3/s05.wav" data-start="24.57" data-duration="2.795" data-volume="1" data-track-index="20"></audio>
+<audio id="vos06" class="clip" src="assets/v3/s06.wav" data-start="28.26" data-duration="4.992" data-volume="1" data-track-index="20"></audio>
+<audio id="vos07" class="clip" src="assets/v3/s07.wav" data-start="34.15" data-duration="4.203" data-volume="1" data-track-index="20"></audio>
+<audio id="vos08" class="clip" src="assets/v3/s08.wav" data-start="39.75" data-duration="10.027" data-volume="1" data-track-index="20"></audio>
+<audio id="vos09" class="clip" src="assets/v3/s09.wav" data-start="50.58" data-duration="9.408" data-volume="1" data-track-index="20"></audio>
+<audio id="vos10" class="clip" src="assets/v3/s10.wav" data-start="60.74" data-duration="4.693" data-volume="1" data-track-index="20"></audio>
+<audio id="vos11" class="clip" src="assets/v3/s11.wav" data-start="66.13" data-duration="7.061" data-volume="1" data-track-index="20"></audio>
+<audio id="vos12" class="clip" src="assets/v3/s12.wav" data-start="73.89" data-duration="12.629" data-volume="1" data-track-index="20"></audio>
+<audio id="vos13" class="clip" src="assets/v3/s13.wav" data-start="89.27" data-duration="4.736" data-volume="1" data-track-index="20"></audio>
+<audio id="vos14" class="clip" src="assets/v3/s14.wav" data-start="98.67" data-duration="10.795" data-volume="1" data-track-index="20"></audio>
+<audio id="vos15" class="clip" src="assets/v3/s15.wav" data-start="110.46" data-duration="11.925" data-volume="1" data-track-index="20"></audio>
+<audio id="vos16" class="clip" src="assets/v3/s16.wav" data-start="123.14" data-duration="13.333" data-volume="1" data-track-index="20"></audio>
+<audio id="vos17" class="clip" src="assets/v3/s17.wav" data-start="137.32" data-duration="17.792" data-volume="1" data-track-index="20"></audio>
+<audio id="vos18" class="clip" src="assets/v3/s18.wav" data-start="155.91" data-duration="7.765" data-volume="1" data-track-index="20"></audio>
+<audio id="bgm" class="clip" src="assets/bgm/track3.wav" data-start="0" data-duration="166.58" data-volume="1" data-track-index="21" data-automation='{"version": 1, "lanes": [{"target": "volume", "points": [{"t": 0, "v": 0.0}, {"t": 0.15, "v": 0.3}, {"t": 0.55, "v": 0.13}, {"t": 1.0, "v": 0.3}, {"t": 6.13, "v": 0.13}, {"t": 6.23, "v": 0.3}, {"t": 6.58, "v": 0.3}, {"t": 6.63, "v": 0.13}, {"t": 13.06, "v": 0.13}, {"t": 13.26, "v": 0.3}, {"t": 13.51, "v": 0.3}, {"t": 13.66, "v": 0.13}, {"t": 20.56, "v": 0.13}, {"t": 21.01, "v": 0.3}, {"t": 21.06, "v": 0.3}, {"t": 21.46, "v": 0.13}, {"t": 23.62, "v": 0.13}, {"t": 24.07, "v": 0.3}, {"t": 24.12, "v": 0.3}, {"t": 24.52, "v": 0.13}, {"t": 27.51, "v": 0.13}, {"t": 27.81, "v": 0.3}, {"t": 27.96, "v": 0.3}, {"t": 28.21, "v": 0.13}, {"t": 33.4, "v": 0.13}, {"t": 33.7, "v": 0.3}, {"t": 33.85, "v": 0.3}, {"t": 34.1, "v": 0.13}, {"t": 38.5, "v": 0.13}, {"t": 38.95, "v": 0.3}, {"t": 39.3, "v": 0.3}, {"t": 39.7, "v": 0.13}, {"t": 49.93, "v": 0.13}, {"t": 50.13, "v": 0.3}, {"t": 50.38, "v": 0.3}, {"t": 50.53, "v": 0.13}, {"t": 60.14, "v": 0.13}, {"t": 60.29, "v": 0.3}, {"t": 60.59, "v": 0.3}, {"t": 60.69, "v": 0.13}, {"t": 65.58, "v": 0.13}, {"t": 65.68, "v": 0.3}, {"t": 66.03, "v": 0.3}, {"t": 66.08, "v": 0.13}, {"t": 73.34, "v": 0.13}, {"t": 73.44, "v": 0.3}, {"t": 73.79, "v": 0.3}, {"t": 73.84, "v": 0.13}, {"t": 86.67, "v": 0.13}, {"t": 87.12, "v": 0.3}, {"t": 88.82, "v": 0.3}, {"t": 89.22, "v": 0.13}, {"t": 94.16, "v": 0.13}, {"t": 94.61, "v": 0.3}, {"t": 98.22, "v": 0.3}, {"t": 98.62, "v": 0.13}, {"t": 109.61, "v": 0.13}, {"t": 110.01, "v": 0.3}, {"t": 110.06, "v": 0.3}, {"t": 110.41, "v": 0.13}, {"t": 122.54, "v": 0.13}, {"t": 122.69, "v": 0.3}, {"t": 122.99, "v": 0.3}, {"t": 123.09, "v": 0.13}, {"t": 136.62, "v": 0.13}, {"t": 136.87, "v": 0.3}, {"t": 137.07, "v": 0.3}, {"t": 137.27, "v": 0.13}, {"t": 155.26, "v": 0.13}, {"t": 155.46, "v": 0.3}, {"t": 155.71, "v": 0.3}, {"t": 155.86, "v": 0.13}, {"t": 163.83, "v": 0.13}, {"t": 163.98, "v": 0.34}, {"t": 164.28, "v": 0.3}, {"t": 166.53, "v": 0.0}]}]}'></audio>
+</div>
+<script>
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = gsap.timeline({ paused: true });
+</script>
+</body>
+</html>

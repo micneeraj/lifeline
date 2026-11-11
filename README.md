@@ -8,6 +8,8 @@ git clone https://github.com/micneeraj/lifeline.git && cd lifeline && python run
 
 **Live:** https://lifeline-3fug.onrender.com (free hosting: the first load may take ~30 s while it wakes up).
 
+**Demo video:** https://youtu.be/Bz9w2556f6I (2:43)
+
 > Lifeline doesn't ask donors to trust an AI's opinion. It uses AI to gather evidence, deterministic rules to decide, and PayPal to make sure money can only move to registered local relief charities after the evidence passes.
 
 ## Judge walkthrough (90 seconds)
@@ -26,9 +28,11 @@ Take one test appeal from the set, modelled on a real place: "Jess" posts from M
 
 ![Appeals feed with the 3D Helene flood flyover](docs/screenshots/feed.png)
 
-| Live check: Marshall, 3D terrain map | Verdict: prompt injection refused |
+| Live check: Marshall, 3D terrain map | Verdict: Marshall VERIFIED |
 |---|---|
-| ![Live check](docs/screenshots/check-green.png) | ![Not verified](docs/screenshots/check-red-verdict.png) |
+| ![Live check](docs/screenshots/check-green.png) | ![Verified](docs/screenshots/check-green-verdict.png) |
+| **Live check: Asheville appeal with a hidden "system note"** | **Verdict: prompt injection refused** |
+| ![Live check, injection](docs/screenshots/check-red.png) | ![Not verified](docs/screenshots/check-red-verdict.png) |
 | **Donate: the PayPal authorization splits to 3 screened local charities** | **Proof: 38 of 40 test appeals correct** |
 | ![Donate](docs/screenshots/donate.png) | ![Proof](docs/screenshots/proof.png) |
 
@@ -139,7 +143,7 @@ Every verdict and receipt carries a SHA-256 of its inputs and evidence. `python 
 pip install -r requirements.txt
 python run.py --sample      # FAST JUDGE MODE: offline, no keys, <5 s, prints the scoreboard
 python verify.py            # re-derives every verdict and receipt hash
-python -m pytest            # 37 tests: every rule + the payment flow
+python -m pytest            # 72 tests: every rule + the payment flow
 python run.py               # web app on http://localhost:8000 (copy .env.example to .env first)
 ```
 
@@ -168,6 +172,9 @@ Charity eligibility rules: present in Pub 78, not on the auto-revocation list (o
 
 - **The original-post link is plain text, never clickable**, because the post itself could be fake or harmful. A family's details reach the charity only as an advisory request; Lifeline doesn't verify the family and never pays individuals.
 - **Other disasters (roadmap).** The event (FEMA declaration, date window) lives in `lifeline/config.py` and the flood extent, declaration and IRS register are loaded from `data/`, but the rules still hard-code North Carolina. Making the pipeline fully event-agnostic (load any FEMA declaration, its satellite flood extent and that state's IRS register) is planned, not working today.
+## Demo video source
+The scripts that build the demo video (narration text, word timings, scene generator, screen recorder) are in [`video/`](video/README.md). Rendered video and audio files are not committed.
+
 ## Deploy on Render
 `render.yaml` is included: New → Blueprint → pick this repo → fill `LLM_API_KEY`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` → Apply.
 

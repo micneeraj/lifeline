@@ -1,0 +1,182 @@
+[
+  {
+    "id": "w0",
+    "text": "Now",
+    "start": 0,
+    "end": 0.24
+  },
+  {
+    "id": "w1",
+    "text": "an",
+    "start": 0.32,
+    "end": 0.56
+  },
+  {
+    "id": "w2",
+    "text": "appeal",
+    "start": 0.56,
+    "end": 0.88
+  },
+  {
+    "id": "w3",
+    "text": "from",
+    "start": 0.88,
+    "end": 1.04
+  },
+  {
+    "id": "w4",
+    "text": "Raleigh.",
+    "start": 1.04,
+    "end": 2
+  },
+  {
+    "id": "w5",
+    "text": "Raleigh",
+    "start": 2,
+    "end": 2.72
+  },
+  {
+    "id": "w6",
+    "text": "isn't",
+    "start": 2.72,
+    "end": 2.96
+  },
+  {
+    "id": "w7",
+    "text": "in",
+    "start": 2.96,
+    "end": 3.12
+  },
+  {
+    "id": "w8",
+    "text": "the",
+    "start": 3.12,
+    "end": 3.2
+  },
+  {
+    "id": "w9",
+    "text": "flood",
+    "start": 3.2,
+    "end": 3.68
+  },
+  {
+    "id": "w10",
+    "text": "zone",
+    "start": 3.68,
+    "end": 4
+  },
+  {
+    "id": "w11",
+    "text": "or",
+    "start": 4,
+    "end": 4.24
+  },
+  {
+    "id": "w12",
+    "text": "the",
+    "start": 4.24,
+    "end": 4.4
+  },
+  {
+    "id": "w13",
+    "text": "disaster",
+    "start": 4.4,
+    "end": 4.96
+  },
+  {
+    "id": "w14",
+    "text": "declaration,",
+    "start": 4.96,
+    "end": 5.84
+  },
+  {
+    "id": "w15",
+    "text": "so",
+    "start": 5.84,
+    "end": 6
+  },
+  {
+    "id": "w16",
+    "text": "Lifeline",
+    "start": 6.08,
+    "end": 6.8
+  },
+  {
+    "id": "w17",
+    "text": "won't",
+    "start": 6.96,
+    "end": 7.2
+  },
+  {
+    "id": "w18",
+    "text": "verify",
+    "start": 7.2,
+    "end": 7.76
+  },
+  {
+    "id": "w19",
+    "text": "it.",
+    "start": 7.76,
+    "end": 8.24
+  },
+  {
+    "id": "w20",
+    "text": "The",
+    "start": 8.24,
+    "end": 8.48
+  },
+  {
+    "id": "w21",
+    "text": "authorization",
+    "start": 8.48,
+    "end": 9.2
+  },
+  {
+    "id": "w22",
+    "text": "is",
+    "start": 9.2,
+    "end": 9.36
+  },
+  {
+    "id": "w23",
+    "text": "voided,",
+    "start": 9.36,
+    "end": 10
+  },
+  {
+    "id": "w24",
+    "text": "and",
+    "start": 10,
+    "end": 10.24
+  },
+  {
+    "id": "w25",
+    "text": "the",
+    "start": 10.24,
+    "end": 10.4
+  },
+  {
+    "id": "w26",
+    "text": "donor",
+    "start": 10.4,
+    "end": 10.8
+  },
+  {
+    "id": "w27",
+    "text": "is",
+    "start": 10.8,
+    "end": 10.96
+  },
+  {
+    "id": "w28",
+    "text": "never",
+    "start": 10.96,
+    "end": 11.28
+  },
+  {
+    "id": "w29",
+    "text": "charged.",
+    "start": 11.28,
+    "end": 11.84
+  }
+]

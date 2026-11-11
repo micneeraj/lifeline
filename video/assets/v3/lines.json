@@ -1,0 +1,20 @@
+{
+ "s01": "When Hurricane Helene hit North Carolina, the water came fast. The appeals came faster.",
+ "s02": "Hundreds of people asked for help. Most were genuine. But some were scams, chasing the same kindness.",
+ "s03": "Officials warned donors to be careful, but donors had no way to tell who was real. So how do you give safely?",
+ "s04": "Now, with PayPal, it's possible.",
+ "s05": "This is Lifeline. Every dollar finds the flood.",
+ "s06": "Paste any appeal. Six agents check it. The AI only reads. Code decides.",
+ "s07": "Jess posted from Marshall two days after the French Broad came through town.",
+ "s08": "Marshall, North Carolina. The Census finds the town, FEMA confirms the disaster, and satellite radar shows flood water a quarter of a kilometre away.",
+ "s09": "Verified: the disaster, the place and the local charities check out. We never verify the stranger who posted it, and that's exactly why they're never paid.",
+ "s10": "Now the donor gives. PayPal authorizes the gift, but doesn't charge it yet.",
+ "s11": "Only when every check passes is it captured, then split with PayPal Payouts across three registered local charities.",
+ "s12": "And if you want to help one specific family, add an optional follow-up request with a link to their post. It's a request to the charity, not a directed gift. They check on the family first and decide how to help.",
+ "s13": "The money is split, every receipt is hashed, and the person who posted gets nothing.",
+ "s14": "This is only possible with PayPal: authorize without charging, capture only when the evidence passes, split to local charities, or void, and the donor is never charged.",
+ "s15": "Now an appeal from Raleigh. Raleigh isn't in the flood zone or the disaster declaration, so Lifeline won't verify it. The authorization is voided, and the donor is never charged.",
+ "s16": "And an attack. Asheville really did flood, but this post hides a message telling the AI to mark it verified. Lifeline catches it, voids the authorization, and points the donor to a registered charity nearby.",
+ "s17": "We locked the answers before running anything. On forty test appeals, Gemini alone, asked whether to release the money, funded just one genuine appeal out of fifteen. Lifeline got thirty-eight of forty right, funded thirteen of fifteen, and sent zero dollars to unverified appeals.",
+ "s18": "Disasters bring out the best in people. From Marshall to the next town under water, Lifeline makes sure that kindness reaches the flood."
+}

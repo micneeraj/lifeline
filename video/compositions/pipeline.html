@@ -1,0 +1,46 @@
+<template>
+<style>
+@font-face{font-family:'Fraunces';src:url('assets/fonts/Fraunces.woff2') format('woff2');font-weight:100 900;font-style:normal;}
+#root{position:absolute;inset:0;overflow:hidden;background:#f7f3ec;font-family:Inter,sans-serif;color:#22313a;}
+#root .wrap{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;}
+#root .wrap video{position:absolute;left:0;top:0;width:1920px;height:1080px;object-fit:cover;}
+#root .page{position:absolute;left:0;top:0;width:1920px;transform-origin:0 0;}
+#root .page img{display:block;width:1920px;}
+.rclip{position:absolute;left:0;top:0;width:1920px;height:907px;overflow:hidden;}
+.rshift{position:absolute;left:0;top:-86px;width:1920px;height:1080px;}
+.mlab.stem:before{content:"";position:absolute;left:50%;top:100%;width:4px;margin-left:-2px;height:70px;background:#fffdf9;box-shadow:0 2px 6px rgba(0,0,0,.35);}
+.ring{position:absolute;border-radius:14px;border:4px solid #4fb3e8;box-shadow:0 0 0 6px rgba(79,179,232,.22),0 0 28px rgba(79,179,232,.55);opacity:0;}
+.mlab{position:absolute;left:0;top:0;margin-top:-26px;padding:10px 20px;border-radius:999px;background:#fffdf9;color:#22313a;font:700 34px Inter;white-space:nowrap;
+  box-shadow:0 10px 30px -8px rgba(0,0,0,.45);transform:translate(-50%,-100%);}
+.mlab:after{content:"";position:absolute;left:50%;bottom:-10px;margin-left:-10px;border:10px solid transparent;border-bottom:0;border-top-color:#fffdf9;}
+#pl-bg{position:absolute;inset:0;background:radial-gradient(1200px 700px at 50% 30%,#dcebf2,#f7f3ec 70%);}
+#pl-stage{position:absolute;left:0;top:0;width:1920px;height:1080px;perspective:1700px;}
+#pl-row{position:absolute;left:210px;top:380px;width:1516px;height:300px;transform-style:preserve-3d;}
+#pl-line{position:absolute;left:0;top:140px;width:1516px;height:4px;border-radius:4px;background:linear-gradient(90deg,#2f6f8f,#4fb3e8);box-shadow:0 0 18px #4fb3e8;transform-origin:0 50%;}
+#pl-pulse{position:absolute;left:0;top:130px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 0 0 6px rgba(79,179,232,.5),0 0 30px #4fb3e8;}
+.pc{position:absolute;top:0;width:230px;height:290px;border-radius:22px;background:#fffdf9;border:1px solid #e6ddd0;padding:22px 20px;box-shadow:0 20px 44px -22px rgba(34,49,58,.4);}
+.pc .num{font:600 30px Inter;color:#5f6b70;letter-spacing:.08em}
+.pc .nm{font:600 36px/1.08 Fraunces,serif;margin:10px 0 10px;color:#22313a}
+.pc .ds{font:500 28px/1.25 Inter;color:#5f6b70;min-height:72px}
+.pc .tg{display:inline-block;margin-top:14px;padding:6px 14px;border-radius:999px;font:700 28px Inter;}
+.pc.ai .tg{background:#fbf0d4;color:#8a5b0c;border:1px solid #e0a84a}
+.pc.code .tg{background:#dcebf2;color:#2f6f8f;border:1px solid rgba(47,111,143,.35)}
+#pl-appeal{position:absolute;left:210px;top:140px;width:900px;padding:22px 28px;border-radius:20px;background:#fffdf9;border:1px solid #e6ddd0;box-shadow:0 20px 44px -24px rgba(34,49,58,.4);font:500 28px/1.4 Inter;color:#22313a}
+#pl-appeal b{display:block;font:600 28px Inter;letter-spacing:.12em;color:#5f6b70;text-transform:uppercase;margin-bottom:6px}
+#pl-stamp{position:absolute;left:1560px;top:230px;padding:12px 22px;border:4px solid #2e7d4f;border-radius:14px;color:#2e7d4f;font:700 34px Fraunces,serif;letter-spacing:.04em;background:rgba(226,242,232,.9)}
+#pl-sub{position:absolute;left:1180px;top:150px;width:560px;font:600 40px/1.2 Fraunces,serif;color:#2f6f8f;text-align:right}
+</style>
+<div id="root" data-composition-id="pipeline" data-width="1920" data-height="1080">
+<div id="pl-bg"></div>
+<div id="pl-appeal"><b>Any appeal</b>&ldquo;Marshall, North Carolina&hellip; Families need diapers, generators and fuel.&rdquo;</div>
+<div id="pl-sub">The AI only reads.<br>Code decides.</div>
+<div id="pl-stage" data-layout-allow-overflow><div id="pl-row"><div id="pl-line"></div><div id="pl-pulse"></div><div class="pc ai" id="pc0" style="left:0px"><div class="num">01</div><div class="nm">Reader</div><div class="ds">Reads the appeal</div><div class="tg">AI reads</div></div><div class="pc code" id="pc1" style="left:256px"><div class="num">02</div><div class="nm">Locator</div><div class="ds">Census place</div><div class="tg">Code</div></div><div class="pc code" id="pc2" style="left:512px"><div class="num">03</div><div class="nm">Flood Check</div><div class="ds">Satellite + FEMA</div><div class="tg">Code</div></div><div class="pc code" id="pc3" style="left:768px"><div class="num">04</div><div class="nm">Register Check</div><div class="ds">IRS register</div><div class="tg">Code</div></div><div class="pc code" id="pc4" style="left:1024px"><div class="num">05</div><div class="nm">Skeptic</div><div class="ds">Tries to break it</div><div class="tg">Code</div></div><div class="pc code" id="pc5" style="left:1280px"><div class="num">06</div><div class="nm">Judge</div><div class="ds">Rules &rarr; verdict</div><div class="tg">Code</div></div></div></div>
+<div id="pl-stamp">VERDICT</div>
+</div>
+<script>
+const tl = gsap.timeline({paused:true});
+tl.fromTo("#pl-bg",{opacity:0},{opacity:1,duration:0.3,ease:"power1.out"},0.00);tl.fromTo("#pl-row",{rotationY:-22,rotationX:14,scale:0.96},{rotationY:-8,rotationX:8,scale:1.02,duration:5.89,ease:"sine.inOut"},0);tl.fromTo("#pl-appeal",{x:-140,opacity:0},{x:0,opacity:1,duration:0.6,ease:"power3.out"},0.2);tl.fromTo("#pc0",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},0.78);tl.fromTo("#pc1",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},0.88);tl.fromTo("#pc2",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},0.99);tl.fromTo("#pc3",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},1.09);tl.fromTo("#pc4",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},1.20);tl.fromTo("#pc5",{y:90,rotationX:-35,opacity:0},{y:0,rotationX:0,opacity:1,duration:0.55,ease:"back.out(1.5)"},1.30);tl.fromTo("#pl-line",{scaleX:0},{scaleX:1,duration:1.1,ease:"power2.inOut"},0.87);tl.to("#pc0",{boxShadow:"0 0 0 4px rgba(224,168,74,.55),0 30px 60px -20px rgba(224,168,74,.75)",duration:0.4},2.47);tl.to(["#pc1","#pc2","#pc3","#pc4","#pc5"],{opacity:0.45,duration:0.35},2.47);tl.to("#pc1",{opacity:1,boxShadow:"0 0 0 3px rgba(79,179,232,.6),0 26px 50px -22px rgba(47,111,143,.7)",duration:0.3},3.81);tl.to("#pc2",{opacity:1,boxShadow:"0 0 0 3px rgba(79,179,232,.6),0 26px 50px -22px rgba(47,111,143,.7)",duration:0.3},3.92);tl.to("#pc3",{opacity:1,boxShadow:"0 0 0 3px rgba(79,179,232,.6),0 26px 50px -22px rgba(47,111,143,.7)",duration:0.3},4.02);tl.to("#pc4",{opacity:1,boxShadow:"0 0 0 3px rgba(79,179,232,.6),0 26px 50px -22px rgba(47,111,143,.7)",duration:0.3},4.12);tl.to("#pc5",{opacity:1,boxShadow:"0 0 0 3px rgba(79,179,232,.6),0 26px 50px -22px rgba(47,111,143,.7)",duration:0.3},4.23);tl.fromTo("#pl-pulse",{x:0,opacity:0},{x:1480,opacity:1,duration:1.4,ease:"power1.inOut"},3.81);tl.to("#pl-pulse",{opacity:0,duration:0.2},5.11);tl.fromTo("#pl-stamp",{scale:1.6,opacity:0,rotation:-14},{scale:1,opacity:1,rotation:-8,duration:0.45,ease:"back.out(2)"},5.07);tl.fromTo("#pl-sub",{opacity:0,y:10},{opacity:1,y:0,duration:0.5},2.43);
+tl.set({},{},5.88);
+window.__timelines["pipeline"] = tl;
+</script>
+</template>

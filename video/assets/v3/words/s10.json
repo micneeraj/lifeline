@@ -1,0 +1,80 @@
+[
+  {
+    "id": "w0",
+    "text": "Now",
+    "start": 0,
+    "end": 0.32
+  },
+  {
+    "id": "w1",
+    "text": "the",
+    "start": 0.32,
+    "end": 0.4
+  },
+  {
+    "id": "w2",
+    "text": "donor",
+    "start": 0.4,
+    "end": 0.88
+  },
+  {
+    "id": "w3",
+    "text": "gives.",
+    "start": 0.88,
+    "end": 1.44
+  },
+  {
+    "id": "w4",
+    "text": "PayPal",
+    "start": 1.44,
+    "end": 2.16
+  },
+  {
+    "id": "w5",
+    "text": "authorizes",
+    "start": 2.32,
+    "end": 2.96
+  },
+  {
+    "id": "w6",
+    "text": "the",
+    "start": 2.96,
+    "end": 3.04
+  },
+  {
+    "id": "w7",
+    "text": "gift",
+    "start": 3.04,
+    "end": 3.28
+  },
+  {
+    "id": "w8",
+    "text": "but",
+    "start": 3.36,
+    "end": 3.52
+  },
+  {
+    "id": "w9",
+    "text": "doesn't",
+    "start": 3.52,
+    "end": 3.84
+  },
+  {
+    "id": "w10",
+    "text": "charge",
+    "start": 3.84,
+    "end": 4.16
+  },
+  {
+    "id": "w11",
+    "text": "it",
+    "start": 4.16,
+    "end": 4.24
+  },
+  {
+    "id": "w12",
+    "text": "yet.",
+    "start": 4.24,
+    "end": 4.64
+  }
+]

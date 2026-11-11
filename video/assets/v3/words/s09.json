@@ -1,0 +1,158 @@
+[
+  {
+    "id": "w0",
+    "text": "Verified,",
+    "start": 0,
+    "end": 0.96
+  },
+  {
+    "id": "w1",
+    "text": "the",
+    "start": 0.96,
+    "end": 1.2
+  },
+  {
+    "id": "w2",
+    "text": "disaster,",
+    "start": 1.2,
+    "end": 1.84
+  },
+  {
+    "id": "w3",
+    "text": "the",
+    "start": 2,
+    "end": 2.16
+  },
+  {
+    "id": "w4",
+    "text": "place",
+    "start": 2.16,
+    "end": 2.32
+  },
+  {
+    "id": "w5",
+    "text": "and",
+    "start": 2.48,
+    "end": 2.64
+  },
+  {
+    "id": "w6",
+    "text": "the",
+    "start": 2.64,
+    "end": 2.72
+  },
+  {
+    "id": "w7",
+    "text": "local",
+    "start": 2.72,
+    "end": 3.12
+  },
+  {
+    "id": "w8",
+    "text": "charities",
+    "start": 3.12,
+    "end": 3.68
+  },
+  {
+    "id": "w9",
+    "text": "check",
+    "start": 3.68,
+    "end": 4.08
+  },
+  {
+    "id": "w10",
+    "text": "out.",
+    "start": 4.08,
+    "end": 4.56
+  },
+  {
+    "id": "w11",
+    "text": "We",
+    "start": 4.56,
+    "end": 4.72
+  },
+  {
+    "id": "w12",
+    "text": "never",
+    "start": 4.72,
+    "end": 5.04
+  },
+  {
+    "id": "w13",
+    "text": "verify",
+    "start": 5.04,
+    "end": 5.52
+  },
+  {
+    "id": "w14",
+    "text": "the",
+    "start": 5.52,
+    "end": 5.68
+  },
+  {
+    "id": "w15",
+    "text": "stranger",
+    "start": 5.68,
+    "end": 6.16
+  },
+  {
+    "id": "w16",
+    "text": "who",
+    "start": 6.16,
+    "end": 6.4
+  },
+  {
+    "id": "w17",
+    "text": "posted",
+    "start": 6.4,
+    "end": 6.8
+  },
+  {
+    "id": "w18",
+    "text": "it,",
+    "start": 6.8,
+    "end": 7.12
+  },
+  {
+    "id": "w19",
+    "text": "and",
+    "start": 7.12,
+    "end": 7.36
+  },
+  {
+    "id": "w20",
+    "text": "that's",
+    "start": 7.36,
+    "end": 7.68
+  },
+  {
+    "id": "w21",
+    "text": "exactly",
+    "start": 7.68,
+    "end": 8.08
+  },
+  {
+    "id": "w22",
+    "text": "why",
+    "start": 8.08,
+    "end": 8.32
+  },
+  {
+    "id": "w23",
+    "text": "they're",
+    "start": 8.32,
+    "end": 8.64
+  },
+  {
+    "id": "w24",
+    "text": "never",
+    "start": 8.64,
+    "end": 8.88
+  },
+  {
+    "id": "w25",
+    "text": "paid.",
+    "start": 8.88,
+    "end": 9.28
+  }
+]

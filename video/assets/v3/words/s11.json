@@ -1,0 +1,110 @@
+[
+  {
+    "id": "w0",
+    "text": "Only",
+    "start": 0,
+    "end": 0.32
+  },
+  {
+    "id": "w1",
+    "text": "when",
+    "start": 0.32,
+    "end": 0.56
+  },
+  {
+    "id": "w2",
+    "text": "every",
+    "start": 0.56,
+    "end": 0.8
+  },
+  {
+    "id": "w3",
+    "text": "check",
+    "start": 0.8,
+    "end": 1.2
+  },
+  {
+    "id": "w4",
+    "text": "passes",
+    "start": 1.2,
+    "end": 1.6
+  },
+  {
+    "id": "w5",
+    "text": "is",
+    "start": 1.6,
+    "end": 1.76
+  },
+  {
+    "id": "w6",
+    "text": "it",
+    "start": 1.76,
+    "end": 2
+  },
+  {
+    "id": "w7",
+    "text": "captured,",
+    "start": 2,
+    "end": 2.72
+  },
+  {
+    "id": "w8",
+    "text": "then",
+    "start": 2.72,
+    "end": 3.04
+  },
+  {
+    "id": "w9",
+    "text": "split",
+    "start": 3.04,
+    "end": 3.36
+  },
+  {
+    "id": "w10",
+    "text": "with",
+    "start": 3.36,
+    "end": 3.6
+  },
+  {
+    "id": "w11",
+    "text": "PayPal",
+    "start": 3.6,
+    "end": 4.4
+  },
+  {
+    "id": "w12",
+    "text": "payouts",
+    "start": 4.4,
+    "end": 4.96
+  },
+  {
+    "id": "w13",
+    "text": "across",
+    "start": 4.96,
+    "end": 5.2
+  },
+  {
+    "id": "w14",
+    "text": "three",
+    "start": 5.2,
+    "end": 5.52
+  },
+  {
+    "id": "w15",
+    "text": "registered",
+    "start": 5.52,
+    "end": 6.08
+  },
+  {
+    "id": "w16",
+    "text": "local",
+    "start": 6.08,
+    "end": 6.4
+  },
+  {
+    "id": "w17",
+    "text": "charities.",
+    "start": 6.4,
+    "end": 6.96
+  }
+]
