@@ -6,6 +6,7 @@ Every money movement is appended to trace/payments.jsonl.
 import base64, json, time, uuid
 from . import config
 from .pipeline import log_trace, sha
+from . import earmark as earmark_mod
 
 SANDBOX_LABEL = "SANDBOX DEMO RECEIVER"
 
@@ -64,7 +65,7 @@ def _log(kind, obj):
 def create_order(amount, check_id, card=None):
     amount = f"{float(amount):.2f}"
     body = {"intent": "AUTHORIZE",
-            "purchase_units": [{"reference_id": check_id, "description": "Lifeline flood relief (held until verified)",
+            "purchase_units": [{"reference_id": check_id, "description": "Lifeline flood relief (authorized; captured only after checks pass)",
                                 "custom_id": check_id, "amount": {"currency_code": "USD", "value": amount}}]}
     if card:
         body["payment_source"] = {"card": card}
@@ -119,14 +120,20 @@ def split(amount, n):
     return [(base + (1 if i < extra else 0)) / 100 for i in range(n)]
 
 
-def payouts(check_id, amount, charities):
+def case_ref(check_id):
+    """Non-sensitive case reference shared by every payout item of one donation."""
+    return f"LL-{str(check_id)[:12].upper()}"
+
+
+def payouts(check_id, amount, charities, earmark=None):
     shares = split(amount, len(charities))
+    case = case_ref(check_id)
     items = []
     for i, (c, s) in enumerate(zip(charities, shares)):
         items.append({"recipient_type": "EMAIL", "receiver": receiver_email(i, c),
                       "amount": {"value": f"{s:.2f}", "currency": "USD"},
-                      "note": f"Lifeline relief for {c['name']} (EIN {c['ein']}) — {SANDBOX_LABEL}",
-                      "sender_item_id": f"{check_id}-{c['ein']}"})
+                      "note": earmark_mod.payout_note(f"Lifeline relief for {c['name']} (EIN {c['ein']}) · Case {case} — {SANDBOX_LABEL}", earmark),
+                      "sender_item_id": f"{case}-{c['ein']}"})
     batch_id = f"LIFELINE-{check_id}-{uuid.uuid4().hex[:6]}"
     body = {"sender_batch_header": {"sender_batch_id": batch_id, "email_subject": "Lifeline sandbox relief payout",
                                     "email_message": SANDBOX_LABEL},
@@ -136,21 +143,28 @@ def payouts(check_id, amount, charities):
                                 "batch_status": "SUCCESS", "sample": True}}
     else:
         res = _req("POST", "/v1/payments/payouts", body, idem=batch_id)
+        try:  # read back each item's status so the receipt shows what PayPal reports, not what we assume
+            got = _req("GET", f"/v1/payments/payouts/{res['batch_header']['payout_batch_id']}")
+            st = {i["payout_item"]["sender_item_id"]: i.get("transaction_status") for i in got.get("items", [])}
+            for it in items:
+                it["status"] = st.get(it["sender_item_id"], "PENDING")
+        except PayPalError:
+            pass
     _log("payout", {"check_id": check_id, "batch": res["batch_header"], "items": items})
     return res["batch_header"], items, shares
 
 
-def settle(result, auth, amount):
+def settle(result, auth, amount, earmark=None):
     """The core rule: pay verified local charities on GREEN, otherwise void. Returns a receipt."""
     verdict = result["verdict"]
-    receipt = {"check_id": result["check_id"], "verdict": verdict, "verdict_sha256": result["verdict_sha256"],
+    receipt = {"check_id": result["check_id"], "case_ref": case_ref(result["check_id"]), "verdict": verdict, "verdict_sha256": result["verdict_sha256"],
                "amount": f"{float(amount):.2f}", "currency": "USD", "authorization_id": auth["authorization_id"],
                "order_id": auth.get("order_id"), "sample_mode": is_stub(), "poster_paid": False,
                "receiver_label": SANDBOX_LABEL}
     if verdict == "GREEN" and result["charities"]:
         cap = capture(auth["authorization_id"])
         try:
-            header, items, shares = payouts(result["check_id"], amount, result["charities"])
+            header, items, shares = payouts(result["check_id"], amount, result["charities"], earmark)
             receipt.update(action="CAPTURED_AND_PAID", capture_id=cap["id"], payout_batch_id=header["payout_batch_id"],
                            payout_status=header.get("batch_status"))
         except PayPalError as e:
@@ -163,7 +177,9 @@ def settle(result, auth, amount):
                                 "PayPal and is held for manual disbursement. Nothing was sent to the poster.")
         fl = result.get("flood", {}).get("flood_row")
         receipt["payouts"] = [{"charity": c["name"], "ein": c["ein"], "city": c["city"], "ntee": c["ntee"],
-                               "amount": f"{s:.2f}", "receiver": it["receiver"], "register_row": json.loads(c["raw"]),
+                               "amount": f"{s:.2f}", "receiver": it["receiver"], "sender_item_id": it.get("sender_item_id"),
+                               "item_status": it.get("status") or ("SAMPLE" if is_stub() else receipt.get("payout_status")),
+                               "register_row": json.loads(c["raw"]),
                                "satellite_evidence": fl}
                               for c, s, it in zip(result["charities"], shares, items)]
     else:
@@ -171,6 +187,8 @@ def settle(result, auth, amount):
         receipt.update(action="VOIDED_NOT_CHARGED", void_status=v["status"], payouts=[],
                        redirect=({"charity": result["redirect"]["name"], "ein": result["redirect"]["ein"],
                                   "city": result["redirect"]["city"]} if result.get("redirect") else None))
+    if earmark:  # already cleaned + redacted; part of the receipt hash only, never the verdict
+        receipt["earmark"] = dict(earmark, delivered=bool(receipt["payouts"]) and earmark.get("status") == "FORWARDED_TO_CHARITY")
     receipt["receipt_sha256"] = sha({k: v for k, v in receipt.items() if k != "receipt_sha256"})
     _log("receipt", receipt)
     return receipt

@@ -7,7 +7,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-from lifeline import config, paypal, pipeline
+from lifeline import config, earmark, paypal, pipeline
 
 ROOT = Path(__file__).resolve().parents[1]
 app = FastAPI(title="Lifeline", description="Every dollar finds the flood.", version="1.0.0")
@@ -36,6 +36,9 @@ class SettleIn(BaseModel):
     order_id: str
     amount: float = Field(..., gt=0, le=10000)
     reviewer_token: str | None = None
+    family: str | None = Field(None, max_length=400)
+    note: str | None = Field(None, max_length=1000)
+    post_link: str | None = Field(None, max_length=1000)
 
 
 @app.get("/")
@@ -133,11 +136,15 @@ def settle(body: SettleIn):
     if not r:
         raise HTTPException(404, "unknown check")
     try:
+        try:  # untrusted text; never reaches the verdict
+            em = earmark.clean(body.family, body.note, body.post_link)
+        except (earmark.LinkRejected, earmark.NoteRejected) as e:
+            raise HTTPException(400, {"message": str(e)})
         auth = paypal.authorize(body.order_id, body.check_id)
         result = r
         if r["verdict"] == "YELLOW" and REVIEWER_TOKEN and body.reviewer_token == REVIEWER_TOKEN and r["charities"]:
             result = dict(r, verdict="GREEN", reasons=r["reasons"] + ["HUMAN_APPROVED"])
-        receipt = paypal.settle(result, auth, body.amount)
+        receipt = paypal.settle(result, auth, body.amount, em)
     except paypal.PayPalError as e:
         raise HTTPException(502, e.body)
     RECEIPTS[receipt["check_id"]] = receipt
