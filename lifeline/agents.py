@@ -492,12 +492,14 @@ def explain_facts(verdict, reasons, place, n=0):
         return (f"{place} is inside the satellite-observed flood area. "
                 f"Your donation goes to {n} registered local {'charity' if n == 1 else 'charities'}, never to the person who posted.")
     why = " ".join(reasons) or "A check could not be completed."
-    end = "Your donation is held and then voided, so you are not charged."
+    end = "Your donation is authorized but not captured, then voided, so you are not charged."
     return f"{place} could not be verified. {why} {end}"
 
 
 def explain(verdict, reasons, place, n=0):
     facts = explain_facts(verdict, reasons, place, n)
+    if verdict != "VERIFIED":  # refusal wording stays code-generated, never rephrased
+        return facts
     text, meta = llm.complete(SKEPTIC_PROMPT.format(facts=facts), timeout=8)
     t = (text or "").strip()
     ok = (t and not BANNED_EXPLAIN.search(t) and len(re.findall(r"[.!?](\s|$)", t)) <= 3

@@ -158,6 +158,17 @@ def receipt(check_id: str):
     return RECEIPTS[check_id]
 
 
+@app.get("/api/payouts/{check_id}")
+def payout_status(check_id: str):
+    rc = RECEIPTS.get(check_id)
+    if not rc or not rc.get("payout_batch_id"):
+        raise HTTPException(404, "no payout batch")
+    try:
+        return paypal.payout_status(rc["payout_batch_id"])
+    except paypal.PayPalError as e:
+        raise HTTPException(502, e.body)
+
+
 @app.get("/api/proof")
 def proof():
     files = sorted((ROOT / "eval").glob("results_*.json"))

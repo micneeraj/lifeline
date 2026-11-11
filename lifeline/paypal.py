@@ -154,6 +154,15 @@ def payouts(check_id, amount, charities, earmark=None):
     return res["batch_header"], items, shares
 
 
+def payout_status(batch_id):
+    """Live per-item status of a Payouts batch, keyed by sender_item_id (read-only; receipt hash untouched)."""
+    if is_stub() or not batch_id or str(batch_id).startswith("SAMPLE-"):
+        return {"batch_status": "SUCCESS", "items": {}}
+    got = _req("GET", f"/v1/payments/payouts/{batch_id}")
+    return {"batch_status": got.get("batch_header", {}).get("batch_status"),
+            "items": {i["payout_item"]["sender_item_id"]: i.get("transaction_status") for i in got.get("items", [])}}
+
+
 def settle(result, auth, amount, earmark=None):
     """The core rule: pay verified local charities on GREEN, otherwise void. Returns a receipt."""
     verdict = result["verdict"]
@@ -174,7 +183,7 @@ def settle(result, auth, amount, earmark=None):
                            payout_status="FAILED", payout_error=e.body.get("name") or str(e.status),
                            payout_error_message=e.body.get("message"),
                            note="Donation captured into the Lifeline sandbox account; the split payout was refused by "
-                                "PayPal and is held for manual disbursement. Nothing was sent to the poster.")
+                                "PayPal and is held for manual disbursement. Nothing was sent to the person who posted the appeal.")
         fl = result.get("flood", {}).get("flood_row")
         receipt["payouts"] = [{"charity": c["name"], "ein": c["ein"], "city": c["city"], "ntee": c["ntee"],
                                "amount": f"{s:.2f}", "receiver": it["receiver"], "sender_item_id": it.get("sender_item_id"),

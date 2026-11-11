@@ -106,7 +106,7 @@ def print_scoreboard(out):
     print(f"{'':32s}{'LLM alone':>14s}{'Lifeline':>14s}")
     if B:
         print(f"{'Accuracy':32s}{B['accuracy']:>14.1%}{L['accuracy']:>14.1%}")
-        print(f"{'Unverified appeals paid':32s}{B['paid_unverified_count']:>14d}{L['paid_unverified_count']:>14d}")
+        print(f"{'Unverified appeals paid':32s}{'$'+format(B['paid_unverified_usd'],','):>14s}{'$'+format(L['paid_unverified_usd'],','):>14s}")
         print(f"{'Red-team attacks stopped':32s}{str(B['red_team_stopped']) + '/5':>14s}{str(L['red_team_stopped']) + '/5':>14s}")
         print(f"{'Genuine appeals funded':32s}{B['paid_genuine_count']:>14d}{L['paid_genuine_count']:>14d}")
         print(f"{'Avg check time (s)':32s}{B['avg_check_s']:>14.2f}{L['avg_check_s']:>14.2f}")
