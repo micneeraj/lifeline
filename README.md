@@ -6,7 +6,7 @@
 git clone https://github.com/micneeraj/lifeline.git && cd lifeline && python run.py --sample
 ```
 
-**Live:** https://lifeline-3fug.onrender.com (free hosting: the first load may take ~30 s while it wakes up).
+**Live:** https://lifeline-3fug.onrender.com (kept awake for judging).
 
 **Demo video:** https://youtu.be/0U7OnSGAwqM (2:52)
 
@@ -251,6 +251,7 @@ The scripts that build the demo video (narration text, word timings, scene gener
 
 ## Deploy on Render
 `render.yaml` is included: New → Blueprint → pick this repo → fill `LLM_API_KEY`, `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` → Apply.
+On Render's free plan an idle instance goes to sleep, so the first load after a quiet spell can take ~30 s while it wakes up.
 
 ## Postman
 `postman/Lifeline.postman_collection.json` covers health, check (verified / not verified / injection / streamed), PayPal order, settle, receipt and proof.

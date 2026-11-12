@@ -6,7 +6,7 @@
 git clone https://github.com/micneeraj/lifeline.git && cd lifeline && python run.py --sample
 ```
 
-**Live:** https://lifeline-3fug.onrender.com (free hosting: the first load may take ~30 s while it wakes up).
+**Live:** https://lifeline-3fug.onrender.com (kept awake for judging).
 
 **Demo video:** https://youtu.be/0U7OnSGAwqM (2:52)
 
