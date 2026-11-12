@@ -22,3 +22,7 @@ video/assets/bgm/
 video/assets/voice/
 video/.hyperframes/
 node_modules/
+
+# synthetic test event build outputs (tests build into a temp copy)
+tests/fixtures/test-event/test.db
+tests/fixtures/test-event/flood.geojson

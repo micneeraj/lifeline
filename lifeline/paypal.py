@@ -166,19 +166,22 @@ def payout_status(batch_id):
 def settle(result, auth, amount, earmark=None):
     """The core rule: pay verified local charities on GREEN, otherwise void. Returns a receipt."""
     verdict = result["verdict"]
+    from .agents import partners  # partner block list is re-checked at payment time, after screening
+    blocked = partners()["block"]
+    charities = [c for c in result["charities"] if c["ein"] not in blocked]
     receipt = {"check_id": result["check_id"], "case_ref": case_ref(result["check_id"]), "verdict": verdict, "verdict_sha256": result["verdict_sha256"],
                "amount": f"{float(amount):.2f}", "currency": "USD", "authorization_id": auth["authorization_id"],
                "order_id": auth.get("order_id"), "sample_mode": is_stub(), "poster_paid": False,
                "receiver_label": SANDBOX_LABEL}
-    if verdict == "GREEN" and result["charities"]:
+    if verdict == "GREEN" and charities:
         cap = capture(auth["authorization_id"])
         try:
-            header, items, shares = payouts(result["check_id"], amount, result["charities"], earmark)
+            header, items, shares = payouts(result["check_id"], amount, charities, earmark)
             receipt.update(action="CAPTURED_AND_PAID", capture_id=cap["id"], payout_batch_id=header["payout_batch_id"],
                            payout_status=header.get("batch_status"))
         except PayPalError as e:
-            shares = split(amount, len(result["charities"]))
-            items = [{"receiver": receiver_email(i, c)} for i, c in enumerate(result["charities"])]
+            shares = split(amount, len(charities))
+            items = [{"receiver": receiver_email(i, c)} for i, c in enumerate(charities)]
             receipt.update(action="CAPTURED_PAYOUT_FAILED", capture_id=cap["id"], payout_batch_id=None,
                            payout_status="FAILED", payout_error=e.body.get("name") or str(e.status),
                            payout_error_message=e.body.get("message"),
@@ -190,7 +193,7 @@ def settle(result, auth, amount, earmark=None):
                                "item_status": it.get("status") or ("SAMPLE" if is_stub() else receipt.get("payout_status")),
                                "register_row": json.loads(c["raw"]),
                                "satellite_evidence": fl}
-                              for c, s, it in zip(result["charities"], shares, items)]
+                              for c, s, it in zip(charities, shares, items)]
     else:
         v = void(auth["authorization_id"], f"{verdict}: {','.join(result['reasons'])}")
         receipt.update(action="VOIDED_NOT_CHARGED", void_status=v["status"], payouts=[],

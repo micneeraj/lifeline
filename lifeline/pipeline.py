@@ -7,8 +7,8 @@ from . import agents, config
 VERDICT_TEXT = {"GREEN": "VERIFIED", "RED": "NOT VERIFIED", "YELLOW": "UNVERIFIABLE"}
 REASON_TEXT = {
     "NOT_IN_FLOOD_AREA": "The place is not inside the satellite-observed flood area.",
-    "DATE_MISMATCH": "The appeal's date does not fit the Helene event window.",
-    "NO_DISASTER_DECLARATION": "The county is not in the FEMA DR-4827-NC disaster declaration.",
+    "DATE_MISMATCH": "The appeal's date does not fit the {short_name} event window.",
+    "NO_DISASTER_DECLARATION": "The county is not in the FEMA {fema_decl} disaster declaration.",
     "PROMPT_INJECTION": "The appeal contains hidden instructions aimed at the checker.",
     "AMBIGUOUS_PLACE": "This town name exists in several states and the appeal does not say which.",
     "EDGE_OF_FLOOD": "The observed flood only touches the edge of this place.",
@@ -33,7 +33,23 @@ def specific_reason(code, flags, trace):
             return "The place in the appeal could not be found in US Census data, so a human should check before money moves."
         if any(r["rule"] == "DATE_UNKNOWN" for r in trace):
             return "The appeal has no date, so a human should check before money moves."
-    return REASON_TEXT[code]
+    return REASON_TEXT[code].format(**config.EVENT_MANIFEST)
+
+
+EDGE_NOTE = "Near the edge of the observed flood. A reviewer may double-check."
+
+
+def summary_line(verdict, reason_text):
+    """One plain-English line for the donor-first view."""
+    if verdict == "GREEN":
+        return "The disaster, the place, the date and the local charities all checked out."
+    return reason_text[0] if reason_text else "A check could not be completed."
+
+
+def rank_for_display(charities):
+    """County-first ordering of the screened payees for display: partner-approved, then charities whose IRS
+    address county is in the event's declared counties, then by distance. Does not change who is paid."""
+    return sorted(charities, key=lambda c: (not c.get("partner"), not c.get("county_declared"), c["distance_km"]))
 
 
 def canon(obj):
@@ -83,7 +99,12 @@ def run_check(text, posted_at=None, emit=None, appeal_id=None, explain=True, rec
     flood = {}
     charities, n_el = [], 0
     if loc.get("lat") is not None:
-        flood = step("Flood Check", lambda: agents.flood_check(loc, extracted, posted_at, trace))
+        def fcheck():
+            f = agents.flood_check(loc, extracted, posted_at, trace)
+            ev = agents.flood_evidence(f)  # display only; the Judge never reads it
+            agents.rule(trace, "Flood Check", "FLOOD_EVIDENCE", "info", f"Flood evidence: {ev['band']} ({ev['text']})", ev)
+            return f
+        flood = step("Flood Check", fcheck)
         charities, n_el = step("Register Check", lambda: agents.register_check(loc, trace))
     else:
         emit("Flood Check", {"status": "skipped"})
@@ -117,6 +138,13 @@ def run_check(text, posted_at=None, emit=None, appeal_id=None, explain=True, rec
     result["inputs_sha256"] = sha(inputs)
     result["verdict_sha256"] = sha({"inputs": inputs, "evidence": evidence, "verdict": verdict, "reasons": reasons})
     result["_hash_inputs"] = {"inputs": inputs, "evidence": evidence}
+    ev = agents.flood_evidence(flood)
+    if verdict == "GREEN" and ev["band"] == "Weak":
+        ev["note"] = EDGE_NOTE
+    result["flood_evidence"] = ev          # display only, added after hashing
+    result["summary_line"] = summary_line(verdict, result["reason_text"])
+    result["charities_display"] = rank_for_display(charities)
+    result["event"] = {"id": config.EVENT_MANIFEST["id"], "name": config.EVENT["name"]}
     if explain:
         result["explanation"] = agents.explain(VERDICT_TEXT[verdict], result["reason_text"], loc.get("place"), len(charities))
     log_trace({"type": "check", **{k: v for k, v in result.items() if k != "charities"}})
@@ -128,7 +156,8 @@ def flood_redirect(loc, flood, charities):
     if flood.get("flood") in ("IN_FLOOD", "EDGE") and charities:
         return charities[0]
     # place not flooded / unknown: nearest observed-flood community to the claimed place (default Asheville)
-    lat, lon = loc.get("lat", 35.5951), loc.get("lon", -82.5515)
+    d_lat, d_lon = config.EVENT_MANIFEST["default_redirect_point"]
+    lat, lon = loc.get("lat", d_lat), loc.get("lon", d_lon)
     tree, geoms, meta = agents.flood_index()
     i = int(tree.nearest(agents.Point(lon, lat)))
     c = geoms[i].representative_point()

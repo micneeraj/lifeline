@@ -1,0 +1,14 @@
+{
+ "DisasterDeclarationsSummaries": [
+  {
+   "designatedArea": "Testcounty (County)",
+   "fipsStateCode": "50",
+   "fipsCountyCode": "999",
+   "femaDeclarationString": "DR-9999-VT",
+   "incidentBeginDate": "2030-05-01T00:00:00.000Z",
+   "incidentEndDate": "2030-05-20T00:00:00.000Z",
+   "declarationTitle": "SYNTHETIC TEST FLOOD",
+   "hash": "test"
+  }
+ ]
+}

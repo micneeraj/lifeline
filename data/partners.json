@@ -1,0 +1,5 @@
+{
+ "_comment": "Partner allow/block lists by EIN, applied after IRS/Pub 78/revocation/OFAC screening. In a real deployment a partner organisation maintains this list. allow = listed first among screened charities (never skips screening); block = never paid.",
+ "allow": [],
+ "block": []
+}

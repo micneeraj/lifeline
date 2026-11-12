@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lifeline reviewer queue</title>
+<meta name="description" content="Demo reviewer queue for UNVERIFIABLE Lifeline checks. No money moves from this page.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f3ec;--bg2:#efe8dc;--card:#fffdf9;--ink:#22313a;--muted:#5f6b70;--line:#e6ddd0;--river:#2f6f8f;--river-soft:#dcebf2;
+  --green:#2e7d4f;--green-soft:#e2f2e8;--red:#b4442f;--red-soft:#f8e3dd;--yellow:#b07d12;--yellow-soft:#fbf0d4;
+  --shadow-sm:0 1px 2px rgba(34,49,58,.05),0 6px 18px -8px rgba(34,49,58,.14)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#11181d;--bg2:#0d1317;--card:#1a242a;--ink:#ece6dc;--muted:#a3adb1;--line:#2c3a42;
+  --river:#7fb8d4;--river-soft:#1d3440;--green:#6cc391;--green-soft:#183326;--red:#e98b76;--red-soft:#3a2019;--yellow:#e5b851;--yellow-soft:#382c12;
+  --shadow-sm:0 6px 18px -8px rgba(0,0,0,.5)}}
+:root[data-theme="dark"]{--bg:#11181d;--bg2:#0d1317;--card:#1a242a;--ink:#ece6dc;--muted:#a3adb1;--line:#2c3a42;
+  --river:#7fb8d4;--river-soft:#1d3440;--green:#6cc391;--green-soft:#183326;--red:#e98b76;--red-soft:#3a2019;--yellow:#e5b851;--yellow-soft:#382c12}
+*{box-sizing:border-box} html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;margin:0 0 .4em;line-height:1.15}
+h1{font-size:clamp(28px,4vw,44px)} h3{font-size:19px}
+a{color:var(--river)}
+.top{position:sticky;top:0;z-index:10;background:var(--card);border-bottom:1px solid var(--line);padding:12px max(16px,calc((100vw - 1100px)/2));
+  display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.brand b{font-family:Fraunces,serif;font-size:22px} .brand span{color:var(--muted);font-size:13px;margin-left:8px}
+nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap} nav a{padding:6px 12px;border-radius:999px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px}
+nav a.on,nav a:hover{background:var(--river-soft)}
+main{max-width:1100px;margin:0 auto;padding:28px 16px 64px}
+.banner{border:1.5px solid var(--yellow);background:var(--yellow-soft);color:var(--ink);border-radius:16px;padding:14px 18px;margin:0 0 22px;font-weight:600}
+.banner span{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow-sm);margin:0 0 16px}
+.muted{color:var(--muted)} .small{font-size:13px}
+.head{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.tag{font:600 12px Inter;padding:3px 10px;border-radius:999px;background:var(--bg2);border:1px solid var(--line)}
+.tag.y{background:var(--yellow-soft);color:var(--yellow);border-color:var(--yellow)}
+.chip{font:600 12px ui-monospace,Consolas,monospace;padding:3px 9px;border-radius:8px;background:var(--bg2);margin-right:6px}
+.appeal{margin:8px 0;padding:10px 14px;border-left:3px solid var(--line);background:var(--bg);border-radius:0 10px 10px 0}
+.ev{margin:8px 0} .ev b.Strong{color:var(--green)} .ev b.Moderate{color:var(--river)} .ev b.Weak{color:var(--yellow)} .ev b.None{color:var(--red)}
+ul.ch{margin:4px 0 0;padding-left:18px;font-size:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}
+.btn{appearance:none;border:0;border-radius:999px;padding:9px 18px;font:600 14px Inter,sans-serif;cursor:pointer;background:var(--green);color:#fff}
+.btn.hold{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.decision{font-weight:600;font-size:14px} .decision.rel{color:var(--green)} .decision.keep{color:var(--yellow)}
+.mono{font:12px ui-monospace,Consolas,monospace;overflow-wrap:anywhere;color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><b>Lifeline</b><span>Every dollar finds the flood.</span></div>
+  <nav><a href="/#feed">Appeals</a><a href="/#check">Live check</a><a href="/#donate">Donate</a><a href="/#proof">Proof</a><a href="/review" class="on">Reviewer queue</a></nav>
+</header>
+<main>
+  <div class="banner" role="note">Demo reviewer queue: no money moves from this page.
+    <span>Buttons only record a decision on this screen. In a real deployment a trained reviewer at a partner organisation would make this call, and a release would still pay only registered, eligibility-screened charities, never the person who posted.</span></div>
+  <h1>UNVERIFIABLE checks waiting for a human</h1>
+  <p class="muted">Lifeline sends a check here when the rules can't decide safely: the place name exists in several states, the flood only touches the edge of the place, a charity name looks like a registered one, or a key fact is missing. The list holds the UNVERIFIABLE appeals from the 40-appeal evaluation set plus any live checks made on this server since it started.</p>
+  <p class="small muted" id="counts"></p>
+  <div id="queue">Loading…</div>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const decisions = {};
+function card(it){
+  const ev = it.flood_evidence || {}, d = decisions[it.check_id];
+  return `<article class="card" data-id="${esc(it.check_id)}">
+    <div class="head"><span class="tag y">UNVERIFIABLE</span><span class="tag">${esc(it.source)}${it.appeal_id?" · "+esc(it.appeal_id):""}</span>
+      <b>${esc(it.place||"Place not found")}${it.state?", "+esc(it.state):""}</b>${it.county?`<span class="muted small">${esc(it.county)} County</span>`:""}</div>
+    <div class="appeal">${esc(it.text)}</div>
+    <div>${(it.reasons||[]).map(r=>`<span class="chip">${esc(r)}</span>`).join("")}</div>
+    <p style="margin:8px 0 0">${esc((it.reason_text||[]).join(" "))}</p>
+    <div class="ev small"><b class="${esc(ev.band)}">Flood evidence: ${esc(ev.band)}</b> · ${esc(ev.text||"")}</div>
+    ${(it.charities||[]).length?`<div class="small"><b>Screened charities that would be paid on release</b><ul class="ch">${it.charities.map(c=>`<li>${esc(c.name)} · ${esc(c.city)} · ${c.distance_km} km · EIN ${esc(c.ein)}${c.county?` · Serves: ${esc(c.county)} County${c.county_declared?" (declared)":""}`:""}</li>`).join("")}</ul></div>`:`<div class="small muted">No screened charity nearby, so nothing could be released.</div>`}
+    <div class="row">
+      <button class="btn" data-act="rel" ${d||!(it.charities||[]).length?"disabled":""}>Release to charities</button>
+      <button class="btn hold" data-act="keep" ${d?"disabled":""}>Keep held</button>
+      ${d?`<span class="decision ${d}">${d==="rel"?"Recorded on screen: release to charities (demo, no money moved)":"Recorded on screen: kept held (donor not charged)"}</span>`:""}
+    </div>
+    <p class="mono" style="margin:10px 0 0">verdict_sha256 ${esc(it.verdict_sha256)}</p>
+  </article>`;
+}
+let ITEMS = [];
+function render(){
+  $("#counts").textContent = `${ITEMS.length} checks in the queue · ${ITEMS.filter(i=>i.source==="live check").length} from live checks this session · ${Object.keys(decisions).length} decided on screen`;
+  $("#queue").innerHTML = ITEMS.length ? ITEMS.map(card).join("") : `<div class="card">Nothing is waiting for review.</div>`;
+}
+$("#queue").addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]"); if(!b || b.disabled) return;
+  decisions[b.closest("article").dataset.id] = b.dataset.act; render();
+});
+(async () => {
+  for(let i=0;;i++){
+    try{ const r = await fetch("/api/review"); ITEMS = (await r.json()).items || []; break; }
+    catch(e){ if(i>15){ $("#queue").textContent = "Could not reach the server. Please refresh in a moment."; return; } await new Promise(z=>setTimeout(z,2000)); }
+  }
+  render();
+})();
+</script>
+</body>
+</html>

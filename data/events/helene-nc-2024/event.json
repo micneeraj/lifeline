@@ -1,0 +1,117 @@
+{
+ "id": "helene-nc-2024",
+ "name": "Hurricane / Tropical Storm Helene (DR-4827-NC)",
+ "short_name": "Hurricane Helene",
+ "fema_decl": "DR-4827-NC",
+ "state": "NC",
+ "state_name": "North Carolina",
+ "region": "western North Carolina",
+ "period_label": "Sept 2024",
+ "begin": "2024-09-25",
+ "end": "2024-12-18",
+ "obs_begin": "2024-09-24",
+ "obs_end": "2024-10-05",
+ "declared_counties": [
+  "Alexander",
+  "Alleghany",
+  "Ashe",
+  "Avery",
+  "Buncombe",
+  "Burke",
+  "Cabarrus",
+  "Caldwell",
+  "Catawba",
+  "Cherokee",
+  "Clay",
+  "Cleveland",
+  "Eastern Band of Cherokee Indians",
+  "Forsyth",
+  "Gaston",
+  "Graham",
+  "Haywood",
+  "Henderson",
+  "Iredell",
+  "Jackson",
+  "Lee",
+  "Lincoln",
+  "Macon",
+  "Madison",
+  "McDowell",
+  "Mecklenburg",
+  "Mitchell",
+  "Nash",
+  "Polk",
+  "Rowan",
+  "Rutherford",
+  "Stanly",
+  "Surry",
+  "Swain",
+  "Transylvania",
+  "Union",
+  "Watauga",
+  "Wilkes",
+  "Yadkin",
+  "Yancey"
+ ],
+ "bbox": [
+  -84.33,
+  34.98,
+  -80.8,
+  36.59
+ ],
+ "map": {
+  "center": [
+   -82.45,
+   35.62
+  ],
+  "zoom": 8.4
+ },
+ "default_redirect_point": [
+  35.5951,
+  -82.5515
+ ],
+ "flood_product": "ICEYE FSD-2227 Helene flood extent",
+ "flood_product_label": "ICEYE / Sentinel satellite-observed flood extent",
+ "db": "data/lifeline.db",
+ "flood_extent_file": "data/flood_wnc.geojson",
+ "fema_file": "data/fema_dr4827_nc.json",
+ "irs_slice_file": "data/raw/eo_nc.csv",
+ "build": {
+  "places": "data/raw/2023_Gaz_place_national.txt",
+  "counties": "data/raw/2023_Gaz_counties_national.txt",
+  "zcta": "data/raw/2023_Gaz_zcta_national.txt",
+  "flood_raw": "data/raw/iceye_helene_wnc.geojson",
+  "fema_raw": "data/raw/fema_helene_nc.json",
+  "pub78": "data/raw/data-download-pub78.txt",
+  "revocation": "data/raw/data-download-revocation.txt",
+  "sdn": "data/raw/sdn.csv"
+ },
+ "sources": [
+  {
+   "what": "Satellite flood extent",
+   "name": "ICEYE Flood Solution FSD-2227, Hurricane Helene (SAR + Sentinel-1/2)",
+   "see": "data/SOURCES.md"
+  },
+  {
+   "what": "Disaster declaration",
+   "name": "FEMA OpenFEMA DisasterDeclarationsSummaries, DR-4827-NC",
+   "url": "https://www.fema.gov/api/open/v2/DisasterDeclarationsSummaries?$filter=disasterNumber%20eq%204827"
+  },
+  {
+   "what": "Charity register",
+   "name": "IRS Exempt Organizations Business Master File, NC slice",
+   "url": "https://www.irs.gov/pub/irs-soi/eo_nc.csv"
+  },
+  {
+   "what": "Charity eligibility",
+   "name": "IRS Pub 78, IRS auto-revocation list, OFAC SDN list",
+   "see": "data/SOURCES.md"
+  },
+  {
+   "what": "Places and counties",
+   "name": "US Census 2023 Gazetteer (places, counties, ZCTAs) and Census geocoder",
+   "see": "data/SOURCES.md"
+  }
+ ],
+ "charity_county_file": "data/events/helene-nc-2024/charity_counties.json"
+}
