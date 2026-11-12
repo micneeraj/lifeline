@@ -8,7 +8,7 @@ git clone https://github.com/micneeraj/lifeline.git && cd lifeline && python run
 
 **Live:** https://lifeline-3fug.onrender.com (free hosting: the first load may take ~30 s while it wakes up).
 
-**Demo video:** https://youtu.be/Bz9w2556f6I (2:43)
+**Demo video:** https://youtu.be/0U7OnSGAwqM (2:52)
 
 > Lifeline doesn't ask donors to trust an AI's opinion. It uses AI to gather evidence, deterministic rules to decide, and PayPal to make sure money can only move to registered local relief charities after the evidence passes.
 
