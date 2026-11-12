@@ -1,0 +1,58 @@
+{
+ "_comment": "SYNTHETIC TEST EVENT. Test-only: used by tests/test_events.py, never loaded or shown by the app.",
+ "id": "test-event",
+ "name": "Synthetic Test Flood (DR-9999-VT)",
+ "short_name": "Synthetic Test Flood",
+ "fema_decl": "DR-9999-VT",
+ "state": "VT",
+ "state_name": "Vermont",
+ "region": "a made-up test county",
+ "period_label": "May 2030",
+ "begin": "2030-05-01",
+ "end": "2030-05-20",
+ "obs_begin": "2030-05-01",
+ "obs_end": "2030-05-05",
+ "declared_counties": [
+  "Testcounty"
+ ],
+ "bbox": [
+  -73.0,
+  43.5,
+  -71.5,
+  45.0
+ ],
+ "map": {
+  "center": [
+   -72.5,
+   44.0
+  ],
+  "zoom": 10
+ },
+ "default_redirect_point": [
+  44.0,
+  -72.5
+ ],
+ "flood_product": "Synthetic test flood polygon",
+ "flood_product_label": "Synthetic test flood polygon",
+ "paths_relative_to": "manifest",
+ "db": "test.db",
+ "flood_extent_file": "flood.geojson",
+ "fema_file": "fema.json",
+ "irs_slice_file": "eo_test.csv",
+ "build": {
+  "places": "places.txt",
+  "counties": "counties.txt",
+  "zcta": "zcta.txt",
+  "flood_raw": "flood_raw.geojson",
+  "fema_raw": "fema.json",
+  "pub78": "pub78.txt",
+  "revocation": "revocation.txt",
+  "sdn": "sdn.csv"
+ },
+ "sources": [
+  {
+   "what": "everything",
+   "name": "synthetic, made up for tests"
+  }
+ ]
+}

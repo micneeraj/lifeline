@@ -1,5 +1,5 @@
 """Lifeline web API. Run: uvicorn app.main:app --reload"""
-import asyncio, json, os, queue, threading
+import asyncio, json, os, queue, re, threading
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request
@@ -14,6 +14,14 @@ app = FastAPI(title="Lifeline", description="Every dollar finds the flood.", ver
 CHECKS: dict = {}       # check_id -> result (server-side, so a client can never forge a verdict)
 RECEIPTS: dict = {}
 REVIEWER_TOKEN = os.getenv("LIFELINE_REVIEWER_TOKEN", "")
+_EVAL_QUEUE: list = []
+_CTRL = re.compile("[" + "".join(map(chr, [*range(0, 9), 11, 12, *range(14, 32), 127])) + "]")
+
+
+def clean_text(t):
+    """Same cleaning for pasted text, ?text= links and the API: drop control characters, keep everything
+    else (zero-width/bidi characters are kept on purpose so the prompt-injection check can see them)."""
+    return _CTRL.sub(" ", t or "").strip()
 
 
 def public(r):
@@ -46,6 +54,11 @@ def index():
     return FileResponse(ROOT / "static" / "index.html")
 
 
+@app.get("/review")
+def review_page():
+    return FileResponse(ROOT / "static" / "review.html")
+
+
 @app.get("/api/health")
 def health():
     return {"ok": True, "sample_mode": config.SAMPLE_MODE, "paypal_stub": paypal.is_stub(),
@@ -55,7 +68,7 @@ def health():
 @app.get("/api/config")
 def cfg():
     return {"paypal_client_id": None if paypal.is_stub() else config.PAYPAL_CLIENT_ID,
-            "sample_mode": config.SAMPLE_MODE or paypal.is_stub(), "event": config.EVENT,
+            "sample_mode": config.SAMPLE_MODE or paypal.is_stub(), "event": config.public_event(),
             "reviewer_enabled": bool(REVIEWER_TOKEN)}
 
 
@@ -67,11 +80,14 @@ def appeals():
 
 @app.get("/api/flood.geojson")
 def flood():
-    return FileResponse(ROOT / "data" / "flood_wnc.geojson", media_type="application/geo+json")
+    return FileResponse(config.FLOOD_GEOJSON, media_type="application/geo+json")
 
 
 def _run(body: CheckIn, emit=None):
-    r = pipeline.run_check(body.text, body.posted_at, emit=emit)
+    text = clean_text(body.text)
+    if len(text) < 10:
+        raise HTTPException(422, "appeal text too short")
+    r = pipeline.run_check(text, body.posted_at, emit=emit)
     CHECKS[r["check_id"]] = r
     return r
 
@@ -167,6 +183,33 @@ def payout_status(check_id: str):
         return paypal.payout_status(rc["payout_batch_id"])
     except paypal.PayPalError as e:
         raise HTTPException(502, e.body)
+
+
+def queue_item(r, source, appeal_id=None):
+    loc = r.get("location") or {}
+    return {"check_id": r["check_id"], "appeal_id": appeal_id, "source": source, "text": r["_hash_inputs"]["inputs"]["text"],
+            "place": loc.get("place"), "state": loc.get("state"), "county": loc.get("county"),
+            "reasons": r["reasons"], "reason_text": r["reason_text"], "summary_line": r.get("summary_line"),
+            "flood_evidence": r.get("flood_evidence"),
+            "charities": [{k: c.get(k) for k in ("name", "ein", "city", "county", "county_declared", "distance_km")}
+                          for c in r.get("charities_display") or r.get("charities") or []],
+            "verdict_sha256": r["verdict_sha256"], "checked_at": r["checked_at"]}
+
+
+@app.get("/api/review")
+def review_queue():
+    """Demo reviewer queue: UNVERIFIABLE checks from the eval set plus live checks in this server session.
+    Read-only. No money moves from this endpoint or the /review page."""
+    if not _EVAL_QUEUE:
+        res = json.loads((ROOT / "eval" / "results_v1.json").read_text(encoding="utf-8"))
+        appeals_by_id = {a["id"]: a for a in json.loads((ROOT / "eval" / "appeals.json").read_text(encoding="utf-8"))}
+        for row in res["rows"]:
+            if row["lifeline"]["verdict"] == "YELLOW":
+                a = appeals_by_id[row["id"]]
+                r = pipeline.run_check(a["text"], a["posted_at"], appeal_id=a["id"], explain=False)
+                _EVAL_QUEUE.append(queue_item(r, "eval set", a["id"]))
+    live = [queue_item(r, "live check") for r in CHECKS.values() if r["verdict"] == "YELLOW"]
+    return {"note": "Demo reviewer queue: no money moves from this page.", "items": live[::-1] + _EVAL_QUEUE}
 
 
 @app.get("/api/proof")

@@ -1,7 +1,9 @@
 """Build data/lifeline.db from the raw downloads in data/raw (see data/SOURCES.md).
 
-Run once:  python scripts/build_data.py
-Everything the app needs at request time is in the SQLite file + data/flood_wnc.geojson.
+Run once:  python scripts/build_data.py [path/to/event.json]
+Every input and output path comes from the event manifest (default: data/events/helene-nc-2024/event.json,
+see docs/ADD_AN_EVENT.md). Everything the app needs at request time is in the manifest's SQLite file
+("db") and display flood GeoJSON ("flood_extent_file").
 """
 import csv, json, math, re, sqlite3, sys
 from pathlib import Path
@@ -9,10 +11,9 @@ from shapely.geometry import shape, mapping, box
 from shapely import wkb
 
 ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / "data" / "raw"
-DB = ROOT / "data" / "lifeline.db"
 sys.path.insert(0, str(ROOT))
-from lifeline.config import RELIEF_NTEE, WNC_BBOX  # noqa: E402
+from lifeline import config  # noqa: E402
+from lifeline.config import RELIEF_NTEE  # noqa: E402
 
 csv.field_size_limit(10**8)
 
@@ -21,7 +22,10 @@ def norm_place(name):
     return re.sub(r"\s+(city|town|village|CDP|municipality|borough)$", "", name.strip(), flags=re.I)
 
 
-def main():
+def main(manifest=None):
+    m = config.load_manifest(manifest or config.DEFAULT_EVENT)
+    src = lambda k: config.event_path(m, m["build"][k])
+    DB = config.event_path(m, "db")
     if DB.exists():
         DB.unlink()
     con = sqlite3.connect(DB)
@@ -31,7 +35,7 @@ def main():
     # ---- places (Census Gazetteer, national, for ambiguity) ----
     c.execute("create table places(name text, name_l text, state text, lat real, lon real, aland real, geoid text)")
     rows = []
-    with open(RAW / "2023_Gaz_place_national.txt", encoding="latin-1") as f:
+    with open(src("places"), encoding="latin-1") as f:
         r = csv.reader(f, delimiter="\t"); next(r)
         for x in r:
             x = [v.strip() for v in x]
@@ -44,7 +48,7 @@ def main():
     # ---- counties gazetteer (fallback county lookup) ----
     c.execute("create table counties(name text, state text, geoid text, lat real, lon real)")
     rows = []
-    with open(RAW / "2023_Gaz_counties_national.txt", encoding="latin-1") as f:
+    with open(src("counties"), encoding="latin-1") as f:
         r = csv.reader(f, delimiter="\t"); next(r)
         for x in r:
             x = [v.strip() for v in x]
@@ -54,15 +58,15 @@ def main():
 
     # ---- ZIP centroids ----
     zips = {}
-    with open(RAW / "2023_Gaz_zcta_national.txt", encoding="latin-1") as f:
+    with open(src("zcta"), encoding="latin-1") as f:
         r = csv.reader(f, delimiter="\t"); next(r)
         for x in r:
             x = [v.strip() for v in x]
             zips[x[0]] = (float(x[5]), float(x[6]))
     counts["zcta"] = len(zips)
 
-    # ---- FEMA DR-4827-NC ----
-    fema = json.load(open(RAW / "fema_helene_nc.json"))["DisasterDeclarationsSummaries"]
+    # ---- FEMA declaration (manifest fema_decl) ----
+    fema = json.load(open(src("fema_raw"), encoding="utf-8"))["DisasterDeclarationsSummaries"]
     c.execute("create table fema(area text, county text, fips text, decl text, begin text, end_ text, title text, hash text)")
     for d in fema:
         county = d["designatedArea"].replace(" (County)", "")
@@ -72,8 +76,8 @@ def main():
     counts["fema_areas"] = len(fema)
 
     # ---- flood extent (ICEYE / Sentinel observed) ----
-    fc = json.load(open(RAW / "iceye_helene_wnc.geojson"))
-    clip = box(*WNC_BBOX)
+    fc = json.load(open(src("flood_raw"), encoding="utf-8"))
+    clip = box(*m["bbox"])
     c.execute("create table flood(aoi_id text, city text, sources text, start_ms int, end_ms int, sq_mi real, geom blob)")
     out = []
     for feat in fc["features"]:
@@ -87,20 +91,20 @@ def main():
         out.append({"type": "Feature", "properties": {"aoi_id": p["aoi_id"], "city": p["flooded_cities"],
                     "sources": p["data_inputs"]},
                     "geometry": mapping(g.simplify(0.0004, preserve_topology=True))})
-    json.dump({"type": "FeatureCollection", "features": out}, open(ROOT / "data" / "flood_wnc.geojson", "w"),
+    json.dump({"type": "FeatureCollection", "features": out}, open(config.event_path(m, "flood_extent_file"), "w"),
               separators=(",", ":"))
     counts["flood_aois"] = len(out)
 
     # ---- IRS eligibility sets ----
     pub78 = set()
-    with open(RAW / "data-download-pub78.txt", encoding="utf-8", errors="replace") as f:
+    with open(src("pub78"), encoding="utf-8", errors="replace") as f:
         for line in f:
             e = line.split("|", 1)[0].strip()
             if e.isdigit():
                 pub78.add(e.zfill(9))
     counts["pub78"] = len(pub78)
     revoked = {}
-    with open(RAW / "data-download-revocation.txt", encoding="utf-8", errors="replace") as f:
+    with open(src("revocation"), encoding="utf-8", errors="replace") as f:
         for line in f:
             x = line.rstrip("\n").split("|")
             if len(x) >= 12 and x[0].strip().isdigit():
@@ -110,7 +114,7 @@ def main():
 
     # ---- OFAC SDN names ----
     sdn = []
-    with open(RAW / "sdn.csv", encoding="latin-1") as f:
+    with open(src("sdn"), encoding="latin-1") as f:
         for x in csv.reader(f):
             if len(x) > 1 and x[1].strip() and x[1] != "-0-":
                 sdn.append(x[1].strip().upper())
@@ -119,12 +123,12 @@ def main():
     counts["sdn"] = len(sdn)
     sdn_set = set(sdn)
 
-    # ---- IRS EO BMF NC ----
+    # ---- IRS EO BMF, the event state's slice ----
     c.execute("""create table charities(ein text primary key, name text, city text, zip text, ntee text, ruling text,
                  revenue int, subsection text, deductibility text, status text, lat real, lon real,
                  in_pub78 int, revoked_date text, ofac_hit int, raw text)""")
     total = kept = 0
-    with open(RAW / "eo_nc.csv", encoding="latin-1") as f:
+    with open(config.event_path(m, "irs_slice_file"), encoding="latin-1") as f:
         r = csv.DictReader(f)
         for x in r:
             total += 1
@@ -155,4 +159,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    main(*sys.argv[1:])

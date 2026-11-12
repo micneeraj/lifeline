@@ -1,0 +1,43 @@
+{
+ "type": "FeatureCollection",
+ "features": [
+  {
+   "type": "Feature",
+   "properties": {
+    "aoi_id": "T1",
+    "flooded_cities": "Floodburg",
+    "data_inputs": "synthetic test polygon",
+    "start_time": 0,
+    "end_time": 0,
+    "flooded_area_sq_mi": 0.5
+   },
+   "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+     [
+      [
+       -72.51,
+       43.99
+      ],
+      [
+       -72.49,
+       43.99
+      ],
+      [
+       -72.49,
+       44.01
+      ],
+      [
+       -72.51,
+       44.01
+      ],
+      [
+       -72.51,
+       43.99
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}

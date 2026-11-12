@@ -52,10 +52,58 @@ _local = threading.local()
 
 
 def db():
-    if not hasattr(_local, "con"):
+    if getattr(_local, "gen", None) != config.EVENT_GEN:
         _local.con = sqlite3.connect(config.DB_PATH, check_same_thread=False)
         _local.con.row_factory = sqlite3.Row
+        _local.gen = config.EVENT_GEN
     return _local.con
+
+
+def use_event(path):
+    """Switch to another event manifest and drop every cache built from the previous event's data."""
+    m = config.use_event(path)
+    for f in (ofac_fuzzy, flood_index, charity_names, sdn_names, _state_counties, _zip_counties, charity_county):
+        f.cache_clear()
+    return m
+
+
+def partners():
+    """Partner allow/block lists by EIN (data/partners.json). Missing file = empty lists."""
+    try:
+        d = json.loads(config.PARTNERS_PATH.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        d = {}
+    norm = lambda xs: {str(x).replace("-", "").strip().zfill(9) for x in xs or []}
+    return {"allow": norm(d.get("allow")), "block": norm(d.get("block"))}
+
+
+@lru_cache(maxsize=1)
+def _state_counties():
+    return [dict(r) for r in db().execute("select name, lat, lon from counties where state=?",
+                                          (config.EVENT_MANIFEST["state"],)).fetchall()]
+
+
+@lru_cache(maxsize=1)
+def _zip_counties():
+    f = config.EVENT_MANIFEST.get("charity_county_file")
+    try:
+        return json.loads(config.event_path(config.EVENT_MANIFEST, f).read_text(encoding="utf-8")) if f else {}
+    except FileNotFoundError:
+        return {}
+
+
+@lru_cache(maxsize=16384)
+def charity_county(zip5, lat, lon):
+    """County of a charity's IRS address: its ZIP centroid looked up with the US Census geocoder
+    (precomputed, scripts/charity_counties.py), else the nearest county centroid (approximate)."""
+    z = _zip_counties().get(zip5)
+    if z:
+        return z
+    cs = _state_counties()
+    if not cs:
+        return None
+    best = min(cs, key=lambda c: (c["lat"] - lat) ** 2 + ((c["lon"] - lon) * math.cos(math.radians(lat))) ** 2)
+    return best["name"].replace(" County", "")
 
 
 def _proj(lat0):
@@ -260,8 +308,8 @@ def locator(ext, trace):
             rule(trace, "Locator", "AMBIGUOUS_PLACE", "doubt",
                  f"'{place}' exists in {len(states)} states {states} and the appeal does not say which",
                  {"states": states})
-            nc = [c for c in cands if c["state"] == "NC"]
-            pick = max(nc or cands, key=lambda c: c["aland"])
+            home = [c for c in cands if c["state"] == config.EVENT_MANIFEST["state"]]
+            pick = max(home or cands, key=lambda c: c["aland"])
             res = _loc_result(pick, trace)
             res["status"] = "AMBIGUOUS"
             res["states"] = states
@@ -315,7 +363,7 @@ def flood_check(loc, ext, posted_at, trace):
     out["appeal_date"] = d.isoformat() if d else None
 
     # --- FEMA declaration
-    if loc.get("state") != "NC":
+    if loc.get("state") != config.EVENT_MANIFEST["state"]:
         out["fema"] = "NO"
         rule(trace, "Flood Check", "NO_DISASTER_DECLARATION", "fail",
              f"{loc.get('state')} is not covered by {config.EVENT['fema_decl']}")
@@ -357,7 +405,7 @@ def flood_check(loc, ext, posted_at, trace):
     dist, i, area = best
     m = meta[i]
     row = {"aoi_id": m["aoi_id"], "flooded_cities": m["city"], "data_inputs": m["sources"],
-           "product": "ICEYE FSD-2227 Helene flood extent", "distance_km": round(dist, 3),
+           "product": config.EVENT_MANIFEST["flood_product"], "distance_km": round(dist, 3),
            "flooded_km2_within_radius": round(area, 3)}
     out.update(distance_km=round(dist, 3), flooded_km2=round(area, 3), flood_row=row)
     if dist <= r_km * config.EDGE_FRACTION:
@@ -387,7 +435,8 @@ def register_check(loc, trace):
     rows = [dict(r) for r in db().execute(
         "select * from charities where lat between ? and ? and lon between ? and ?",
         (lat - d, lat + d, lon - d * 1.3, lon + d * 1.3)).fetchall()]
-    eligible, rejected = [], {"not_pub78": 0, "revoked": 0, "ofac": 0}
+    eligible, rejected = [], {"not_pub78": 0, "revoked": 0, "ofac": 0, "partner_block": 0}
+    pl = partners()
     for r in rows:
         r["distance_km"] = round(_km(lat, lon, r["lat"], r["lon"]), 2)
         if r["distance_km"] > config.CHARITY_RADIUS_KM:
@@ -401,13 +450,23 @@ def register_check(loc, trace):
         if r["ofac_hit"]:
             rejected["ofac"] += 1
             continue
+        if r["ein"] in pl["block"]:          # partner block list, applied after screening
+            rejected["partner_block"] += 1
+            continue
+        r["county"] = charity_county(r["zip"], r["lat"], r["lon"])
+        r["county_declared"] = bool(r["county"]) and r["county"].lower() in config.DECLARED_COUNTIES
+        r["partner"] = r["ein"] in pl["allow"]
         eligible.append(r)
     # Prefer established relief orgs close by: within 25 km by relief-type priority then revenue, then the rest.
-    eligible.sort(key=lambda r: (r["distance_km"] > 25, NTEE_PRIORITY.get(r["ntee"][:3], 9) > 2,
-                                 -(r["revenue"] or 0), r["distance_km"]))
+    # Partner-approved first (empty list = no-op). Payee SELECTION is otherwise unchanged from the locked eval:
+    # putting declared-county charities first here changed published verdict hashes, so county-first ranking
+    # is applied to the order the selected payees are shown in (pipeline.rank_for_display), not to who is picked.
+    eligible.sort(key=lambda r: (not r["partner"], r["distance_km"] > 25,
+                                 NTEE_PRIORITY.get(r["ntee"][:3], 9) > 2, -(r["revenue"] or 0), r["distance_km"]))
     rule(trace, "Register Check", "CHARITIES_IN_RADIUS", "info",
          f"{len(eligible)} eligible relief charities within {config.CHARITY_RADIUS_KM:.0f} km "
-         f"(skipped: {rejected['revoked']} auto-revoked, {rejected['not_pub78']} not in Pub 78, {rejected['ofac']} OFAC)",
+         f"(skipped: {rejected['revoked']} auto-revoked, {rejected['not_pub78']} not in Pub 78, {rejected['ofac']} OFAC"
+         + (f", {rejected['partner_block']} on the partner block list" if rejected["partner_block"] else "") + ")",
          rejected)
     picked, late = [], []
     for r in eligible:
@@ -429,8 +488,32 @@ def register_check(loc, trace):
              f"Skipped {len(late)} charities whose IRS exemption ruling is after the event began "
              f"(e.g. {', '.join(late[:3])}); new organisations are not used as payees", {"skipped": late})
     return [{k: r[k] for k in ("ein", "name", "city", "zip", "ntee", "ruling", "revenue", "distance_km", "lat", "lon",
-                               "raw")}
+                               "raw", "county", "county_declared", "partner")}
             for r in picked], len(eligible)
+
+
+# ---------------------------------------------------------------- flood evidence label (display only)
+def flood_evidence(flood):
+    """Strong / Moderate / Weak label with the exact numbers. Never read by the Judge."""
+    b = config.EVIDENCE_BANDS
+    r, d, a = (flood or {}).get("radius_km"), (flood or {}).get("distance_km"), (flood or {}).get("flooded_km2")
+    if r is None:
+        return {"band": "Not checked", "text": "the place could not be located, so no flood check ran"}
+    if flood.get("flood") == "NOT_IN_FLOOD":
+        far = f"nearest observed flood water {d:.1f} km away" if d is not None else "no observed flood water nearby"
+        return {"band": "None", "text": f"{far}, outside the {r:.1f} km check radius", "distance_km": d,
+                "radius_km": r}
+    where = "inside observed flood water" if d == 0 else f"{d:.2f} km to observed flood water"
+    text = f"{where}, {a:.2f} km² flooded within {r:.1f} km"
+    frac = d / r if r else 1
+    if flood.get("flood") == "EDGE" or frac > b["weak_min_dist_frac"] or a < b["weak_max_km2"]:
+        band = "Weak"
+    elif frac <= b["strong_max_dist_frac"] and a >= b["strong_min_km2"]:
+        band = "Strong"
+    else:
+        band = "Moderate"
+    return {"band": band, "text": text, "distance_km": d, "flooded_km2": a, "radius_km": r,
+            "distance_fraction": round(frac, 3)}
 
 
 # ---------------------------------------------------------------- 5. Skeptic
@@ -467,7 +550,7 @@ def skeptic(ext, loc, flood, trace):
                  f"Lookalike names are a common way to divert donations.", json.loads(row["raw"]))
         else:
             rule(trace, "Skeptic", "NAMED_ORG_UNREGISTERED", "info",
-                 f"'{nc}' is not an NC relief charity in the IRS register; Lifeline will not pay it, only verified locals")
+                 f"'{nc}' is not a {config.EVENT_MANIFEST['state']} relief charity in the IRS register; Lifeline will not pay it, only verified locals")
     if not flags:
         rule(trace, "Skeptic", "NO_DOUBT_FOUND", "pass", "Tried same-name towns, flood edge, dates, charity age, lookalikes")
     return flags

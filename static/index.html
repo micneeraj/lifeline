@@ -157,6 +157,23 @@ textarea:focus,input:focus{outline:none;border-color:var(--river);box-shadow:0 0
 .charities{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
 .mono{font:12px/1.5 ui-monospace,Consolas,monospace;word-break:break-all;color:var(--muted)}
 details{margin-top:10px} summary{cursor:pointer;font-weight:600}
+/* donor-first check view: verdict first, evidence trail collapsible */
+#s-check.on{display:flex;flex-direction:column}
+#s-check>#appealCard{order:1} #s-check>#checking{order:2} #s-check>#trail{order:7} #s-check>#verdict{order:4}
+#s-check>#trustCheck{order:5} #s-check>#charities{order:6} #s-check>#howPanel{order:8}
+#s-check.trail-first>#trail{order:3}
+.trail{margin:18px 0 0;padding:14px 18px} .trail>summary{font-size:17px;list-style:none;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.trail>summary::-webkit-details-marker{display:none}
+.trail>summary::before{content:"\25B8";color:var(--river);transition:transform .2s var(--ease)} .trail[open]>summary::before{transform:rotate(90deg)}
+.trail[open]>summary{margin-bottom:14px}
+#checking{padding:14px 18px;margin:0 0 6px}
+.vline{font-size:19px;margin:.5em 0 .3em;font-weight:500}
+.evidence{display:inline-flex;gap:8px;align-items:baseline;flex-wrap:wrap;margin:6px 0 4px;padding:8px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:15px}
+.evidence b{font-weight:600} .ev-Strong b{color:var(--green)} .ev-Moderate b{color:var(--river)} .ev-Weak b{color:var(--yellow)} .ev-None b{color:var(--red)}
+.edge-note{margin:6px 0 0;font-size:14px;color:var(--yellow);font-weight:600}
+.serves{display:inline-block;margin-top:6px;font:600 12px Inter;padding:3px 10px;border-radius:999px;background:var(--green-soft);color:var(--green)}
+.serves.out{background:var(--bg2);color:var(--muted)}
+.cwl .bmk{cursor:grab;background:var(--green)} .cwl code{overflow-wrap:anywhere}
 table{border-collapse:collapse;width:100%;font-size:14px}
 th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
@@ -273,7 +290,7 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
 <header class="top">
   <div class="brand"><b>Lifeline</b><span>Every dollar finds the flood.</span></div>
   <span class="badge-sample" id="sampleBadge">SAMPLE MODE · PayPal stubbed</span>
-  <nav><a href="#feed" data-s="feed">Appeals</a><a href="#check" data-s="check">Live check</a><a href="#donate" data-s="donate">Donate</a><a href="#proof" data-s="proof">Proof</a></nav>
+  <nav><a href="#feed" data-s="feed">Appeals</a><a href="#check" data-s="check">Live check</a><a href="#donate" data-s="donate">Donate</a><a href="#proof" data-s="proof">Proof</a><a href="/review">Reviewer queue</a></nav>
 </header>
 <main>
 
@@ -282,12 +299,12 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
   <div class="hero">
     <div id="heroMap"></div>
     <div class="hero-copy">
-      <div class="eyebrow">Hurricane Helene · western North Carolina · Sept 2024</div>
+      <div class="eyebrow" id="evEyebrow">&nbsp;</div>
       <h1>After a flood, hundreds of appeals arrive. Some are real.</h1>
       <p>Lifeline never pays the person who posted. It checks the place against the satellite flood map for
-        Hurricane Helene (western North Carolina, Sept 2024) and pays only registered local charities there.</p>
+        <span id="evHero">the loaded disaster</span> and pays only registered local charities there.</p>
     </div>
-    <div class="hero-legend"><i></i>ICEYE / Sentinel satellite-observed flood extent</div>
+    <div class="hero-legend"><i></i><span class="evProduct">Satellite-observed flood extent</span></div>
   </div>
   <div class="card pipe" aria-label="How it works">
     <span class="lbl">How it works</span>
@@ -301,15 +318,22 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
   </div>
   <div class="card" style="margin-bottom:22px">
     <h2 style="font-size:20px">Paste an appeal you saw</h2>
-    <textarea id="paste" rows="3" placeholder="e.g. Marshall, North Carolina flooded on Sept 27, 2024. Families need diapers and generators…"></textarea>
+    <textarea id="paste" rows="3" placeholder="Paste the full text of a flood appeal: the town, the state, the date and what is needed…"></textarea>
     <div class="row" style="margin-top:12px"><button class="btn" id="pasteGo">Check this appeal</button>
       <span class="muted small">Synthetic test appeals below use real places and real flood data.</span></div>
+  </div>
+  <div class="card cwl" id="cwl" style="margin-bottom:22px">
+    <h2 style="font-size:20px">Check with Lifeline</h2>
+    <p class="muted" style="margin-top:4px">Saw an appeal somewhere else? Drag this button to your bookmarks bar. Then select the appeal text on any site and click the bookmark: Lifeline opens and checks it. It never donates for you.</p>
+    <div class="row"><a class="btn bmk" id="bmk" href="#" title="Drag me to your bookmarks bar">Check with Lifeline</a>
+      <span class="small muted">Drag to your bookmarks bar</span></div>
+    <p class="small" style="margin:12px 0 0">Platforms can put the same link under a post: <code id="cwlUrl">/?text=&lt;url-encoded appeal&gt;</code> · <a id="cwlTry" href="#">Try an example link</a></p>
   </div>
   <div class="feed" id="feed"></div>
   <div class="card trust" id="whySafe" style="margin-top:22px"><h2 style="font-size:22px">Why this is safe</h2>
     <p class="muted" style="margin-top:4px">Lifeline doesn't ask donors to trust an AI's opinion. It uses AI to gather evidence, deterministic rules to decide, and PayPal to make sure money can only move to registered local relief charities after the evidence passes.</p>
     <div class="trust-grid">
-      <div><h4>Lifeline verifies</h4><ul><li>The disaster declaration (FEMA DR-4827)</li><li>The satellite flood extent</li><li>The place and the date window</li><li>Registered, eligibility-screened local charities (IRS register, Pub 78, revocations, OFAC)</li></ul></div>
+      <div><h4>Lifeline verifies</h4><ul><li>The disaster declaration (<span class="evDecl">FEMA</span>)</li><li>The satellite flood extent</li><li>The place and the date window</li><li>Registered, eligibility-screened local charities (IRS register, Pub 78, revocations, OFAC)</li></ul></div>
       <div><h4>Lifeline does not verify</h4><ul><li>The person who posted</li><li>The family</li><li>The exact need</li><li>How the charity spends the money</li></ul></div>
       <div><h4>What protects the donor</h4><ul><li>The person who posted the appeal is never paid</li><li>The PayPal authorization is voided if the checks fail</li><li>Money only goes to registered local charities</li><li>Every receipt is hashed</li></ul></div>
       <div><h4>Still needs a human</h4><ul><li>UNVERIFIABLE cases</li><li>The charity's follow-up with a family</li></ul></div>
@@ -320,14 +344,17 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
 <!-- 2. LIVE CHECK -->
 <section class="screen" id="s-check">
   <div class="card" id="appealCard" style="margin-bottom:18px"><span class="muted">Pick an appeal from the feed, or paste one.</span></div>
+  <div class="card" id="checking" style="display:none" aria-live="polite"></div>
+  <details class="card trail" id="trail"><summary>Show the full evidence trail <span class="small muted" style="font-weight:400">agent steps, map, rules and register rows</span></summary>
   <div class="grid2">
     <div><ol class="steps" id="steps"></ol></div>
-    <div class="mapwrap"><div id="map"></div><div class="muted small" style="margin-top:8px">Blue: ICEYE / Sentinel satellite-observed Helene flood extent.</div></div>
+    <div class="mapwrap"><div id="map"></div><div class="muted small" style="margin-top:8px">Blue: <span class="evProduct">satellite-observed flood extent</span>.</div></div>
   </div>
+  </details>
   <div id="verdict"></div>
   <div class="card trust" id="trustCheck"><h3>What Lifeline verifies, and what it doesn't</h3>
     <div class="trust-grid">
-      <div><h4>Lifeline verifies</h4><ul><li>The disaster declaration (FEMA DR-4827)</li><li>The satellite flood extent</li><li>The place and the date window</li><li>Registered, eligibility-screened local charities (IRS register, Pub 78, revocations, OFAC)</li></ul></div>
+      <div><h4>Lifeline verifies</h4><ul><li>The disaster declaration (<span class="evDecl">FEMA</span>)</li><li>The satellite flood extent</li><li>The place and the date window</li><li>Registered, eligibility-screened local charities (IRS register, Pub 78, revocations, OFAC)</li></ul></div>
       <div><h4>Lifeline does not verify</h4><ul><li>The person who posted</li><li>The family</li><li>The exact need</li><li>How the charity spends the money</li></ul></div>
       <div><h4>What protects the donor</h4><ul><li>The person who posted the appeal is never paid</li><li>The PayPal authorization is voided if the checks fail</li><li>Money only goes to registered local charities</li><li>Every receipt is hashed</li></ul></div>
       <div><h4>Still needs a human</h4><ul><li>UNVERIFIABLE cases</li><li>The charity's follow-up with a family</li></ul></div>
@@ -337,6 +364,7 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
   <div class="card" id="howPanel" style="display:none;margin-top:18px">
     <h3>How this was decided</h3>
     <div class="tablewrap"><table id="rulesTable"><thead><tr><th>Step</th><th>Rule</th><th>Detail</th><th>Data row</th></tr></thead><tbody></tbody></table></div>
+    <div id="registerRows"></div>
     <p class="mono" id="hashes"></p>
   </div>
 </section>
@@ -345,7 +373,7 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
 <section class="screen" id="s-donate">
   <div class="donate-grid">
     <div class="card">
-      <h2>Give to the flood, not the stranger</h2>
+      <h2>Give to the flood, not to the person who posted</h2>
       <p class="muted" id="donateIntro">Run a check first.</p>
       <div class="row amounts" id="amounts" style="margin:14px 0">
         <button class="btn" data-a="10">$10</button><button class="btn on" data-a="25">$25</button><button class="btn" data-a="50">$50</button><button class="btn" data-a="100">$100</button>
@@ -403,12 +431,15 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const G = () => (!REDUCE && window.gsap) ? window.gsap : null;
 const STEPS = ["Reader","Locator","Flood Check","Register Check","Skeptic","Judge"];
 const BLURB = {"Reader":"LLM reads place, date, need — every value must appear word for word",
-  "Locator":"US Census place + county","Flood Check":"Satellite flood extent, FEMA DR-4827, date window",
+  "Locator":"US Census place + county","Flood Check":"Satellite flood extent, FEMA declaration, date window",
   "Register Check":"IRS register, Pub 78, auto-revocation, OFAC SDN","Skeptic":"Tries to break every green",
   "Judge":"Pure rules → verdict"};
 const LABEL = {GREEN:"VERIFIED",RED:"NOT VERIFIED",YELLOW:"UNVERIFIABLE"};
 const VCOL = {GREEN:"#2e7d4f",RED:"#b4442f",YELLOW:"#b07d12"};
-const REGION = {center:[-82.45,35.62], zoom:8.4};
+let REGION = {center:[-82.45,35.62], zoom:8.4};   // replaced by the event manifest's map view at start-up
+const Q = new URLSearchParams(location.search);
+const TRAIL_OPEN = location.hash==="#check" || Q.get("trace")==="1";   // judge links + demo video: trail expanded
+const cleanText = t => String(t||"").replace(/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/g," ").trim().slice(0,4000);
 let CFG = {}, current = null, amount = 25, ppLoaded = false, FLOOD = null, checkMap = null, heroMap = null;
 
 /* ---------- libraries, loaded lazily so the first paint is fast ---------- */
@@ -454,10 +485,10 @@ function scheduleHero(){
 async function initHero(){
   const eng = await mapEngine(), fl = await floodData();
   if(eng==="lf"){ const m=L.map("heroMap",{zoomControl:false,attributionControl:true,dragging:false,scrollWheelZoom:false,doubleClickZoom:false,boxZoom:false,keyboard:false,touchZoom:false})
-      .setView([35.62,-82.45],9);
+      .setView([REGION.center[1],REGION.center[0]],9);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(m);
     L.geoJSON(fl,{style:{color:"#4fb3e8",weight:1,fillColor:"#3d8fbf",fillOpacity:.55}}).addTo(m); return; }
-  heroMap = new maplibregl.Map({container:"heroMap",style:baseStyle(),center:[-82.55,35.6],zoom:9.3,pitch:66,bearing:-30,
+  heroMap = new maplibregl.Map({container:"heroMap",style:baseStyle(),center:[REGION.center[0]-0.1,REGION.center[1]-0.02],zoom:9.3,pitch:66,bearing:-30,
     interactive:false,attributionControl:{compact:true},fadeDuration:0,maxPitch:75});
   heroMap.once("load",()=>{ const t0=performance.now(), chk=()=> (heroMap.areTilesLoaded() || performance.now()-t0>5000)
     ? $("#heroMap").classList.add("live") : setTimeout(chk,250); setTimeout(chk,400); });
@@ -468,7 +499,7 @@ function orbit(){
   const tick=t=>{ const dt=Math.min(64,t-last); last=t;
     if(heroMap && !document.hidden && $("#s-feed").classList.contains("on") && heroMap.isStyleLoaded()){
       heroMap.setBearing(heroMap.getBearing()+dt*0.0022);
-      const c=heroMap.getCenter(), a=(t/1000)*0.035; heroMap.setCenter([-82.55+Math.sin(a)*0.18, 35.6+Math.cos(a)*0.08]); }
+      const c=heroMap.getCenter(), a=(t/1000)*0.035; heroMap.setCenter([REGION.center[0]-0.1+Math.sin(a)*0.18, REGION.center[1]-0.02+Math.cos(a)*0.08]); }
     requestAnimationFrame(tick); };
   requestAnimationFrame(tick);
 }
@@ -478,7 +509,7 @@ async function initCheckMap(){
   if(checkMap) return checkMap;
   const eng = await mapEngine(), fl = await floodData();
   if(eng==="lf"){
-    const m=L.map("map").setView([35.6,-82.4],8); let pin, layer;
+    const m=L.map("map").setView([REGION.center[1],REGION.center[0]],8); let pin, layer;
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap"}).addTo(m);
     L.geoJSON(fl,{style:{color:"#2f6f8f",weight:1,fillColor:"#3d8fbf",fillOpacity:.45}})
       .bindPopup(l=>`Observed flood: ${esc(l.feature.properties.city)}<br><small>${esc(l.feature.properties.sources)}</small>`).addTo(m);
@@ -537,22 +568,49 @@ async function init(){
     catch(e){ if(i>20) throw e; await new Promise(r=>setTimeout(r,2000)); } }
   clearTimeout(slow); clearTimeout(boot);
   if(CFG.sample_mode) $("#sampleBadge").style.display="inline-block";
+  applyEvent(CFG.event||{});
+  $("#s-check").classList.toggle("trail-first",TRAIL_OPEN); $("#trail").open=TRAIL_OPEN;
+  $("#trail").addEventListener("toggle",()=>{ syncTrail(); if($("#trail").open) initCheckMap().then(cm=>{ cm.resize(); if(current) cm.result(current); }); });
+  setupCwl();
   $("#feed").innerHTML = appeals.map(a=>`<article class="card post">
     <div class="who"><div class="avatar">${esc(a.handle[1].toUpperCase())}</div>
     <div><div class="handle">${esc(a.handle)}</div><div class="meta">${esc(a.platform)} · ${esc(a.posted_at)}</div></div></div>
     <p>${esc(a.text)}</p><button class="btn ghost" data-id="${a.id}">Check before you give</button></article>`).join("");
   $("#feed").addEventListener("click",e=>{const id=e.target.dataset.id; if(!id) return;
     const a=appeals.find(x=>x.id===id); runCheck(a.text,a.posted_at,a.handle);});
-  $("#pasteGo").onclick=()=>{const t=$("#paste").value.trim(); if(t.length>9) runCheck(t,null,"Pasted appeal");};
+  $("#pasteGo").onclick=()=>{const t=cleanText($("#paste").value); if(t.length>9) runCheck(t,null,"Pasted appeal");};
   document.querySelectorAll("#amounts button").forEach(b=>b.onclick=()=>{amount=+b.dataset.a;
     document.querySelectorAll("#amounts button").forEach(x=>x.classList.toggle("on",x===b)); if(!coinBusy) $("#coin").textContent="$"+amount;});
   show(location.hash.slice(1)||"feed");
   $("#boot").classList.remove("show");
   const g=G(); if(g && $("#s-feed").classList.contains("on")) g.from("#feed .post:nth-child(-n+9)",{y:18,opacity:0,duration:.6,stagger:.04,ease:"power2.out",clearProps:"all"});
   scheduleHero();
-  const q=new URLSearchParams(location.search).get("appeal");
+  const q=Q.get("appeal"), shared=cleanText(Q.get("text"));
   if(q){const a=appeals.find(x=>x.id===q); if(a) runCheck(a.text,a.posted_at,a.handle);}
+  else if(shared.length>9){ $("#paste").value=shared; runCheck(shared,null,"Shared with a Check with Lifeline link"); }  // checks only, never donates
 }
+
+/* ---------- event manifest -> UI text (no event is hard-coded in the page) ---------- */
+function applyEvent(ev){
+  if(ev.map&&ev.map.center) REGION={center:ev.map.center, zoom:ev.map.zoom||8.4};
+  $("#evEyebrow").textContent=[ev.short_name,ev.region,ev.period_label].filter(Boolean).join(" · ");
+  $("#evHero").textContent=`${ev.short_name||"the loaded disaster"}${ev.region?` (${ev.region}${ev.period_label?", "+ev.period_label:""})`:""}`;
+  document.querySelectorAll(".evDecl").forEach(e=>e.textContent=`FEMA ${ev.fema_decl||""}`.trim());
+  if(ev.flood_product_label) document.querySelectorAll(".evProduct").forEach(e=>e.textContent=ev.flood_product_label);
+  BLURB["Flood Check"]=`Satellite flood extent, FEMA ${ev.fema_decl||"declaration"}, date window`;
+}
+
+/* ---------- Check with Lifeline: bookmarklet + shareable ?text= link ---------- */
+function setupCwl(){
+  const base=location.origin+"/";
+  const js=`javascript:(()=>{const t=String(getSelection()).trim();if(t.length<10){alert('Select the text of the appeal first, then click Check with Lifeline.');return}window.open('${base}?text='+encodeURIComponent(t.slice(0,4000)),'_blank','noopener')})()`;
+  const b=$("#bmk"); b.setAttribute("href",js);
+  b.addEventListener("click",e=>{ e.preventDefault(); alert("Drag this button to your bookmarks bar. Then select an appeal on any site and click the bookmark."); });
+  $("#cwlUrl").textContent=base+"?text=<url-encoded appeal>";
+  const ex="Our street in Marshall NC flooded on Sept 28, 2024. Families need water and diapers.";
+  $("#cwlTry").href="/?text="+encodeURIComponent(ex);
+}
+function syncTrail(){ $("#howPanel").style.display = ($("#trail").open && current) ? "block" : "none"; }
 
 /* ---------- live check ---------- */
 const ticks = {};
@@ -561,6 +619,7 @@ function resetSteps(){
   $("#steps").innerHTML = `<span class="prog" id="prog"></span>`+STEPS.map(s=>`<li class="step" id="st-${s.replace(/ /g,"")}"><h4><span>${s}</span><span class="small muted ms"></span></h4>
    <div class="r">${BLURB[s]}</div><div class="rules"></div></li>`).join("");
   $("#verdict").innerHTML=""; $("#charities").innerHTML=""; $("#howPanel").style.display="none";
+  $("#checking").style.display="block"; $("#checking").textContent="Checking the appeal…";
 }
 function moveProg(el){
   const p=$("#prog"); if(!p) return; const box=$("#steps").getBoundingClientRect(), b=el.getBoundingClientRect();
@@ -586,7 +645,7 @@ async function runCheck(text, posted_at, who){
       const chunk=buf.slice(0,i); buf=buf.slice(i+2);
       const ev=(chunk.match(/^event: (.*)$/m)||[])[1]; const data=JSON.parse((chunk.match(/^data: (.*)$/m)||[])[1]||"{}");
       if(ev==="step") onStep(data); else if(ev==="result") onResult(data);
-      else if(ev==="error") $("#verdict").innerHTML=`<div class="verdict YELLOW"><h2>UNVERIFIABLE</h2><p>The check could not finish (${esc(data.error)}). No money moves.</p></div>`;
+      else if(ev==="error") ($("#checking").style.display="none"), $("#verdict").innerHTML=`<div class="verdict YELLOW"><h2>UNVERIFIABLE</h2><p>The check could not finish (${esc(data.error)}). No money moves.</p></div>`;
     }
   }
 }
@@ -600,6 +659,7 @@ function onStep(d){
   else clearInterval(ticks[key]);
   if(d.ms!=null) countTo(ms,d.ms," ms");
   if(d.status==="skipped") ms.textContent="skipped";
+  if(d.status==="running") $("#checking").textContent=`Checking: ${d.step} (step ${STEPS.indexOf(d.step)+1} of ${STEPS.length})…`;
   if(d.rules){ const box=el.querySelector(".rules");
     box.innerHTML = d.rules.map(r=>`<div class="r"><span class="dot ${r.result}"></span>${esc(r.detail)}</div>`).join("");
     const g=G(); if(g) g.from(box.children,{opacity:0,y:6,duration:.45,stagger:.08,ease:"power2.out"}); }
@@ -610,27 +670,34 @@ function onResult(r){
   current = r;
   Object.values(ticks).forEach(clearInterval);
   initCheckMap().then(cm=>cm.result(r));
-  const pay = r.verdict==="GREEN";
+  const pay = r.verdict==="GREEN", ev=r.flood_evidence||{};
+  $("#checking").style.display="none";
   $("#verdict").innerHTML = `<div class="verdict ${r.verdict} reveal">
     <div class="vhead"><h2>${LABEL[r.verdict]}</h2><span class="badge-poster">Paid to the person who posted: <b>$0</b></span></div>
-    <div class="chips">${(r.reasons||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div>
-    <p style="font-size:18px;margin:.4em 0">${esc(r.explanation||"")}</p>
-    <p class="muted">${pay?"Disaster, place, date and local charities verified. The person who posted the appeal is not verified, which is why they are never paid."
+    <p class="vline">${esc(r.summary_line||"")}</p>
+    <div class="evidence ev-${esc(ev.band)}"><b>Flood evidence: ${esc(ev.band)}</b><span>${esc(ev.text||"")}</span></div>
+    ${ev.note?`<p class="edge-note">${esc(ev.note)}</p>`:""}
+    <div class="row" style="margin-top:14px"><a class="btn" href="#donate">${pay?"Donate to screened local charities":"Donate safely instead"}</a>
+    <span class="small muted">Checked in ${r.elapsed_s}s</span></div>
+    <p class="muted" style="margin:14px 0 0">${pay?"Disaster, place, date and local charities verified. The person who posted the appeal is not verified, which is why they are never paid."
       :"Lifeline will not move money for this appeal."+(r.redirect?` Instead, consider <b>${esc(r.redirect.name)}</b> (${esc(r.redirect.city)}), a registered, eligibility-screened local charity nearby.`:"")}</p>
-    <div class="row"><a class="btn" href="#donate">${pay?"Donate to screened local charities":"Donate safely instead"}</a>
-    <span class="small muted">Checked in ${r.elapsed_s}s</span></div></div>`;
+    <div class="chips">${(r.reasons||[]).map(x=>`<span class="chip">${esc(x)}</span>`).join("")}</div>
+    ${r.explanation?`<p class="small" style="margin:.2em 0 0">${esc(r.explanation)}</p>`:""}</div>`;
   const g=G(); if(g){ const v=$("#verdict .verdict");
     g.from(v,{opacity:0,y:24,scale:.97,duration:.8,ease:"power3.out"});
     g.from(v.querySelector("h2"),{opacity:0,letterSpacing:"0.12em",duration:.9,ease:"power3.out",delay:.1});
-    g.from(v.querySelectorAll(".chip,.badge-poster"),{opacity:0,y:8,scale:.9,duration:.4,stagger:.08,delay:.35,ease:"back.out(2)"}); }
-  if((r.charities||[]).length){
-    $("#charities").innerHTML = `<h3>Eligible local charities (IRS register evidence)</h3><div class="charities">`+
-      r.charities.map(c=>{const raw=JSON.parse(c.raw);return `<div class="card"><b>${esc(c.name)}</b>
+    g.from(v.querySelectorAll(".chip,.badge-poster,.evidence"),{opacity:0,y:8,scale:.9,duration:.4,stagger:.08,delay:.35,ease:"back.out(2)"}); }
+  const cs=r.charities_display||r.charities||[];
+  if(cs.length){
+    $("#charities").innerHTML = `<h3>${pay?"Your gift is split across these":"Screened"} local charities <span class="small muted" style="font-weight:400">(declared counties first)</span></h3><div class="charities">`+
+      cs.map(c=>`<div class="card"><b>${esc(c.name)}</b>
        <div class="muted small">${esc(c.city)} · NTEE ${esc(c.ntee)} · ${c.distance_km} km · EIN ${esc(c.ein)}</div>
-       <details><summary>Register row</summary><div class="mono">${esc(JSON.stringify(raw))}</div></details></div>`}).join("")+"</div>";
+       ${c.county?`<span class="serves${c.county_declared?"":" out"}">Serves: ${esc(c.county)} County ${c.county_declared?"(declared)":"(not in the declaration)"}</span>`:""}</div>`).join("")+"</div>";
     if(g) g.from("#charities .card",{opacity:0,y:16,duration:.5,stagger:.1,delay:.5,ease:"power2.out"});
   }
-  $("#howPanel").style.display="block";
+  $("#registerRows").innerHTML = cs.length ? `<h4 style="margin:16px 0 6px">Register rows (IRS EO BMF)</h4>`+
+    cs.map(c=>`<details><summary>${esc(c.name)} · EIN ${esc(c.ein)}</summary><div class="mono">${esc(JSON.stringify(JSON.parse(c.raw||"{}")))}</div></details>`).join("") : "";
+  syncTrail();
   $("#rulesTable tbody").innerHTML = r.rules.map(x=>`<tr><td>${esc(x.step)}</td><td><span class="dot ${x.result}"></span>${esc(x.rule)}</td>
     <td>${esc(x.detail)}</td><td class="mono">${x.row?esc(JSON.stringify(x.row)).slice(0,400):""}</td></tr>`).join("");
   $("#hashes").textContent = `inputs_sha256 ${r.inputs_sha256}\nverdict_sha256 ${r.verdict_sha256}`;
