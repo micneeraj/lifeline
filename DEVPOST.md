@@ -103,7 +103,7 @@ Both errors are on the safe side: a genuine appeal was held back, no money went 
 - **This is a controlled evaluation, not general fraud-detection accuracy:** 40 synthetic appeals grounded in real places, FEMA data and the real satellite flood extent, with the answer key hash-locked before any run.
 - **False acceptances: 0.** No unverified appeal released any money ($0).
 - **False rejections: 2.** Marion and Burnsville were genuine but held back. The donor was not charged, and cases like these belong with a human reviewer.
-- **The 2.2 km radius is a conservative prototype threshold,** not a universal definition of a flooded community. Flood water follows rivers and town centre points don't, so every check shows the distance to the nearest observed flood.
+- **The check radius (1 to 5 km per town, sized from its Census land area; 2.2 km for Marion) is a conservative prototype threshold,** not a universal definition of a flooded community. Flood water follows rivers and town centre points don't, so every check shows the distance to the nearest observed flood.
 - **A made-up family in a real flooded town can still come back VERIFIED.** Lifeline verifies the disaster, place, date and charities, never the person or the family. That is exactly why the person who posted is never paid: in the worst case, the money still reaches a registered relief charity working where the flood really was.
 - **Satellite data lags.** Flood maps arrive hours to days after a flood and can be partial. This prototype uses a post-event product for Helene. In a live disaster, an appeal from a place with no flood map yet should come back UNVERIFIABLE, not VERIFIED.
 - **Sandbox only.** Payouts go to PayPal sandbox demo receivers to show the workflow. Real charity payouts would need each charity onboarded with PayPal.
@@ -125,8 +125,8 @@ Python + FastAPI, Shapely for flood geometry, RapidFuzz for lookalike names, SQL
 
 ## Evaluation
 40 appeals using real places: 15 flooded, 10 not flooded, 5 wrong dates, 5 ambiguous towns, 5 red-team attacks. We **locked the answer key's hash before running anything.**
-- Lifeline: **95% accurate, $0 paid to unverified appeals, 13/15 genuine appeals funded, 5/5 attacks stopped.**
-- The LLM alone: 25% accurate, **approved the lookalike-charity attack**, and funded only 1 of 15 genuine appeals.
+- Lifeline: **38 of 40 correct, $0 paid to unverified appeals, 13/15 genuine appeals funded, 5/5 attacks stopped.**
+- Gemini alone: 10 of 40 correct, **approved the lookalike-charity attack**, and funded only 1 of 15 genuine appeals.
 - We report our two misses (a town whose flooding was 3.7 km from its centre, and one with a tiny flood overlap). Both held the money rather than losing it.
 
 ## Challenges we ran into
@@ -137,7 +137,7 @@ Python + FastAPI, Shapely for flood geometry, RapidFuzz for lookalike names, SQL
 
 ## Accomplishments that we're proud of
 - The person who posted the appeal is **never** paid, by design.
-- A donor is never charged for an appeal we can't verify: the hold is voided.
+- A donor is never charged for an appeal we can't verify: the PayPal authorization is voided.
 - Fully offline judge mode (`python run.py --sample`, under 5 s) and `python verify.py`, which re-derives every hash.
 - A **donor-first result** with a one-click full evidence trail, and a **flood evidence label** (Strong / Moderate / Weak, with the exact numbers) that never touches the verdict.
 - A **demo reviewer queue** for UNVERIFIABLE checks, clearly labelled: no money moves from it.
